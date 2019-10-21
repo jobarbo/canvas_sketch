@@ -1,54 +1,34 @@
-/**
- * A p5.js example integrating with canvas-sketch.
- * Here, canvas-sketch handles the frame loop, resizing
- * and exporting.
- * @author Matt DesLauriers (@mattdesl)
- */
-
 const canvasSketch = require('canvas-sketch');
-
-// Grab P5.js from npm
 const p5 = require('p5');
-
-// Attach p5.js it to global scope
-new p5()
-
-const settings = {
-  // Tell canvas-sketch we're using p5.js
-  p5: true,
-  // Turn on a render loop (it's off by default in canvas-sketch)
-  animate: true,
-  // We can specify WebGL context if we want
-  context: 'webgl',
-  // Optional loop duration
-  duration: 6,
-  // Enable MSAA
-  attributes: {
-    antialias: true
-  }
+new p5();
+const preload = p5 => {
+  // You can use p5.loadImage() here, etc...
 };
 
-// Optionally preload before you load the sketch
-window.preload = () => {
-  // Preload sounds/images/etc...
+const settings = {
+  // Pass the p5 instance, and preload function if necessary
+  p5: true,
+  dimensions: [ 800, 248 ],
+  // Turn on a render loop
+  animate: true
 };
 
 canvasSketch(() => {
-  // Inside this is a bit like p5.js 'setup' function
-  // ...
-
-  // Attach events to window to receive them
-  window.mouseClicked = () => {
-    console.log('Mouse clicked');
-  };
-
-  // Return a renderer to 'draw' the p5.js content
-  return ({ playhead, width, height }) => {
+  background(0);
+  for(i=0;i<233;i++){
+    stroke(255);
+    point(random(0,800), random(0,248));
+    console.log('hello')
+  }
+  // Return a renderer, which is like p5.js 'draw' function
+  return ({ time, width, height,dimensions }) => {
     // Draw with p5.js things
-    clear()
-    normalMaterial();
-    rotateX(playhead * 2 * PI);
-    rotateZ(playhead * 2 * PI);
-    cylinder(20, 50);
+
+    //background(0);
+    fill(255);
+    noStroke();
+
+    const anim = sin(time - PI / 2) * 0.5 + 0.5;
+    rect(0, 0, width * anim, height);
   };
 }, settings);
