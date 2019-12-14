@@ -8,7 +8,10 @@ const preload = p5 => {
 const settings = {
   // Pass the p5 instance, and preload function if necessary
   p5: true,
-  dimensions: [ 800, 800 ],
+  //dimensions: [ 800, 800 ],
+  dimensions: 'a4',
+  pixelsPerInch: 300,
+  units: 'in',
   // Turn on a render loop
   animate: true
 };
