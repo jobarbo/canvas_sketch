@@ -25,13 +25,12 @@ canvasSketch((context) => {
   colorMode(HSB, 360, 100, 100, 100);
   blendMode(ADD);
   background(10);
-  let spacing = width/5;
-  let margin = width/10;
+  let spacing = width/16;
+  let margin = width/8;
   let xoff = 0;
   let yoff = 1;
   let hoff = 0;
-  let container = spacing/4;
-
+  let container = spacing/2;
 
   for(let ix = margin; ix <= (width-margin); ix = ix + spacing){
     //noFill();
@@ -45,9 +44,9 @@ canvasSketch((context) => {
         noStroke();
         //stroke(0,0,0)
         fill(48,56,83,10)
-        ellipse(x,y,7,7);
+        ellipse(x,y,5,5);
 
-        xoff += 0.2;
+        xoff += 0.1;
         yoff += 0.001;
         hoff += 0.01;
       }
