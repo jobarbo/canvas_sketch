@@ -5,34 +5,58 @@ new p5();
 const settings = {
   // Pass the p5 instance, and preload function if necessary
   p5: true,
-  dimensions: [ 11, 17 ],
-  //dimensions: 'a4',
-  pixelsPerInch: 300,
-  units: 'in',
+  dimensions: [ 12*300, 12*300 ],
+  //pixelsPerInch: 72,
+  units: 'px',
   // Turn on a render loop
-  animate: true
+  animate: false
 };
 
 const preload = () => {
   // You can use p5.loadImage() here, etc...
+
 };
 
-canvasSketch(() => {
+canvasSketch((context) => {
+  // Sketch setup
+  // Like p5.js 'setup' function
+
+  // Set the color mode
+  colorMode(HSB, 360, 100, 100, 100);
+  blendMode(ADD);
+  background(10);
+  let spacing = width/16;
+  let margin = width/8;
+  let xoff = 0;
+  let yoff = 1;
+  let hoff = 0;
+  let container = spacing/2;
+
+  for(let ix = margin; ix <= (width-margin); ix = ix + spacing){
+    //noFill();
+    //stroke(0);
+    for(let iy = margin; iy <= (height-margin); iy = iy + spacing){
+      for(let s = 0; s < spacing; s++){
+        let x = map(noise(xoff),0,1,ix-container,ix+container);
+        let y = map(noise(yoff),0,1,iy-container,iy+container);
+        let hue = map(noise(hoff),0,1,0,360);
+
+        noStroke();
+        //stroke(0,0,0)
+        fill(48,56,83,10)
+        ellipse(x,y,5,5);
+
+        xoff += 0.1;
+        yoff += 0.001;
+        hoff += 0.01;
+      }
+    }
+  }
+
   // Return a renderer, which is like p5.js 'draw' function
-  //background(0);
-  let elX = (width/2)/settings.pixelsPerInch;
-  let elY = (height/2)/settings.pixelsPerInch;
   return ({ p5, time, width, height }) => {
     // Draw with p5.js things
-    background(0);
 
-    //elX = elX + random(-0.05,0.05);
-    //elY = elY + random(-0.05,0.05);
 
-    fill(255,255);
-    noStroke();
-
-    const anim = sin(time - PI / 2) * 0.5 + 0.5;
-    ellipse(elX, elY+anim, 0.1,0.1);
   };
 }, settings);
