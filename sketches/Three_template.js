@@ -9,7 +9,8 @@ const canvasSketch = require('canvas-sketch');
 const settings = {
   // Make the loop animated
   animate: true,
-  dimensions: [ 800*300, 248*300 ],
+  dimensions: [ 12*300, 12*300 ],
+  units: 'px',
   // Get a WebGL canvas rather than 2D
   context: 'webgl',
   // Turn on MSAA
