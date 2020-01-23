@@ -22,10 +22,10 @@ canvasSketch((context) => {
   // Sketch setup
   // Like p5.js 'setup' function
 
-  // Set the color mode
-  colorMode(HSB, 360, 100, 100, 100);
   //blendMode(ADD);
+  colorMode(HSB, 360, 100, 100, 100);
   background(60,5,95);
+
   let margin = width/41;
   let wSpacing = width-margin;
   let hSpacing = height-margin;
@@ -38,7 +38,6 @@ canvasSketch((context) => {
 
   //displayStars();
 
-
   for(let ix = margin/2; ix < (width-margin); ix = ix + wSpacing){
     for(let iy = margin/2; iy < (height-margin); iy = iy + hSpacing){
       //debugGrid(ix,iy,wSpacing,hSpacing);
@@ -48,12 +47,11 @@ canvasSketch((context) => {
       for(let s = 0; s < 100000; s++){
         let x = map(noise(xoff),0,1,cx-wContainer,cx+wContainer);
         let y = map(noise(yoff),0,1,cy-hContainer,cy+hContainer);
-        //let elW = map(noise(woff),0,1,0,10);
-        let elW =  map(abs(x-width/2),0,width/2,6, 0)
         let hue = map(noise(hoff),0,1,0,100);
+        let elW =  map(abs(x-width/2),0,width/2,6, 0)
+        //let elW = map(noise(woff),0,1,0,10);
 
         noStroke();
-        //stroke(0,0,0)
         fill(220,42,60,100)
         ellipse(x,y,elW,elW);
 
