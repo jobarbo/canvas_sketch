@@ -6,8 +6,9 @@ const settings = {
   // Pass the p5 instance, and preload function if necessary
   p5: true,
   dimensions: [ 12*300, 12*300 ],
-  //pixelsPerInch: 72,
   units: 'px',
+  //pixelsPerInch: 72,
+
   // Turn on a render loop
   animate: false
 };
@@ -40,10 +41,7 @@ canvasSketch((context) => {
 
   for(let ix = margin/2; ix < (width-margin); ix = ix + wSpacing){
     for(let iy = margin/2; iy < (height-margin); iy = iy + hSpacing){
-      //strokeWeight(5)
-      //stroke(0,100,100)
-      //noFill();
-      //rect(ix,iy,wSpacing,hSpacing)
+      //debugGrid(ix,iy,wSpacing,hSpacing);
       cx = ix+(wSpacing/2);
       cy = iy+(hSpacing/2);
 
@@ -82,4 +80,11 @@ function displayStars(){
     strokeWeight(random(5,10));
     point(random(width),random(height))
   }
+}
+
+function debugGrid(ix,iy,wSpacing,hSpacing){
+  strokeWeight(5)
+  stroke(0,100,100)
+  noFill();
+  rect(ix,iy,wSpacing,hSpacing)
 }
