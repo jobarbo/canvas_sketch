@@ -5,7 +5,7 @@ new p5();
 const settings = {
   // Pass the p5 instance, and preload function if necessary
   p5: true,
-  dimensions: [ 12*300, 12*300 ],
+  dimensions: [ 30*300, 20*300 ],
   units: 'px',
   //pixelsPerInch: 72,
 
@@ -22,19 +22,19 @@ canvasSketch((context) => {
   // Sketch setup
   // Like p5.js 'setup' function
 
-  //blendMode(ADD);
+  blendMode(BLEND);
   colorMode(HSB, 360, 100, 100, 100);
-  background(60,5,95);
+  background(191, 31, 20);
 
-  let margin = width/41;
-  let wSpacing = width-margin;
+  let margin = width/20;
+  let wSpacing = width/10-margin;
   let hSpacing = height-margin;
   let xoff = 0.6;
   let yoff = 0.1;
   let hoff = 0.1;
   let woff = 0.3;
-  let wContainer = wSpacing;
-  let hContainer = hSpacing/2;
+  let wContainer = wSpacing/2;
+  let hContainer = hSpacing/2.5;
 
   //displayStars();
 
@@ -44,15 +44,15 @@ canvasSketch((context) => {
       cx = ix+(wSpacing/2);
       cy = iy+(hSpacing/2);
 
-      for(let s = 0; s < 100000; s++){
+      for(let s = 0; s < 50000; s++){
         let x = map(noise(xoff),0,1,cx-wContainer,cx+wContainer);
         let y = map(noise(yoff),0,1,cy-hContainer,cy+hContainer);
         let hue = map(noise(hoff),0,1,0,100);
-        let elW =  map(abs(x-width/2),0,width/2,6, 0)
+        let elW =  map(abs(x-width/2),0,width/2,4, 0)
         //let elW = map(noise(woff),0,1,0,10);
 
         noStroke();
-        fill(220,42,60,100)
+        fill(45, 84, 81,100)
         ellipse(x,y,elW,elW);
 
         xoff += 0.0005;
