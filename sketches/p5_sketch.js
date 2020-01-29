@@ -26,15 +26,15 @@ canvasSketch((context) => {
   colorMode(HSB, 360, 100, 100, 100);
   background(0, 0, 96);
 
-  let margin = width/100;
-  let wSpacing = width/10-margin;
-  let hSpacing = height/10-margin;
+  let margin = 200;
+  let wSpacing = width/45;
+  let hSpacing = height/60;
   let xoff = 0.6;
   let yoff = 0.001;
   let hoff = 0.1;
   let woff = 0.03;
-  let wContainer = wSpacing/1.5;
-  let hContainer = hSpacing/1.5;
+  let wContainer = wSpacing;
+  let hContainer = hSpacing/2;
 
   //displayStars();
   window.mouseClicked = () => {
@@ -51,28 +51,27 @@ canvasSketch((context) => {
 }, settings);
 
 function paint(margin,wSpacing,hSpacing,xoff,yoff,hoff,woff,wContainer,hContainer){
-  console.log(keyCode);
-  for(let ix = margin; ix < (width-margin); ix = ix + wSpacing){
-    for(let iy = margin; iy < (height-margin); iy = iy + hSpacing){
+  for(let iy = margin; iy < (height-margin); iy = iy + hSpacing){
+    for(let ix = margin; ix < random((width/1.5)-margin,width-margin); ix = ix + wSpacing){
       //debugGrid(ix,iy,wSpacing,hSpacing);
       cx = ix+(wSpacing/2);
       cy = iy+(hSpacing/2);
 
-      for(let s = 0; s < wSpacing; s++){
+      for(let s = 0; s < 500; s++){
         let x = map(noise(xoff),0,1,cx-wContainer,cx+wContainer);
         let y = map(noise(yoff),0,1,cy-hContainer,cy+hContainer);
         let hue = map(noise(hoff),0,1,0,100);
         //let elW =  map(abs(x-width/2),0,width,30, 0)
-        let elW = map(noise(woff),0,1,0,30);
-        let elA = map(elW,0,15,0,50);
+        let elW = map(noise(woff),0,1,5,20);
+        let elA = map(elW,5,20,0,50);
 
         //noStroke();
         stroke(191, 5, 95,0);
         fill(209, 57, 50,elA);
         ellipse(x,y,elW,elW);
 
-        xoff += 0.005;
-        yoff += 0.005;
+        xoff += 0.003;
+        yoff += 0.003;
         hoff += 0.1;
         woff += 0.0005;
       }
