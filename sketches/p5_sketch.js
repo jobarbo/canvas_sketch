@@ -22,7 +22,7 @@ canvasSketch((context) => {
   // Sketch setup
   // Like p5.js 'setup' function
 
-  blendMode(OVERLAY);
+  blendMode(BLEND);
   colorMode(HSB, 360, 100, 100, 100);
   background(0, 0, 96);
 
@@ -68,7 +68,7 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,hoff,woff,wContainer,hContaine
 
         //noStroke();
         stroke(191, 5, 95,0);
-        fill(209, 57, 38,elA);
+        fill(209, 57, 50,elA);
         ellipse(x,y,elW,elW);
 
         xoff += 0.005;
