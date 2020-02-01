@@ -24,7 +24,7 @@ canvasSketch((context) => {
 
   blendMode(BLEND);
   colorMode(HSB, 360, 100, 100, 100);
-  background(0, 0, 96);
+  background(230, 26, 20);
 
   let margin = 200;
   let wSpacing = width/45;
@@ -35,12 +35,14 @@ canvasSketch((context) => {
   let woff = 0.03;
   let wContainer = wSpacing;
   let hContainer = hSpacing/2;
+  let indentation = [margin, (width/5)/2, width/5,width];
+  console.l
 
   //displayStars();
   window.mouseClicked = () => {
     //paint(margin,wSpacing,hSpacing,xoff,yoff,hoff,woff,wContainer,hContainer);
   }
-  paint(margin,wSpacing,hSpacing,xoff,yoff,hoff,woff,wContainer,hContainer);
+  paint(margin,wSpacing,hSpacing,xoff,yoff,hoff,woff,wContainer,hContainer,indentation);
 
   // Return a renderer, which is like p5.js 'draw' function
   return ({ p5, time, width, height }) => {
@@ -50,13 +52,22 @@ canvasSketch((context) => {
   };
 }, settings);
 
-function paint(margin,wSpacing,hSpacing,xoff,yoff,hoff,woff,wContainer,hContainer){
+function paint(margin,wSpacing,hSpacing,xoff,yoff,hoff,woff,wContainer,hContainer,indentation){
   for(let iy = margin; iy < (height-margin); iy = iy + hSpacing){
-    for(let ix = margin; ix < random((width/1.5)-margin,width-margin); ix = ix + wSpacing){
+    index = random(indentation);
+
+    for(let ix = index; ix < random((width/1.6),width-margin); ix = ix + wSpacing){
       //debugGrid(ix,iy,wSpacing,hSpacing);
       cx = ix+(wSpacing/2);
       cy = iy+(hSpacing/2);
 
+      if(index == indentation[1]){
+        fill(190, 53, 89,60);
+      }else if (index >= indentation[2]){
+        fill(130, 60, 80, 60);
+      }else{
+        fill(32, 50, 95,60);
+      }
       for(let s = 0; s < 500; s++){
         let x = map(noise(xoff),0,1,cx-wContainer,cx+wContainer);
         let y = map(noise(yoff),0,1,cy-hContainer,cy+hContainer);
@@ -65,9 +76,8 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,hoff,woff,wContainer,hContaine
         let elW = map(noise(woff),0,1,5,20);
         let elA = map(elW,5,20,0,50);
 
-        //noStroke();
-        stroke(191, 5, 95,0);
-        fill(209, 57, 50,elA);
+        noStroke();
+        //stroke(190, 53, 89,0);
         ellipse(x,y,elW,elW);
 
         xoff += 0.003;
