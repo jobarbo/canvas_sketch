@@ -24,19 +24,18 @@ canvasSketch((context) => {
 
   blendMode(BLEND);
   colorMode(HSB, 360, 100, 100, 100);
-  background(230, 26, 20);
+  background(209, 79, 23);
 
   let margin = 200;
-  let wSpacing = width/45;
-  let hSpacing = height/60;
+  let wSpacing = width/50;
+  let hSpacing = height/20;
   let xoff = 0.6;
   let yoff = 0.001;
   let hoff = 0.1;
   let woff = 0.03;
-  let wContainer = wSpacing;
-  let hContainer = hSpacing/2;
+  let wContainer = wSpacing/2;
+  let hContainer = hSpacing;
   let indentation = [margin, (width/5)/2, width/5,width];
-  console.l
 
   //displayStars();
   window.mouseClicked = () => {
@@ -53,21 +52,14 @@ canvasSketch((context) => {
 }, settings);
 
 function paint(margin,wSpacing,hSpacing,xoff,yoff,hoff,woff,wContainer,hContainer,indentation){
-  for(let iy = margin; iy < (height-margin); iy = iy + hSpacing){
-    index = random(indentation);
+  for(let ix = margin; ix < (width-margin); ix = ix + wSpacing){
 
-    for(let ix = index; ix < random((width/1.6),width-margin); ix = ix + wSpacing){
+    for(let iy = height-margin; iy > random(height/10,margin); iy = iy - hSpacing){
+
       //debugGrid(ix,iy,wSpacing,hSpacing);
       cx = ix+(wSpacing/2);
       cy = iy+(hSpacing/2);
 
-      if(index == indentation[1]){
-        fill(190, 53, 89,60);
-      }else if (index >= indentation[2]){
-        fill(130, 60, 80, 60);
-      }else{
-        fill(32, 50, 95,60);
-      }
       for(let s = 0; s < 500; s++){
         let x = map(noise(xoff),0,1,cx-wContainer,cx+wContainer);
         let y = map(noise(yoff),0,1,cy-hContainer,cy+hContainer);
@@ -78,6 +70,7 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,hoff,woff,wContainer,hContaine
 
         noStroke();
         //stroke(190, 53, 89,0);
+        fill(38, 49, 78,elA);
         ellipse(x,y,elW,elW);
 
         xoff += 0.003;
