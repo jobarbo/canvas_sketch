@@ -27,8 +27,8 @@ canvasSketch((context) => {
   background(209, 79, 23);
 
   let margin = 200;
-  let wSpacing = width/50;
-  let hSpacing = height/20;
+  let wSpacing = width/45;
+  let hSpacing = height/30;
   let xoff = 0.6;
   let yoff = 0.001;
   let hoff = 0.1;
@@ -54,7 +54,7 @@ canvasSketch((context) => {
 function paint(margin,wSpacing,hSpacing,xoff,yoff,hoff,woff,wContainer,hContainer,indentation){
   for(let ix = margin; ix < (width-margin); ix = ix + wSpacing){
 
-    for(let iy = height-margin; iy > random(height/10,margin); iy = iy - hSpacing){
+    for(let iy = height; iy > random(height/10,margin); iy = iy - hSpacing){
 
       //debugGrid(ix,iy,wSpacing,hSpacing);
       cx = ix+(wSpacing/2);
