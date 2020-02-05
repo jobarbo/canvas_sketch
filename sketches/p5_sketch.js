@@ -27,8 +27,8 @@ canvasSketch((context) => {
   background(45, 5, 98);
 
   let margin = 300;
-  let wSpacing = width/12;
-  let hSpacing = height/12;
+  let wSpacing = width/80;
+  let hSpacing = height/80;
   let xoff = 0.6;
   let yoff = 0.001;
   let woff = 0.3;
@@ -39,18 +39,12 @@ canvasSketch((context) => {
   window.mousePressed = () => {
 
   }
-  //paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer);
+  paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer);
 
   // Return a renderer, which is like p5.js 'draw' function
   return ({ p5, time, width, height }) => {
     // Draw with p5.js things
-    if (mouseIsPressed){
-      woff = random(0,1);
-      yoff = random(0,1);
-      xoff = random(0,1);
 
-      paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer);
-    }
   };
 }, settings);
 
@@ -66,19 +60,19 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
 
         let x = map(noise(xoff),0,1,cx-wContainer,cx+wContainer);
         let y = map(noise(yoff),0,1,cy-hContainer,cy+hContainer);
-        let elW = map(noise(woff),0,1,0,10);
+        let elW = map(noise(woff),0,1,0,30);
 
-        let elHue = map(elW,2,8,45,0,true);
-        let elSat = map(elW,2,8,5,75,true);
-        let elBright = map(elW,2,8,98,10,true);
-        let elAlpha = map(elW,2,8,0,100,true);
+        let elHue = map(elW,10,20,45,0,true);
+        let elSat = map(elW,10,20,5,75,true);
+        let elBright = map(elW,10,20,98,10,true);
+        let elAlpha = map(elW,10,20,0,100,true);
 
         noStroke();
         //stroke(190, 53, 89,0);
         fill(elHue, elSat, elBright,elAlpha);
         ellipse(x,y,elW,elW);
 
-        xoff += 0.001;
+        xoff += 0.01;
         yoff += 0.001;
         woff += 0.1;
       }
