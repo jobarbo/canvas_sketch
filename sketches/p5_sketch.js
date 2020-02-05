@@ -27,8 +27,8 @@ canvasSketch((context) => {
   background(45, 5, 98);
 
   let margin = 300;
-  let wSpacing = width/80;
-  let hSpacing = height/80;
+  let wSpacing = width/40;
+  let hSpacing = height/40;
   let xoff = 0.6;
   let yoff = 0.001;
   let woff = 0.3;
@@ -72,9 +72,9 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
         fill(elHue, elSat, elBright,elAlpha);
         ellipse(x,y,elW,elW);
 
-        xoff += 0.01;
+        xoff += 0.005;
         yoff += 0.001;
-        woff += 0.1;
+        woff += 0.01;
       }
     }
   }
