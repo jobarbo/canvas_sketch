@@ -62,7 +62,7 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
       cx = ix+(wSpacing/2);
       cy = iy+(hSpacing/2);
 
-      for(let s = 0; s < wSpacing; s++){
+      for(let s = 0; s < wSpacing*2; s++){
 
         let x = map(noise(xoff),0,1,mouseX-wContainer,mouseX+wContainer);
         let y = map(noise(yoff),0,1,mouseY-hContainer,mouseY+hContainer);
@@ -71,15 +71,15 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
         let elHue = map(elW,2,8,45,0,true);
         let elSat = map(elW,2,8,5,75,true);
         let elBright = map(elW,2,8,98,10,true);
-        let elAlpha = map(elW,2,8,0,100,true);
+        let elAlpha = map(elW,2,8,0,50,true);
 
         noStroke();
         //stroke(190, 53, 89,0);
         fill(0, 75, 10,elAlpha);
         ellipse(x,y,elW,elW);
 
-        xoff += 0.001;
-        yoff += 0.001;
+        xoff += random(0.00005,0.0009);
+        yoff += random(0.00005,0.0009);
         woff += 0.1;
       }
     }
