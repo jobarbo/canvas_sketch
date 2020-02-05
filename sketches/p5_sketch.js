@@ -45,6 +45,9 @@ canvasSketch((context) => {
   return ({ p5, time, width, height }) => {
     // Draw with p5.js things
     if (mouseIsPressed){
+      woff = random(0,1);
+      yoff = random(0,1);
+      xoff = random(0,1);
 
       paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer);
     }
@@ -59,11 +62,8 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
       //debugGrid(ix,iy,wSpacing,hSpacing);
       cx = ix+(wSpacing/2);
       cy = iy+(hSpacing/2);
-      woff = random(0,1);
-      yoff = random(0,1);
-      for(let s = 0; s < wSpacing; s++){
-        xoff = random(0,1);
 
+      for(let s = 0; s < wSpacing; s++){
 
         let x = map(noise(xoff),0,1,mouseX-wContainer,mouseX+wContainer);
         let y = map(noise(yoff),0,1,mouseY-hContainer,mouseY+hContainer);
@@ -79,8 +79,8 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
         fill(0, 75, 10,elAlpha);
         ellipse(x,y,elW,elW);
 
-        xoff += 0.00007;
-        yoff += 0.00001;
+        xoff += 0.0001;
+        yoff += 0.0001;
         woff += 0.1;
       }
     }
