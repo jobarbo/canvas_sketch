@@ -30,7 +30,7 @@ canvasSketch((context) => {
   let wSpacing = width;
   let hSpacing = height;
   let xoff = 0.6;
-  let yoff = 0.001;
+  let yoff = 0.1;
   let woff = 0.3;
   let wContainer = wSpacing/1.5;
   let hContainer = hSpacing/1.5;
@@ -45,7 +45,9 @@ canvasSketch((context) => {
   return ({ p5, time, width, height }) => {
     // Draw with p5.js things
     if (mouseIsPressed){
-
+      xoff = random(0,1);
+      yoff = random(0,1);
+      woff = random(0,1);
       paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer);
     }
 
@@ -61,9 +63,7 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
       cy = iy+(hSpacing/2);
 
       for(let s = 0; s < wSpacing; s++){
-        xoff = random(0,1);
-        yoff = random(0,1);
-        woff = random(0,1);
+
         let x = map(noise(xoff),0,1,mouseX-wContainer,mouseX+wContainer);
         let y = map(noise(yoff),0,1,mouseY-hContainer,mouseY+hContainer);
         let elW = map(noise(woff),0,1,0,10);
@@ -78,8 +78,8 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
         fill(0, 75, 10,elAlpha);
         ellipse(x,y,elW,elW);
 
-        xoff += 0.007;
-        yoff += 0.1;
+        xoff += 0.001;
+        yoff += 0.001;
         woff += 0.1;
       }
     }
