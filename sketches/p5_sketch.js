@@ -51,7 +51,6 @@ canvasSketch((context) => {
 
       paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer);
     }
-
   };
 }, settings);
 
@@ -79,8 +78,8 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
         fill(0, 75, 10,elAlpha);
         ellipse(x,y,elW,elW);
 
-        xoff += 0.0001;
-        yoff += 0.0001;
+        xoff += 0.1;
+        yoff += 0.1;
         woff += 0.1;
       }
     }
