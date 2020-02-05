@@ -26,14 +26,14 @@ canvasSketch((context) => {
   colorMode(HSB, 360, 100, 100, 100);
   background(45, 5, 98);
 
-  let margin = 0;
-  let wSpacing = width;
-  let hSpacing = height;
+  let margin = 300;
+  let wSpacing = width/12;
+  let hSpacing = height/12;
   let xoff = 0.6;
   let yoff = 0.001;
   let woff = 0.3;
-  let wContainer = wSpacing/1.5;
-  let hContainer = hSpacing/1.5;
+  let wContainer = wSpacing/2;
+  let hContainer = hSpacing/2;
 
   //displayStars();
   window.mousePressed = () => {
@@ -64,8 +64,8 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
 
       for(let s = 0; s < wSpacing; s++){
 
-        let x = map(noise(xoff),0,1,mouseX-wContainer,mouseX+wContainer);
-        let y = map(noise(yoff),0,1,mouseY-hContainer,mouseY+hContainer);
+        let x = map(noise(xoff),0,1,cx-wContainer,cx+wContainer);
+        let y = map(noise(yoff),0,1,cy-hContainer,cy+hContainer);
         let elW = map(noise(woff),0,1,0,10);
 
         let elHue = map(elW,2,8,45,0,true);
@@ -75,11 +75,11 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
 
         noStroke();
         //stroke(190, 53, 89,0);
-        fill(0, 75, 10,elAlpha);
+        fill(elHue, elSat, elBright,elAlpha);
         ellipse(x,y,elW,elW);
 
-        xoff += 0.1;
-        yoff += 0.1;
+        xoff += 0.001;
+        yoff += 0.001;
         woff += 0.1;
       }
     }
