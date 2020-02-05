@@ -10,7 +10,7 @@ const settings = {
   //pixelsPerInch: 72,
 
   // Turn on a render loop
-  animate: false
+  animate: true
 };
 
 const preload = () => {
@@ -24,66 +24,63 @@ canvasSketch((context) => {
 
   blendMode(BLEND);
   colorMode(HSB, 360, 100, 100, 100);
-  background(230, 26, 20);
+  background(45, 5, 98);
 
-  let margin = 200;
-  let wSpacing = width/45;
-  let hSpacing = height/60;
+  let margin = 0;
+  let wSpacing = width;
+  let hSpacing = height;
   let xoff = 0.6;
   let yoff = 0.001;
-  let hoff = 0.1;
-  let woff = 0.03;
-  let wContainer = wSpacing;
-  let hContainer = hSpacing/2;
-  let indentation = [margin, (width/5)/2, width/5,width];
-  console.l
+  let woff = 0.3;
+  let wContainer = wSpacing/1.5;
+  let hContainer = hSpacing/1.5;
 
   //displayStars();
-  window.mouseClicked = () => {
-    //paint(margin,wSpacing,hSpacing,xoff,yoff,hoff,woff,wContainer,hContainer);
+  window.mousePressed = () => {
+
   }
-  paint(margin,wSpacing,hSpacing,xoff,yoff,hoff,woff,wContainer,hContainer,indentation);
+  //paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer);
 
   // Return a renderer, which is like p5.js 'draw' function
   return ({ p5, time, width, height }) => {
     // Draw with p5.js things
+    if (mouseIsPressed){
 
+      paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer);
+    }
 
   };
 }, settings);
 
-function paint(margin,wSpacing,hSpacing,xoff,yoff,hoff,woff,wContainer,hContainer,indentation){
+function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
   for(let iy = margin; iy < (height-margin); iy = iy + hSpacing){
-    index = random(indentation);
 
-    for(let ix = index; ix < random((width/1.6),width-margin); ix = ix + wSpacing){
+    for(let ix = margin; ix < (width-margin); ix = ix + wSpacing){
       //debugGrid(ix,iy,wSpacing,hSpacing);
       cx = ix+(wSpacing/2);
       cy = iy+(hSpacing/2);
 
-      if(index == indentation[1]){
-        fill(190, 53, 89,60);
-      }else if (index >= indentation[2]){
-        fill(130, 60, 80, 60);
-      }else{
-        fill(32, 50, 95,60);
-      }
-      for(let s = 0; s < 500; s++){
-        let x = map(noise(xoff),0,1,cx-wContainer,cx+wContainer);
-        let y = map(noise(yoff),0,1,cy-hContainer,cy+hContainer);
-        let hue = map(noise(hoff),0,1,0,100);
-        //let elW =  map(abs(x-width/2),0,width,30, 0)
-        let elW = map(noise(woff),0,1,5,20);
-        let elA = map(elW,5,20,0,50);
+      for(let s = 0; s < wSpacing; s++){
+        xoff = random(0,1);
+        yoff = random(0,1);
+        woff = random(0,1);
+        let x = map(noise(xoff),0,1,mouseX-wContainer,mouseX+wContainer);
+        let y = map(noise(yoff),0,1,mouseY-hContainer,mouseY+hContainer);
+        let elW = map(noise(woff),0,1,0,10);
+
+        let elHue = map(elW,2,8,45,0,true);
+        let elSat = map(elW,2,8,5,75,true);
+        let elBright = map(elW,2,8,98,10,true);
+        let elAlpha = map(elW,2,8,0,100,true);
 
         noStroke();
         //stroke(190, 53, 89,0);
+        fill(0, 75, 10,elAlpha);
         ellipse(x,y,elW,elW);
 
-        xoff += 0.003;
-        yoff += 0.003;
-        hoff += 0.1;
-        woff += 0.0005;
+        xoff += 0.007;
+        yoff += 0.1;
+        woff += 0.1;
       }
     }
   }
