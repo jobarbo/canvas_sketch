@@ -35,11 +35,37 @@ canvasSketch((context) => {
   let wContainer = wSpacing/1.5;
   let hContainer = hSpacing/1.5;
 
-  //displayStars();
-  window.mousePressed = () => {
+  function paint(){
+    for(let iy = margin; iy < (height-margin); iy = iy + hSpacing){
 
+      for(let ix = margin; ix < (width-margin); ix = ix + wSpacing){
+        //debugGrid(ix,iy,wSpacing,hSpacing);
+        cx = ix+(wSpacing/2);
+        cy = iy+(hSpacing/2);
+
+        for(let s = 0; s < wSpacing; s++){
+
+          let x = map(noise(xoff),0,1,mouseX-wContainer,mouseX+wContainer);
+          let y = map(noise(yoff),0,1,mouseY-hContainer,mouseY+hContainer);
+          let elW = map(noise(woff),0,1,0,10);
+
+          let elHue = map(elW,2,8,45,0,true);
+          let elSat = map(elW,2,8,5,75,true);
+          let elBright = map(elW,2,8,98,10,true);
+          let elAlpha = map(elW,2,8,0,100,true);
+
+          noStroke();
+          //stroke(190, 53, 89,0);
+          fill(0, 75, 10,elAlpha);
+          ellipse(x,y,elW,elW);
+
+          xoff += 0.1;
+          yoff += 0.1;
+          woff += 0.1;
+        }
+      }
+    }
   }
-  //paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer);
 
   // Return a renderer, which is like p5.js 'draw' function
   return ({ p5, time, width, height }) => {
@@ -49,51 +75,10 @@ canvasSketch((context) => {
       yoff = random(0,1);
       xoff = random(0,1);
 
-      paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer);
+      paint();
     }
   };
 }, settings);
-
-function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
-  for(let iy = margin; iy < (height-margin); iy = iy + hSpacing){
-
-    for(let ix = margin; ix < (width-margin); ix = ix + wSpacing){
-      //debugGrid(ix,iy,wSpacing,hSpacing);
-      cx = ix+(wSpacing/2);
-      cy = iy+(hSpacing/2);
-
-      for(let s = 0; s < wSpacing; s++){
-
-        let x = map(noise(xoff),0,1,mouseX-wContainer,mouseX+wContainer);
-        let y = map(noise(yoff),0,1,mouseY-hContainer,mouseY+hContainer);
-        let elW = map(noise(woff),0,1,0,10);
-
-        let elHue = map(elW,2,8,45,0,true);
-        let elSat = map(elW,2,8,5,75,true);
-        let elBright = map(elW,2,8,98,10,true);
-        let elAlpha = map(elW,2,8,0,100,true);
-
-        noStroke();
-        //stroke(190, 53, 89,0);
-        fill(0, 75, 10,elAlpha);
-        ellipse(x,y,elW,elW);
-
-        xoff += 0.1;
-        yoff += 0.1;
-        woff += 0.1;
-      }
-    }
-  }
-}
-
-function displayStars(){
-  for(let i=0; i<2000;i++){
-    let starAlpha = random(1,30);
-    stroke(48,56,83,starAlpha);
-    strokeWeight(random(5,10));
-    point(random(width),random(height))
-  }
-}
 
 function debugGrid(ix,iy,wSpacing,hSpacing){
   strokeWeight(5)
