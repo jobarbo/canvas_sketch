@@ -24,7 +24,7 @@ canvasSketch((context) => {
 
   blendMode(BLEND);
   colorMode(HSB, 360, 100, 100, 100);
-  background(45, 5, 98);
+  background(11, 55, 45);
 
   let margin = 300;
   let wSpacing = width/12;
@@ -68,10 +68,10 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
         let y = map(noise(yoff),0,1,cy-hContainer,cy+hContainer);
         let elW = map(noise(woff),0,1,0,10);
 
-        let elHue = map(elW,2,8,45,0,true);
-        let elSat = map(elW,2,8,5,75,true);
-        let elBright = map(elW,2,8,98,10,true);
-        let elAlpha = map(elW,2,8,0,100,true);
+        let elHue = map(elW,2,8,28,33,true);
+        let elSat = map(elW,2,8,40,60,true);
+        let elBright = map(elW,2,75,90,10,true);
+        let elAlpha = map(elW,4,8,0,60,true);
 
         noStroke();
         //stroke(190, 53, 89,0);
