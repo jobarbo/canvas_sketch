@@ -24,7 +24,7 @@ canvasSketch((context) => {
 
   blendMode(MULTIPLY);
   colorMode(HSB, 360, 100, 100, 100);
-  background(33, 26, 85);
+  background(166,23,78);
 
   let margin = 300;
   let wSpacing = width / 12;
@@ -74,9 +74,9 @@ function gridLine(margin, gridXSpacing, gridYSpacing, xoff, yoff, woff, gridWCon
         let y = s;
         let elW = map(noise(woff), 0, 1, 2, 8);
 
-        let elHue = map(elW, 2, 8, 18, 24, true);
-        let elSat = map(elW, 2, 8, 52, 62, true);
-        let elBright = map(elW, 2, 8, 70, 80, true);
+        let elHue = map(elW, 2, 8, 158, 172, true);
+        let elSat = map(elW, 2, 8, 10, 25, true);
+        let elBright = map(elW, 2, 8, 45, 58, true);
         let elAlpha = map(elW, 2, 8, 8, 20, true);
 
         noStroke();
@@ -119,7 +119,7 @@ function paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContai
         ellipse(x, y, elW, elW);
 
         xoff += 0.009;
-        yoff += 0.00009;
+        yoff += 0.009;
         woff += 0.9;
       }
     }
