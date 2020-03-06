@@ -101,6 +101,10 @@ function paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContai
       cx = ix + (wSpacing / 2);
       cy = iy + (hSpacing / 2);
 
+      theHue = 20;
+      theSat = 55;
+      theBright = 75;
+
 
       for (let s = 0; s < wSpacing; s++) {
 
@@ -108,9 +112,9 @@ function paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContai
         let y = map(noise(yoff), 0, 1, cy - hContainer, cy + hContainer);
         let elW = map(noise(woff), 0, 1, 6, 10);
 
-        let elHue = map(elW, 6, 9, 18, 24, true);
-        let elSat = map(elW, 6, 9, 52, 62, true);
-        let elBright = map(elW, 6, 9, 70, 80, true);
+        let elHue = map(elW, 6, 9, theHue-5, theHue-5, true);
+        let elSat = map(elW, 6, 9, theSat-5, theSat-5, true);
+        let elBright = map(elW, 6, 9, theBright-5, theBright-5, true);
         let elAlpha = map(elW, 6, 9, 5, 25, true);
 
         noStroke();
