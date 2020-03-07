@@ -5,7 +5,7 @@ new p5();
 const settings = {
   // Pass the p5 instance, and preload function if necessary
   p5: true,
-  dimensions: [ 12*300, 12*300 ],
+  dimensions: [12 * 300, 12 * 300],
   units: 'px',
   //pixelsPerInch: 72,
 
@@ -32,57 +32,48 @@ canvasSketch((context) => {
   let xoff = 0.6;
   let yoff = 0.001;
   let woff = 0.3;
-  let wContainer = wSpacing/1.5;
-  let hContainer = hSpacing/1.5;
+  let initialX = width/2;
+  let initialY = height/2;
+  let wContainer = wSpacing / 1.5;
+  let hContainer = hSpacing / 1.5;
 
-  function paint(){
-    for(let iy = margin; iy < (height-margin); iy = iy + hSpacing){
+  function paint() {
 
-      for(let ix = margin; ix < (width-margin); ix = ix + wSpacing){
-        //debugGrid(ix,iy,wSpacing,hSpacing);
-        cx = ix+(wSpacing/2);
-        cy = iy+(hSpacing/2);
+    for (let s = 0; s < wSpacing; s++) {
 
-        for(let s = 0; s < wSpacing; s++){
+      let x = map(noise(xoff), 0, 1, wContainer, wContainer);
+      let y = map(noise(yoff), 0, 1, hContainer, hContainer);
+      let elW = map(noise(woff), 0, 1, 0, 10);
 
-          let x = map(noise(xoff),0,1,mouseX-wContainer,mouseX+wContainer);
-          let y = map(noise(yoff),0,1,mouseY-hContainer,mouseY+hContainer);
-          let elW = map(noise(woff),0,1,0,10);
+      let elHue = map(elW, 2, 8, 45, 0, true);
+      let elSat = map(elW, 2, 8, 5, 75, true);
+      let elBright = map(elW, 2, 8, 98, 10, true);
+      let elAlpha = map(elW, 2, 8, 0, 100, true);
 
-          let elHue = map(elW,2,8,45,0,true);
-          let elSat = map(elW,2,8,5,75,true);
-          let elBright = map(elW,2,8,98,10,true);
-          let elAlpha = map(elW,2,8,0,100,true);
+      noStroke();
+      fill(elHue, elSat, elBright, elAlpha);
+      ellipse(x, y, elW, elW);
 
-          noStroke();
-          //stroke(190, 53, 89,0);
-          fill(0, 75, 10,elAlpha);
-          ellipse(x,y,elW,elW);
-
-          xoff += 0.1;
-          yoff += 0.1;
-          woff += 0.1;
-        }
-      }
+      xoff += 0.1;
+      yoff += 0.1;
+      woff += 0.1;
     }
   }
 
   // Return a renderer, which is like p5.js 'draw' function
   return ({ p5, time, width, height }) => {
     // Draw with p5.js things
-    if (mouseIsPressed){
-      woff = random(0,1);
-      yoff = random(0,1);
-      xoff = random(0,1);
+    woff = random(0, 1);
+    yoff = random(0, 1);
+    xoff = random(0, 1);
 
-      paint();
-    }
+    paint();
   };
 }, settings);
 
-function debugGrid(ix,iy,wSpacing,hSpacing){
+function debugGrid(ix, iy, wSpacing, hSpacing) {
   strokeWeight(5)
-  stroke(0,100,100)
+  stroke(0, 100, 100)
   noFill();
-  rect(ix,iy,wSpacing,hSpacing)
+  rect(ix, iy, wSpacing, hSpacing)
 }
