@@ -52,9 +52,9 @@ canvasSketch((context) => {
     fill(elHue, elSat, elBright, elAlpha);
     ellipse(x, y, elW, elW);
 
-    xoff += 0.0008;
-    yoff += 0.0006;
-    woff += 0.005;
+    xoff += 0.1;
+    yoff += 0.01;
+    woff += 0.05;
   }
 
   // Return a renderer, which is like p5.js 'draw' function
