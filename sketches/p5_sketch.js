@@ -74,7 +74,6 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
         ellipse(x,y,elW,elW);
 
         y++
-        console.log(y)
 
         xoff += 0.005;
         yoff += 0.1;
