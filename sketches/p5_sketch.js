@@ -29,17 +29,19 @@ canvasSketch((context) => {
   let margin = 300;
   let wSpacing = width/40;
   let hSpacing = height;
-  let xoff = 0.6;
+  let xoff = 0.0006;
   let yoff = 0.001;
   let woff = 0.3;
   let wContainer = wSpacing/2;
   let hContainer = hSpacing/1.2;
+  let minW = 0;
+  let maxW = 35;
 
   //displayStars();
   window.mousePressed = () => {
 
   }
-  paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer);
+  paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer,minW,maxW);
 
   // Return a renderer, which is like p5.js 'draw' function
   return ({ p5, time, width, height }) => {
@@ -48,7 +50,7 @@ canvasSketch((context) => {
   };
 }, settings);
 
-function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
+function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer,minW,maxW){
   for(let iy = margin; iy < (height-margin); iy = iy + hSpacing){
 
     for(let ix = margin; ix < (width-margin); ix = ix + wSpacing){
@@ -57,16 +59,16 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
       cy = 0;
 
       let y = cy;
-
+      let xoffIteration = 0.001;
       for(let s = 0; s < hSpacing; s++){
 
         let x = map(noise(xoff),0,1,cx-wContainer,cx+wContainer);
-        let elW = map(noise(woff),0,1,0,30);
+        let elW = map(noise(woff),0,1,minW,maxW);
 
-        let elHue = map(elW,10,20,45,0,true);
-        let elSat = map(elW,10,20,5,75,true);
-        let elBright = map(elW,10,20,98,10,true);
-        let elAlpha = map(elW,10,20,0,100,true);
+        let elHue = map(elW,minW,maxW,355,5,true);
+        let elSat = map(elW,minW,maxW,0,10,true);
+        let elBright = map(elW,minW,maxW,84,100,true);
+        let elAlpha = map(elW,minW,maxW,10,90,true);
 
         noStroke();
         //stroke(190, 53, 89,0);
@@ -75,9 +77,11 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer){
 
         y++
 
-        xoff += 0.005;
+        xoff += xoffIteration;
         yoff += 0.1;
-        woff += 0.01;
+        woff += 0.001;
+        //xoffIteration = xoffIteration + 0.000001;
+
       }
     }
   }
