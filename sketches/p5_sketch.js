@@ -24,18 +24,18 @@ canvasSketch((context) => {
 
   blendMode(BLEND);
   colorMode(HSB, 360, 100, 100, 100);
-  background(17, 95, 100);
+  background(5, 89, 75);
 
-  let margin = 300;
-  let wSpacing = width/40;
+  let margin = width/33;
+  let wSpacing = width/33;
   let hSpacing = height;
   let xoff = 0.0006;
   let yoff = 0.001;
-  let woff = 0.3;
+  let woff = 0.00003;
   let wContainer = wSpacing/2;
-  let hContainer = hSpacing/1.2;
-  let minW = 0;
-  let maxW = 35;
+  let hContainer = hSpacing;
+  let minW = 5;
+  let maxW = 30;
 
   //displayStars();
   window.mousePressed = () => {
@@ -51,15 +51,17 @@ canvasSketch((context) => {
 }, settings);
 
 function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer,minW,maxW){
-  for(let iy = margin; iy < (height-margin); iy = iy + hSpacing){
+  for(let iy = 0; iy < (height-margin); iy = iy + hSpacing){
 
-    for(let ix = margin; ix < (width-margin); ix = ix + wSpacing){
+    for(let ix = margin; ix <= (width-margin); ix = ix + wSpacing){
       //debugGrid(ix,iy,wSpacing,hSpacing);
-      cx = ix+(wSpacing/2);
-      cy = 0;
+
+      cx = ix;
+      cy = iy;
 
       let y = cy;
-      let xoffIteration = 0.001;
+      let xoffIteration = 0.0009;
+
       for(let s = 0; s < hSpacing; s++){
 
         let x = map(noise(xoff),0,1,cx-wContainer,cx+wContainer);
@@ -68,7 +70,7 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer,min
         let elHue = map(elW,minW,maxW,355,5,true);
         let elSat = map(elW,minW,maxW,0,10,true);
         let elBright = map(elW,minW,maxW,84,100,true);
-        let elAlpha = map(elW,minW,maxW,10,90,true);
+        let elAlpha = map(elW,minW,maxW,50,90,true);
 
         noStroke();
         //stroke(190, 53, 89,0);
@@ -79,7 +81,7 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer,min
 
         xoff += xoffIteration;
         yoff += 0.1;
-        woff += 0.001;
+        woff += 0.0005;
         //xoffIteration = xoffIteration + 0.000001;
 
       }
