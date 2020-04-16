@@ -9,7 +9,7 @@ const canvasSketch = require('canvas-sketch');
 const settings = {
   // Make the loop animated
   animate: true,
-  dimensions: [ 12*300, 12*300 ],
+  dimensions: [ 800, 800 ],
   units: 'px',
   // Get a WebGL canvas rather than 2D
   context: 'webgl',
@@ -24,7 +24,7 @@ const sketch = ({ context }) => {
   });
 
   // WebGL background color
-  renderer.setClearColor('#000', 1);
+  renderer.setClearColor('#fff', 1);
 
   // Setup a camera
   const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 100);
@@ -40,8 +40,8 @@ const sketch = ({ context }) => {
   const mesh = new THREE.Mesh(
     new THREE.BoxGeometry(1, 1, 1),
     new THREE.MeshPhysicalMaterial({
-      color: 'white',
-      roughness: 0.75,
+      color: 'violet',
+      roughness: 0.9,
       flatShading: true
     })
   );
@@ -51,7 +51,7 @@ const sketch = ({ context }) => {
   scene.add(new THREE.AmbientLight('#59314f'));
 
   // Add some light
-  const light = new THREE.PointLight('#45caf7', 1, 15.5);
+  const light = new THREE.PointLight('#ffffff', 2, 15.5);
   light.position.set(2, 2, -4).multiplyScalar(1.5);
   scene.add(light);
 
