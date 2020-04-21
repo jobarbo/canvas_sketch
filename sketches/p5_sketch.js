@@ -21,22 +21,27 @@ const preload = () => {
 canvasSketch((context) => {
   // Sketch setup
   // Like p5.js 'setup' function
-
-  let yoff = 0.0; // 2nd dimension of perlin noise
-  let skyMinY = 0;
-  let skyMaxY = 0;
-  let landMinY = height/4;
-  let landMaxY = height/2;
-  let landHue = 209;
-  let landSat = 34;
-  let landBright = 77;
-  let skyHue = 17;
-  let skySat = 27;
-  let skyBright = 96;
-  let landscapeStep = 100;
-  let skyStep = 2;
+  let yoff, skyMinY, skyMaxY, landMinY, landMaxY, landHue, landSat, landBright, skyHue, skySat, skyBright, landscapeStep, skyStep;
 
   colorMode(HSB,360,100,100,100);
+
+  function init(){
+
+    yoff = 0.0; // 2nd dimension of perlin noise
+    skyMinY = 0;
+    skyMaxY = 0;
+    landMinY = height/4;
+    landMaxY = height/2;
+    landHue = 209;
+    landSat = 34;
+    landBright = 77;
+    skyHue = 17;
+    skySat = 27;
+    skyBright = 96;
+    landscapeStep = 100;
+    skyStep = 2;
+    noiseSeed();
+  }
 
   function createLandscape() {
 
@@ -63,9 +68,7 @@ canvasSketch((context) => {
       endShape(CLOSE);
 
     }
-
     yoff += 0.1;
-
   }
 
   function makeSky(){
@@ -103,16 +106,15 @@ canvasSketch((context) => {
     ellipse(random(0,width),height/2.5,width/3,width/3)
   }
 
-  makeSky();
-  createSun();
-  createLandscape();
 
   // Return a renderer, which is like p5.js 'draw' function
   return ({ p5, time, width, height }) => {
     // Draw with p5.js things
 
-
-
+    init();
+    makeSky();
+    createSun();
+    createLandscape();
 
   };
 }, settings);
