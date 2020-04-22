@@ -22,9 +22,8 @@ canvasSketch((context) => {
   // Sketch setup
   // Like p5.js 'setup' function
 
-  //blendMode(ADD);
   colorMode(HSB, 360, 100, 100, 100);
-  //colorMode(RGB);
+
   let x = 0;
   let y = 0;
 
@@ -32,39 +31,54 @@ canvasSketch((context) => {
   let s = 0;
   let b = 100;
 
-  let spacing = 50;
+  let spacingX = 50;
+  let spacingY = 50;
 
-  background(5, 30, 95);
+  let ranArr = [2,3];
 
-  function makeMaze() {
 
-    strokeCap(ROUND);
-    strokeWeight(16);
-    for(x = 0;x<width;x+=spacing){
 
-      for(y = 0;y<=height;y+=spacing){
-        let rand = random(0.5,1);
-        if (rand < 0.25) {
-          stroke(h,s,b);
-          line(x, y, x + spacing, y);
-        } else if (rand > 0.25 && rand < 0.5) {
-          stroke(h,s,b);
-          line(x, y+spacing , x, y);
-        } else if (rand > 0.5 && rand < 0.75) {
-          stroke(h,s,b);
-          line(x, y+spacing , x+spacing, y);
-        } else if (rand > 0.75 && rand < 1) {
-          stroke(h,s,b);
-          line(x, y , x+spacing, y+spacing);
-        }
-        if (y >= height){
-          console.log("done");
+  function bufferIMG() {
+    let buf = createGraphics(width, height);
+    buf.colorMode(HSB, 360, 100, 100, 100);
+    buf.background(5, 30, 0);
+    buf.fill(5, 0, 100)
+    buf.ellipse(width/2,height/2,width/1.4,width/1.4);
+    image(buf, 0, 0);
+  }
+
+
+  function makeMazeIMG() {
+    let maze = createGraphics(width, height);
+    maze.colorMode(HSB, 360, 100, 100, 100);
+    maze.background(5, 30, 0);
+    maze.strokeCap(ROUND);
+    maze.strokeWeight(10);
+    for(x = 0;x < width;x += spacingX){
+      for(y = 0;y <= height;y += spacingY){
+        let rand = random(ranArr);
+        if (rand == 0) {
+          maze.stroke(h,s,b);
+          maze.line(x, y, x + spacingX, y);
+        } else if (rand == 1) {
+          maze.stroke(h,s,b);
+          maze.line(x, y+spacingY , x, y);
+        } else if (rand == 2) {
+          maze.stroke(h,s,b);
+          maze.line(x, y+spacingY , x+spacingX, y);
+        } else if (rand == 3) {
+          maze.stroke(h,s,b);
+          maze.line(x, y , x+spacingX, y+spacingY);
         }
       }
     }
+    image(maze, 0, 0);
   }
 
-  makeMaze();
+
+  bufferIMG();
+  blendMode(MULTIPLY);
+  makeMazeIMG();
 
   // Return a renderer, which is like p5.js 'draw' function
   return ({ p5, time, width, height }) => {
