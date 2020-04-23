@@ -27,8 +27,8 @@ canvasSketch((context) => {
   let x = 0;
   let y = 0;
 
-  let h = 255;
-  let s = 0;
+  let h = 5;
+  let s = 30;
   let b = 100;
 
   let spacingX = 50;
@@ -36,14 +36,30 @@ canvasSketch((context) => {
 
   let ranArr = [2,3];
 
-
-
   function bufferIMG() {
+    let npoints = 3;
+    let angle = PI / npoints;
+    let polX = 0;
+    let polY = 0;
+    let radius = width/3
     let buf = createGraphics(width, height);
+    buf.angleMode(DEGREES);
     buf.colorMode(HSB, 360, 100, 100, 100);
-    buf.background(5, 30, 0);
-    buf.fill(5, 0, 100)
-    buf.ellipse(width/2,height/2,width/1.4,width/1.4);
+    buf.rectMode(CENTER);
+    buf.background(5, 0, 100);
+    buf.fill(5, 0, 0)
+    buf.noStroke();
+    buf.push();
+    buf.translate(width / 2, height / 2);
+    buf.rotate(90);
+    buf.beginShape();
+    for (let a = 0; a < TWO_PI; a += angle) {
+      let sx = polX + cos(a) * radius;
+      let sy = polY + sin(a) * radius;
+      buf.vertex(sx, sy);
+    }
+    buf.endShape(CLOSE);
+    buf.pop();
     image(buf, 0, 0);
   }
 
@@ -51,9 +67,9 @@ canvasSketch((context) => {
   function makeMazeIMG() {
     let maze = createGraphics(width, height);
     maze.colorMode(HSB, 360, 100, 100, 100);
-    maze.background(5, 30, 0);
+    maze.background(5, 0, 100);
     maze.strokeCap(ROUND);
-    maze.strokeWeight(10);
+    maze.strokeWeight(13);
     for(x = 0;x < width;x += spacingX){
       for(y = 0;y <= height;y += spacingY){
         let rand = random(ranArr);
@@ -77,7 +93,7 @@ canvasSketch((context) => {
 
 
   bufferIMG();
-  blendMode(MULTIPLY);
+  blendMode(LIGHTEST);
   makeMazeIMG();
 
   // Return a renderer, which is like p5.js 'draw' function
