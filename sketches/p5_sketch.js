@@ -5,7 +5,7 @@ new p5();
 const settings = {
   // Pass the p5 instance, and preload function if necessary
   p5: true,
-  dimensions: [ 12*300, 12*300 ],
+  dimensions: [ 12*300, 18*300 ],
   units: 'px',
   //pixelsPerInch: 72,
 
@@ -24,9 +24,9 @@ canvasSketch((context) => {
 
   blendMode(BLEND);
   colorMode(HSB, 360, 100, 100, 100);
-  background(0, 91, 55);
+  background(250, 75, 45);
 
-  let margin = width/33;
+  let margin = width/16.5;
   let wSpacing = width/33;
   let hSpacing = height;
   let xoff = 0.0006;
@@ -66,8 +66,8 @@ function paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer,min
         let x = map(noise(xoff),0,1,cx-wContainer,cx+wContainer);
         let elW = map(noise(woff),0,1,minW,maxW);
 
-        let elHue = map(elW,minW,maxW,355,5,true);
-        let elSat = map(elW,minW,maxW,0,10,true);
+        let elHue = map(elW,minW,maxW,30,31,true);
+        let elSat = map(elW,minW,maxW,80,90,true);
         let elBright = map(elW,minW,maxW,84,100,true);
         let elAlpha = map(elW,minW,maxW,50,90,true);
 
