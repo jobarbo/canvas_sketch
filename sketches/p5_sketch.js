@@ -31,7 +31,7 @@ canvasSketch((context) => {
   let x2 = 0;
   let spacing = 120;
   let strokeW = 3;
-  let sw = 200;
+  let sw = 100;
 
   let dividedBy =25;
 
@@ -65,14 +65,13 @@ canvasSketch((context) => {
   let waveBright = 65;
 
   colorMode(HSB, 360, 100, 100);
-  //background(0, 9, 94);
-  background(203, 100, 31);
+  background(0,0,0);
   strokeCap(ROUND);
 
   while (iteration < limit) {
-    posX = width+50;
-    posY = height+50;
-    rad = random(width*1.5, width*1.5);
+    posX = width/1.2;
+    posY = height/1.3;
+    rad = random(width, width*1.2);
 
     for (let i = rad; i > 0; i = i - rad/20) {
       drawSun(i, posX, posY,sw);
@@ -81,11 +80,11 @@ canvasSketch((context) => {
     iteration++;
   }
 
-  function drawSun(radius, posX, posY, sw) {
+  function drawSun( radius,  posX,  posY, sw) {
     //noStroke();
     noFill();
     strokeWeight(sw);
-    stroke(0,0,100);
+    stroke(0,0,95);
     push();
     translate( posX, posY);
     strokeJoin(ROUND);
@@ -104,8 +103,6 @@ canvasSketch((context) => {
     sunBright = sunBright + 8;
     sunSat = sunSat + 5;
     sunAlpha = sunAlpha + 6;
-
-
   }
   // Return a renderer, which is like p5.js 'draw' function
   return ({ p5, time, width, height }) => {
