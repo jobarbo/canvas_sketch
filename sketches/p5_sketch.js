@@ -5,7 +5,7 @@ new p5();
 const settings = {
   // Pass the p5 instance, and preload function if necessary
   p5: true,
-  dimensions: [ 12*300, 12*300 ],
+  dimensions: [ 12*300, 18*300 ],
   units: 'px',
   //pixelsPerInch: 72,
 
@@ -28,7 +28,7 @@ canvasSketch((context) => {
   let h = 209;
   let s = 34;
   let b = 77;
-  let vertexStep = 15;
+  let vertexStep = 20;
 
   colorMode(HSB,360,100,100,100);
 
@@ -60,7 +60,7 @@ function createLandscape(yoff,minY,maxY,h,s,b,vertexStep) {
       let y = map(noise(xoff, yoff), 0, 1, maxY, minY);
 
       // Set the vertex
-      vertex(x, y);
+      curveVertex(x, y);
 
       // Increment x dimension for noise
       xoff += 0.008;
@@ -70,8 +70,8 @@ function createLandscape(yoff,minY,maxY,h,s,b,vertexStep) {
     h += 5;
     s += 5;
     b -= 5
-    vertex(width, height);
-    vertex(0, height);
+    curveVertex(width, height);
+    curveVertex(0, height);
     endShape(CLOSE);
 
   }
@@ -83,5 +83,5 @@ function createLandscape(yoff,minY,maxY,h,s,b,vertexStep) {
 
 function createSun() {
   fill( 39, 44, 95);
-  ellipse(550,550,width/8,width/8)
+  ellipse(width/4,height/6,width/4,width/4);
 }
