@@ -38,7 +38,7 @@ canvasSketch((context) => {
     skyHue = 17;
     skySat = 27;
     skyBright = 96;
-    landscapeStep = 175;
+    landscapeStep = 150;
     skyStep = 5;
     noiseSeed();
   }
@@ -107,14 +107,15 @@ canvasSketch((context) => {
   }
 
 
+  init();
+  makeSky();
+  createSun();
+  createLandscape();
+
   // Return a renderer, which is like p5.js 'draw' function
   return ({ p5, time, width, height }) => {
     // Draw with p5.js things
 
-    init();
-    makeSky();
-    createSun();
-    createLandscape();
 
   };
 }, settings);
