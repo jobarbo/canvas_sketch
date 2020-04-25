@@ -5,7 +5,7 @@ new p5();
 const settings = {
   // Pass the p5 instance, and preload function if necessary
   p5: true,
-  dimensions: [ 12*300, 18*300 ],
+  dimensions: [ 30*300, 20*300 ],
   units: 'px',
   //pixelsPerInch: 72,
 
@@ -40,7 +40,7 @@ canvasSketch((context) => {
   // Create random stars
   for (let starsCount = 0; starsCount < 350; starsCount = starsCount +1) {
     opacityRand = random(60, 200);
-    sizeRand = random(1, 3);
+    sizeRand = random(1, 8);
     stroke(255, opacityRand);
     fill(255, opacityRand);
     ellipse(random(0, width), random(0, height), sizeRand, sizeRand);
@@ -49,7 +49,7 @@ canvasSketch((context) => {
   noStroke();
   rectMode(CENTER);
 
-  for (let i = height; i > 10; i = i - 1550) {
+  for (let i = height; i > 10; i = i - 800) {
     fill(h, s, b);
     push();
     translate(random(0, width), height);
