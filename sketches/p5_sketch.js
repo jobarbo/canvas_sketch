@@ -5,7 +5,7 @@ new p5();
 const settings = {
   // Pass the p5 instance, and preload function if necessary
   p5: true,
-  dimensions: [ 12*300, 12*300 ],
+  dimensions: [ 30*300, 20*300 ],
   units: 'px',
   //pixelsPerInch: 72,
 
@@ -24,30 +24,51 @@ canvasSketch((context) => {
 
   //blendMode(ADD);
   colorMode(HSB, 360, 100, 100, 100);
-  background(60,5,95);
-  strokeWeight(30);
+  background(39, 98, 95);
+  strokeWeight(60);
+  stroke( 67, 1, 95);
   noFill();
+
+  var margin = 500;
+  var spacingY = 250;
+  var spacingX = 250;
 
   // Initializing the array that will store all the points coordinate
   var coords = [];
 
+  var deviation = 15;
+
+  // initializing function that will store points in array
   function storeCoordinate(xVal, yVal, array) {
     array.push({x: xVal, y: yVal});
   }
 
-  for(points = 150; points <= width-150; points+=150){
-    storeCoordinate(points, randomGaussian(height/2, 60), coords);
-  }
-  var totalCoords = coords.length-1;
+  // Storing points in array
+  for(h = margin; h <= height-margin; h+=spacingY){
+    for(points = margin; points <= width-margin; points+=spacingX){
+      storeCoordinate(points, randomGaussian(h, deviation), coords);
 
-  beginShape();
-  curveVertex(coords[0].x,coords[0].y)
-  for(i = 0; i<coords.length;i++){
-    point(coords[i].x,coords[i].y);
-    curveVertex(coords[i].x,coords[i].y)
+    }
+    //deviation += 1;
+    var totalCoords = coords.length-1;
+
+    // path making function
+    beginShape();
+    curveVertex(coords[0].x,coords[0].y)
+    for(i = 0; i<coords.length;i++){
+      var ranNum = int(random(1,5));
+      point(coords[i].x,coords[i].y);
+      curveVertex(coords[i].x,coords[i].y);
+    }
+    curveVertex(coords[totalCoords].x,coords[totalCoords].y)
+    endShape();
+    coords = [];
+    console.log(deviation);
   }
-  curveVertex(coords[totalCoords].x,coords[totalCoords].y)
-  endShape();
+
+
+
+
 
 
   // Return a renderer, which is like p5.js 'draw' function
