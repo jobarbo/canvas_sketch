@@ -25,9 +25,30 @@ canvasSketch((context) => {
   //blendMode(ADD);
   colorMode(HSB, 360, 100, 100, 100);
   background(60,5,95);
+  strokeWeight(30);
+  noFill();
 
-  fill(0,0,0,100)
-  ellipse(width/2,height/2,30,30)
+  // Initializing the array that will store all the points coordinate
+  var coords = [];
+
+  function storeCoordinate(xVal, yVal, array) {
+    array.push({x: xVal, y: yVal});
+  }
+
+  for(points = 150; points <= width-150; points+=150){
+    storeCoordinate(points, randomGaussian(height/2, 60), coords);
+  }
+  var totalCoords = coords.length-1;
+
+  beginShape();
+  curveVertex(coords[0].x,coords[0].y)
+  for(i = 0; i<coords.length;i++){
+    point(coords[i].x,coords[i].y);
+    curveVertex(coords[i].x,coords[i].y)
+  }
+  curveVertex(coords[totalCoords].x,coords[totalCoords].y)
+  endShape();
+
 
   // Return a renderer, which is like p5.js 'draw' function
   return ({ p5, time, width, height }) => {
