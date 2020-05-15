@@ -24,19 +24,19 @@ canvasSketch((context) => {
 
   //blendMode(ADD);
   colorMode(HSB, 360, 100, 100, 100);
-  background(39, 98, 95);
+  background(197, 95, 55);
   strokeWeight(60);
   stroke( 67, 1, 95);
   noFill();
 
   var margin = 500;
   var spacingY = 250;
-  var spacingX = 250;
+  var spacingX = 500;
 
   // Initializing the array that will store all the points coordinate
   var coords = [];
 
-  var deviation = 15;
+  var deviation = 30;
 
   // initializing function that will store points in array
   function storeCoordinate(xVal, yVal, array) {
@@ -56,9 +56,19 @@ canvasSketch((context) => {
     beginShape();
     curveVertex(coords[0].x,coords[0].y)
     for(i = 0; i<coords.length;i++){
-      var ranNum = int(random(1,5));
+
+      var ranNum = int(random(1,15));
       point(coords[i].x,coords[i].y);
-      curveVertex(coords[i].x,coords[i].y);
+
+      if(ranNum > 1){
+        curveVertex(coords[i].x,coords[i].y);
+      }else{
+        curveVertex(coords[i].x,coords[i].y);
+        curveVertex(coords[i].x,coords[i].y);
+        endShape();
+        beginShape();
+      }
+
     }
     curveVertex(coords[totalCoords].x,coords[totalCoords].y)
     endShape();
