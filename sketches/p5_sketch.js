@@ -1,11 +1,11 @@
+// Import sketch objects
+import Bubble from './bubble.js';
+
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
 const horizontal = 12*300;
 const vertical =  12*300;
-
-// Import sketch objects
-import Bubble from './bubble.js';
 
 const settings = {
   // Pass the p5 instance, and preload function if necessary
