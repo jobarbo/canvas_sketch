@@ -1,24 +1,22 @@
-// Import sketch objects
-import Bubble from './bubble.js';
-
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
 
 const horizontal = 12 * 72;
 const vertical = 12 * 72;
-// AMIGA-STYLE "COPPER PLASMA"
 
-///////////////////
-// GLOBAL CONSTANTS
-
-const PLASMA_SCALE = 5;
-
-// size of each pixel block
-const BLOCK_SIZE = 8;
-
-///////////////
 // GLOBAL STATE
+
+// the 'varying's are shared between both vertex & fragment shaders
+let varying = 'precision highp float; varying vec2 vPos;';
+
+// the vertex shader is called for each vertex
+let vs = varying + 'attribute vec3 aPosition;' + 'void main() { vPos = (gl_Position = vec4(aPosition,1.0)).xy; }';
+
+// the fragment shader is called for each pixel
+let fs = varying + 'uniform vec2 p;' + 'uniform float r;' + 'const int I = 500;' + 'void main() {' + '  vec2 c = p + vPos * r, z = c;' + '  float n = 0.0;' + '  for (int i = I; i > 0; i --) {' + '    if(z.x*z.x+z.y*z.y > 4.0) {' + '      n = float(i)/float(I);' + '      break;' + '    }' + '    z = vec2(z.x*z.x-z.y*z.y, 2.0*z.x*z.y) + c;' + '  }' + '  gl_FragColor = vec4(0.5-cos(n*17.0)/2.0,0.5-cos(n*13.0)/2.0,0.5-cos(n*23.0)/2.0,1.0);' + '}';
+
+let mandel;
 
 // render buffer
 var graphics;
@@ -28,6 +26,7 @@ const settings = {
 	dimensions: [horizontal, vertical],
 	units: 'px',
 	bleed: horizontal / 8,
+	context: 'webgl',
 	//pixelsPerInch: 72,
 
 	// Turn on a render loop
@@ -41,40 +40,20 @@ const preload = () => {
 canvasSketch((context) => {
 	// Sketch setup
 	// Like p5.js 'setup' function
-	noSmooth();
+
+	// create and initialize the shader
+	mandel = createShader(vs, fs);
+	shader(mandel);
 	noStroke();
 
-	colorMode(HSB, 360, 100, 100, 100);
-
-	// create an off-screen graphics buffer
-	graphics = createGraphics(int(width / BLOCK_SIZE), int(height / BLOCK_SIZE));
+	// 'p' is the center point of the Mandelbrot image
+	mandel.setUniform('p', [-0.74364388703, 0.13182590421]);
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height }) => {
 		// Draw with p5.js things
-
-		// get the phase
-		var phase = millis() * 0.001;
-
-		// for each pixel in the graphics buffer...
-		graphics.loadPixels();
-		var i = 0;
-		for (var y = 0; y < graphics.height; ++y) {
-			for (var x = 0; x < graphics.width; ++x) {
-				// compute plasma color
-				var hue = phase * 15.0 + y / (PLASMA_SCALE * 0.5) + 8.0 * sin(phase + y / (PLASMA_SCALE * 4.0) + 4.0 * sin(phase + x / (PLASMA_SCALE * 8.0) + 0.5 * sin(phase + y / (PLASMA_SCALE * 4.0))));
-
-				// write pixel
-				var c = color(hue % 360, 70, 100);
-				graphics.pixels[i++] = red(c);
-				graphics.pixels[i++] = green(c);
-				graphics.pixels[i++] = blue(c);
-				graphics.pixels[i++] = 360;
-			}
-		}
-		graphics.updatePixels();
-
-		// draw the render buffer with scaling
-		image(graphics, 0, 0, BLOCK_SIZE * graphics.width, BLOCK_SIZE * graphics.height);
+		// 'r' is the size of the image in Mandelbrot-space
+		mandel.setUniform('r', 1.5 * exp(-6.5 * (1 + sin(millis() / 2000))));
+		quad(-1, -1, 1, -1, 1, 1, -1, 1);
 	};
 }, settings);
