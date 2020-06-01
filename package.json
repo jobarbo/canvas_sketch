@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "canvas-sketch": "^0.7.0",
+    "canvas-sketch-util": "^1.10.0",
+    "glslify": "^7.0.0",
     "p5": "^0.10.2",
     "three": "^0.109.0"
   }

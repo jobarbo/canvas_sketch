@@ -1,46 +1,76 @@
-/**
- * A Canvas2D example of a basic animation.
- * @author Matt DesLauriers (@mattdesl)
- */
+import canvasSketch from 'canvas-sketch';
+import createShader from 'canvas-sketch-util/shader';
+import glsl from 'glslify';
 
-const canvasSketch = require('canvas-sketch');
+// Note that you need to install `glslify` and `canvas-sketch-util`
+// separately from `canvas-sketch`
+
+// Configuration
+const width = 8,
+	height = 6,
+	pixelsPerInch = 300;
+
+const resolution = [width * pixelsPerInch, height * pixelsPerInch];
 
 const settings = {
-  // Enable an animation loop
-  animate: true,
-  // Set loop duration to 3 seconds
-  duration: 3,
-  // Use a small size for our GIF output
-  dimensions: [ 512, 512 ],
-  // Optionally specify an export frame rate, defaults to 30
-  fps: 30
+	context: 'webgl',
+	dimensions: [width, height],
+	units: 'in',
+	animate: true,
+	pixelsPerInch: pixelsPerInch,
 };
 
-// Start the sketch
-canvasSketch(() => {
-  return ({ context, width, height, playhead }) => {
-    // Fill the canvas with pink
-    context.fillStyle = 'pink';
-    context.fillRect(0, 0, width, height);
+// glsl code
+const frag = glsl`
+#ifdef GL_ES
+precision mediump float;
+#endif
 
-    // Get a seamless 0..1 value for our loop
-    const t = Math.sin(playhead * Math.PI);
+  uniform vec3      iResolution;           // viewport resolution (in pixels)
+  uniform float     iTime;                 // shader playback time (in seconds)
+  uniform float     iTimeDelta;            // render time (in seconds)
+  uniform int       iFrame;                // shader playback frame
+  uniform float     iChannelTime[4];       // channel playback time (in seconds)
+  uniform vec3      iChannelResolution[4]; // channel resolution (in pixels)
+  uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
+  uniform vec4      iDate;                 // (year, month, day, time in seconds)
+  uniform float     iSampleRate;           // sound sample rate (i.e., 44100)
 
-    // Animate the thickness with 'playhead' prop
-    const thickness = Math.max(5, Math.pow(t, 0.55) * width * 0.5);
+float plasma(vec2 uv, float t) {
+  // these are just random values with time added (I'm not sure if I actually need this many)
+  vec2 p0 = vec2(0.23 + t, 0.76 - 0.4 * t);
+  vec2 p1 = vec2(-0.77 + 0.1 * t, 0.11 + 0.7 * t);
+  vec2 p2 = vec2(0.63 - 0.3 * t, 0.26 + 0.2 * t);
+  vec2 p3 = vec2(-0.47 - 0.55 * t, 0.91 - 0.35 * t);
+  float a = 2.0;
+  // here is the formula
+  float grey = dot(sin(p0 + uv + a * sin(p1 + 1.6 * uv.yx)), sin(p2 + 1.4 * uv.yx + a * sin(p3 + 1.2 * uv)));
+  return 0.5 + grey * 0.25;
+}
 
-    // Rotate with PI to create a seamless animation
-    const rotation = playhead * Math.PI;
+void mainImage( out vec4 fragColor, in vec2 fragCoord )
+{
+  // Normalized pixel coordinates (from 0 to 1)
+  vec2 uv = fragCoord/iResolution.xy;
+  // Time varying pixel color
+  uv *= 4.0;
+  vec3 col = vec3(plasma(uv, 0.0 + iTime), plasma(uv, 0.3 + iTime), plasma(uv, 0.6 + iTime));
+  // Output to screen
+  fragColor = vec4(col,1.0);
+}
+`;
 
-    // Draw a rotating white rectangle around the center
-    const cx = width / 2;
-    const cy = height / 2;
-    const length = height * 0.5;
-    context.fillStyle = 'white';
-    context.save();
-    context.translate(cx, cy);
-    context.rotate(rotation);
-    context.fillRect(-thickness / 2, -length / 2, thickness, length);
-    context.restore();
-  };
-}, settings);
+// Drawing
+// Uniforms are passed to your shaders here in the `uniforms` parameter.
+const sketch = ({ gl }) => {
+	return createShader({
+		gl,
+		frag,
+		uniforms: {
+			time: ({ time }) => time,
+			resolution: resolution,
+		},
+	});
+};
+
+canvasSketch(sketch, settings);
