@@ -28,21 +28,29 @@ canvasSketch((context) => {
 	// Like p5.js 'setup' function
 	//const Bubble = require('./Bubble');
 
-	//blendMode(ADD);
+	//blendMode(SCREEN);
 	colorMode(HSB, 360, 100, 100, 100);
 	background(60, 5, 95);
+	let bubbles = [];
+	let xoff;
+	let yoff;
+	let xStep;
+	let yStep;
 
-	let bubble1 = new Bubble();
-
-	let bubble2 = new Bubble();
-
+	for (let i = 0; i < 25; i++) {
+		xoff = randomGaussian(0.05, 0.5);
+		yoff = randomGaussian(0.05, 0.5);
+		xStep = randomGaussian(0.0000005, 0.0000003);
+		yStep = randomGaussian(0.5, 0.003);
+		bubbles[i] = new Bubble(xoff, yoff, xStep, yStep);
+	}
+	console.log(bubbles);
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height }) => {
 		// Draw with p5.js things
-
-		bubble1.move();
-		bubble2.move();
-		bubble1.display();
-		bubble2.display();
+		for (let i = 0; i < 25; i++) {
+			bubbles[i].display();
+			bubbles[i].move();
+		}
 	};
 }, settings);
