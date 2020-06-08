@@ -44,7 +44,5 @@ canvasSketch((context) => {
 		bubble2.move();
 		bubble1.display();
 		bubble2.display();
-		bubble3.display();
-		bubble3.move();
 	};
 }, settings);
