@@ -33,7 +33,7 @@ canvasSketch((context) => {
 	background(60, 5, 95);
 
 	let bubble1 = new Bubble();
-
+	let bubble3 = new Bubble();
 	let bubble2 = new Bubble();
 
 	// Return a renderer, which is like p5.js 'draw' function
@@ -44,5 +44,7 @@ canvasSketch((context) => {
 		bubble2.move();
 		bubble1.display();
 		bubble2.display();
+		bubble3.display();
+		bubble3.move();
 	};
 }, settings);
