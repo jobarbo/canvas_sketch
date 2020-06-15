@@ -5,7 +5,7 @@ const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
 const horizontal = 12 * 300;
-const vertical = 12 * 300;
+const vertical = 18 * 300;
 
 const settings = {
 	// Pass the p5 instance, and preload function if necessary
@@ -31,18 +31,18 @@ canvasSketch((context) => {
 	//blendMode(ADD);
 	colorMode(HSB, 360, 100, 100, 100);
 	background(60, 5, 95);
+	let bubble = [];
 
-	let bubble1 = new Bubble();
-	let bubble3 = new Bubble();
-	let bubble2 = new Bubble();
+	for (let i = 0; i <= 50; i++) {
+		bubble[i] = new Bubble();
+	}
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height }) => {
 		// Draw with p5.js things
-
-		bubble1.move();
-		bubble2.move();
-		bubble1.display();
-		bubble2.display();
+		for (let i = 0; i <= 50; i++) {
+			bubble[i].move();
+			bubble[i].display();
+		}
 	};
 }, settings);
