@@ -31,7 +31,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	//blendMode(ADD);
 	colorMode(HSB, 360, 100, 100, 100);
-	background(60, 5, 95);
+	background(203, 83, 84);
 	let bubble = [];
 
 	for (let i = 0; i <= 50; i++) {
@@ -53,7 +53,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			stroke(0);
 			noFill();
 			strokeWeight(10);
-			rect(bleed, bleed, trimWidth, trimHeight);
+			//rect(bleed, bleed, trimWidth, trimHeight);
 		}
 	};
 }, settings);
