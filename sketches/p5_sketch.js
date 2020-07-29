@@ -12,7 +12,7 @@ const settings = {
 	p5: true,
 	dimensions: [horizontal, vertical],
 	units: 'px',
-	bleed: 1 * 300,
+	//bleed: 1 * 300,
 	// dimension 14 x 20 avec bleed
 	// pixelsPerInch: 72,
 
@@ -31,10 +31,11 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	//blendMode(ADD);
 	colorMode(HSB, 360, 100, 100, 100);
-	background(203, 83, 84);
+	background(0, 0, 15);
 	let bubble = [];
+	let totalNum = 100;
 
-	for (let i = 0; i <= 50; i++) {
+	for (let i = 0; i <= totalNum; i++) {
 		bubble[i] = new Bubble();
 	}
 
@@ -44,7 +45,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		// Draw with p5.js things
 
-		for (let i = 0; i <= 50; i++) {
+		for (let i = 0; i <= totalNum; i++) {
 			bubble[i].move();
 			bubble[i].display();
 		}

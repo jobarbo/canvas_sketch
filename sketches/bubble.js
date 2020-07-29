@@ -18,10 +18,14 @@ export default class Bubble {
 	display() {
 		if (this.diameter <= 0) {
 			noStroke();
-		} else {
-			stroke(203, 83, 84);
+		} else if (this.diameter < 30) {
+			strokeWeight(this.diameter / 5);
+			stroke(0, 0, 15);
 			fill(0, 0, 90, 100);
 			ellipse(this.x, this.y, this.diameter, this.diameter);
+		} else {
+			noStroke();
+			noFill();
 		}
 	}
 }
