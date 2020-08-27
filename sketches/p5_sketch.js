@@ -33,7 +33,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	colorMode(HSB, 360, 100, 100, 100);
 	background(0, 0, 15);
 	let bubble = [];
-	let totalNum = 100;
+	let totalNum = 10;
 
 	for (let i = 0; i <= totalNum; i++) {
 		bubble[i] = new Bubble();
@@ -51,7 +51,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		}
 
 		if (!exporting && bleed > 0) {
-			stroke(0);
+			noStroke(0);
 			noFill();
 			strokeWeight(10);
 			//rect(bleed, bleed, trimWidth, trimHeight);

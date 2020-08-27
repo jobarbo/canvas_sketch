@@ -1,17 +1,17 @@
 export default class Bubble {
 	constructor() {
-		this.x = random(width, width + 100);
-		this.y = random(height);
-		this.diameter = random(20, 420);
-		this.speed = 20;
+		this.x = random(width);
+		this.y = random(0, 0 - 5);
+		this.diameter = random(60, 420);
+		this.speed = 0;
 	}
 	move() {
-		if (this.diameter <= 0) {
+		if (this.diameter <= 50) {
 			this.diameter = 0;
 		} else {
-			this.diameter += random(-1.3, 1);
-			this.x += random(-this.speed - 5, this.speed);
-			this.y += random(-this.speed - 8, this.speed);
+			this.diameter += random(-2.5, 1);
+			this.x += random(this.speed - 2, this.speed + 2);
+			this.y += random(this.speed + 15, this.speed);
 		}
 	}
 
@@ -19,9 +19,8 @@ export default class Bubble {
 		if (this.diameter <= 0) {
 			noStroke();
 		} else {
-			strokeWeight(10);
-			stroke(0, 0, 15);
-			fill(0, 0, 90, 100);
+			noStroke();
+			fill(45, 20, 90, 100);
 			ellipse(this.x, this.y, this.diameter, this.diameter);
 		}
 	}
