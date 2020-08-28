@@ -28,20 +28,16 @@ canvasSketch((context) => {
 		yoff = 0.0; // 2nd dimension of perlin noise
 		skyMinY = 0;
 		skyMaxY = 0;
-		waterMinY = height / 1.5;
-		waterMaxY = height / 1.3;
-		landHue = 65;
-		landSat = 15;
+		landMinY = height / 4;
+		landMaxY = height / 2;
+		landHue = 37;
+		landSat = 26;
 		landBright = 51;
-		skyHue = 20;
-		skySat = 0;
+		skyHue = 30;
+		skySat = 20;
 		skyBright = 60;
-		waterHue = 211;
-		waterSat = 20;
-		waterBright = 60;
 		landscapeStep = 100;
 		skyStep = 2;
-		waterStep = 20;
 		noiseSeed();
 		noStroke();
 	}
@@ -49,27 +45,23 @@ canvasSketch((context) => {
 	function createLandscape() {
 		let xoff = 0;
 
-		for (let i = 0; i < 2; i++) {
+		for (let i = 0; i < 4; i++) {
 			beginShape();
 			fill(landHue, landSat, landBright);
-			landMinY = height / random(2, 3);
-			landMaxY = height / random(1.5, 2);
 			for (let x = 0; x <= width + landscapeStep; x += landscapeStep) {
 				let y = map(noise(xoff, yoff), 0, 1, landMaxY, landMinY);
 
 				curveVertex(x, y);
-				landMinY += 60;
+
 				xoff += 0.08;
 			}
-			//landMinY += height / 7;
-			landMaxY += height / 15;
+			landMinY += height / 7;
+			landMaxY += height / 6;
 			landHue += 5;
 			landSat += 5;
 			landBright -= 5;
-			vertex(width, height / 1.3);
-			vertex(width, height / 1.3);
-			vertex(0, height / 1.3);
-			vertex(0, height / 1.3);
+			vertex(width, height);
+			vertex(0, height);
 			endShape(CLOSE);
 		}
 		yoff += 0.1;
@@ -100,41 +92,15 @@ canvasSketch((context) => {
 		yoff += 0.1;
 	}
 
-	function makeWater() {
-		//background(187, 34, 70);
-		let xoff = 0;
-		let waterAlpha = 100;
-		for (let i = 0; i < 5; i++) {
-			beginShape();
-			fill(waterHue, waterSat, waterBright, waterAlpha);
-			for (let x = 0; x <= width + waterStep; x += waterStep) {
-				let y = map(noise(xoff, yoff), 0, 1, waterMaxY, waterMinY);
-				curveVertex(x, y);
-				xoff += 0.005;
-			}
-			waterMinY += height / 30;
-			waterMaxY += height / 20;
-			waterHue -= 2;
-			waterSat += 5;
-			waterBright += 5;
-			vertex(width, height);
-			vertex(0, height);
-			endShape(CLOSE);
-		}
-		yoff += 0.1;
-	}
-
 	function createSun() {
 		fill(20, 60, 100);
-		ellipse(random(0, width), height / 2, width / 3, width / 3);
+		ellipse(random(0, width), height / 2.5, width / 3, width / 3);
 	}
 
 	init();
 	makeSky();
 	createSun();
 	createLandscape();
-	makeWater();
-
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height }) => {
 		// Draw with p5.js things
