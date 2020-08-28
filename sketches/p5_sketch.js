@@ -5,7 +5,7 @@ new p5();
 const settings = {
 	// Pass the p5 instance, and preload function if necessary
 	p5: true,
-	dimensions: [12 * 300, 18 * 300],
+	dimensions: [30 * 300, 20 * 300],
 	units: 'px',
 	//pixelsPerInch: 72,
 
@@ -58,7 +58,7 @@ canvasSketch((context) => {
 				let y = map(noise(xoff, yoff), 0, 1, landMaxY, landMinY);
 
 				curveVertex(x, y);
-				landMinY += 60;
+				landMinY += 80;
 				xoff += 0.08;
 			}
 			//landMinY += height / 7;
@@ -87,7 +87,7 @@ canvasSketch((context) => {
 				curveVertex(x, y);
 				xoff += 0.0005;
 			}
-			skyMinY += height / 20;
+			skyMinY += height / 10;
 			skyMaxY += height / 8;
 			skyHue -= 2;
 			skySat += 5;
@@ -126,7 +126,7 @@ canvasSketch((context) => {
 
 	function createSun() {
 		fill(20, 60, 100);
-		ellipse(random(0, width), height / 2, width / 3, width / 3);
+		ellipse(random(0, width), height / 2, width / 6, width / 6);
 	}
 
 	init();
