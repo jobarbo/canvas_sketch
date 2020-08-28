@@ -5,7 +5,7 @@ new p5();
 const settings = {
 	// Pass the p5 instance, and preload function if necessary
 	p5: true,
-	dimensions: [12 * 300, 18 * 300],
+	dimensions: [14 * 300, 20 * 300],
 	units: 'px',
 	//pixelsPerInch: 72,
 
