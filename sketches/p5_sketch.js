@@ -5,7 +5,7 @@ new p5();
 const settings = {
 	// Pass the p5 instance, and preload function if necessary
 	p5: true,
-	dimensions: [12 * 300, 18 * 300],
+	dimensions: [14 * 300, 20 * 300],
 	units: 'px',
 	//pixelsPerInch: 72,
 
@@ -30,13 +30,13 @@ canvasSketch((context) => {
 		skyMaxY = 0;
 		landMinY = height / 4;
 		landMaxY = height / 2;
-		landHue = 37;
-		landSat = 26;
-		landBright = 51;
-		skyHue = 30;
-		skySat = 20;
+		landHue = 211;
+		landSat = 100;
+		landBright = 30;
+		skyHue = 187;
+		skySat = 86;
 		skyBright = 60;
-		landscapeStep = 100;
+		landscapeStep = 200;
 		skyStep = 2;
 		noiseSeed();
 		noStroke();
@@ -45,14 +45,13 @@ canvasSketch((context) => {
 	function createLandscape() {
 		let xoff = 0;
 
-		for (let i = 0; i < 4; i++) {
+		for (let i = 0; i < 3; i++) {
 			beginShape();
 			fill(landHue, landSat, landBright);
 			for (let x = 0; x <= width + landscapeStep; x += landscapeStep) {
 				let y = map(noise(xoff, yoff), 0, 1, landMaxY, landMinY);
 
 				curveVertex(x, y);
-
 				xoff += 0.08;
 			}
 			landMinY += height / 7;
@@ -68,10 +67,10 @@ canvasSketch((context) => {
 	}
 
 	function makeSky() {
-		background(30, 20, 40);
+		//background(30, 20, 40);
 		let xoff = 0;
-		let skyAlpha = 60;
-		for (let i = 0; i < 4; i++) {
+		let skyAlpha = 100;
+		for (let i = 0; i < 1; i++) {
 			beginShape();
 			fill(skyHue, skySat, skyBright, skyAlpha);
 			for (let x = 0; x <= width + skyStep; x += skyStep) {
@@ -92,15 +91,26 @@ canvasSketch((context) => {
 		yoff += 0.1;
 	}
 
-	function createSun() {
-		fill(20, 60, 100);
-		ellipse(random(0, width), height / 2.5, width / 3, width / 3);
+	function createMoon() {
+		fill(20, 0, 100);
+		ellipse(random(0, width), height / 3, width / 6, width / 6);
+	}
+
+	function createStars() {
+		for (let stars = 0; stars <= 400; stars++) {
+			starWidth = random(5, 15);
+			fill(20, 0, 100);
+			console.log(stars);
+			ellipse(random(0, width), random(0, height / 2), starWidth, starWidth);
+		}
 	}
 
 	init();
 	makeSky();
-	createSun();
+	createStars();
+	createMoon();
 	createLandscape();
+
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height }) => {
 		// Draw with p5.js things
