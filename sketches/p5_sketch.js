@@ -1,59 +1,44 @@
 // Import sketch objects
-import Bubble from './bubble.js';
-
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
 const horizontal = 12 * 300;
 const vertical = 18 * 300;
+// dimension 14 x 20 avec bleed
 
 const settings = {
 	// Pass the p5 instance, and preload function if necessary
 	p5: true,
 	dimensions: [horizontal, vertical],
 	units: 'px',
-	bleed: 1 * 300,
-	// dimension 14 x 20 avec bleed
+	context: 'webgl',
+	// bleed: 1 * 300,
+
 	// pixelsPerInch: 72,
 
 	// Turn on a render loop
 	animate: true,
 };
+var theShader;
 
 const preload = () => {
-	// You can use p5.loadImage() here, etc...
+	theShader = loadShader('sketches/shader.vert', 'sketches/shader.frag');
 };
+
+preload();
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup
 	// Like p5.js 'setup' function
-	//const Bubble = require('./Bubble');
-
-	//blendMode(ADD);
-	colorMode(HSB, 360, 100, 100, 100);
-	background(60, 5, 95);
-	let bubble = [];
-
-	for (let i = 0; i <= 50; i++) {
-		bubble[i] = new Bubble();
-	}
-
 	// Visualize the trim area with a yellow guide (ignored on export)
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		// Draw with p5.js things
-
-		for (let i = 0; i <= 50; i++) {
-			bubble[i].move();
-			bubble[i].display();
-		}
-
-		if (!exporting && bleed > 0) {
-			stroke(0);
-			noFill();
-			strokeWeight(10);
-			rect(bleed, bleed, trimWidth, trimHeight);
-		}
+		shader(theShader);
+		theShader.setUniform('iResolution', [width, height]);
+		theShader.setUniform('iFrame', frameCount);
+		// rect gives us some geometry on the screen
+		rect(0, 0, width, height);
 	};
 }, settings);
