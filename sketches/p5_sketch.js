@@ -1,5 +1,5 @@
 // Import sketch objects
-//import Bubble from './bubble.js';
+import Pen from './pen.js';
 
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
@@ -31,9 +31,14 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	//blendMode(ADD);
 	colorMode(HSB, 360, 100, 100, 100);
-
 	background(60, 5, 90);
-	stroke(0);
+
+	let penNum = 500;
+	let pen = [];
+
+	for (let i = 0; i <= penNum; i++) {
+		pen[i] = new Pen();
+	}
 
 	// Visualize the trim area with a yellow guide (ignored on export)
 
@@ -41,7 +46,12 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		// Draw with p5.js things
 
-		//exporting = true;
+		for (let i = 0; i <= penNum; i++) {
+			pen[i].move();
+			pen[i].display();
+		}
+
+		exporting = true;
 		if (!exporting && bleed > 0) {
 			stroke(0);
 			noFill();
