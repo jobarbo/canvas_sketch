@@ -31,7 +31,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	//blendMode(ADD);
 	colorMode(HSB, 360, 100, 100, 100);
-	background(60, 5, 90);
+	background(0, 0, 10);
 
 	let penNum = 500;
 	let pen = [];

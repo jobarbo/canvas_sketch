@@ -17,8 +17,8 @@ export default class Pen {
 		let xc = constrain(this.x, 600, width - 600);
 		let yc = constrain(this.y, 600, height - 600);
 
-		stroke(60, 5, 95, 10);
-		fill(0, 0, 0, 10);
+		stroke(0, 0, 10, 10);
+		fill(60, 5, 95, 10);
 		ellipse(xc, yc, this.diameter, this.diameter);
 	}
 }
