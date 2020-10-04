@@ -4,8 +4,8 @@ import Pen from './pen.js';
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 12 * 300;
-const vertical = 18 * 300;
+const horizontal = 30 * 300;
+const vertical = 20 * 300;
 
 const settings = {
 	// Pass the p5 instance, and preload function if necessary
@@ -33,7 +33,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	colorMode(HSB, 360, 100, 100, 100);
 	background(0, 0, 10);
 
-	let penNum = 500;
+	let penNum = 100;
 	let pen = [];
 
 	for (let i = 0; i <= penNum; i++) {
