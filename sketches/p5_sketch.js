@@ -33,7 +33,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	colorMode(HSB, 360, 100, 100, 100);
 	background(0, 0, 10);
 
-	let penNum = 100;
+	let penNum = 500;
 	let pen = [];
 
 	for (let i = 0; i <= penNum; i++) {

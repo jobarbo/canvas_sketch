@@ -1,17 +1,15 @@
 export default class Pen {
 	constructor() {
-		this.x = width / 2;
-		this.y = height / 2;
+		this.x = random(0, width);
+		this.y = height - 600;
 		this.diameter = random(1, 15);
-		this.speed = 40;
+		this.speed = 10;
 		this.dxArray = [-1, 1];
-		this.dyArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 1];
+		this.dyArray = [-1, 1];
 		this.dx = Math.floor(random(this.dxArray));
 		this.dy = Math.floor(random(this.dyArray));
 	}
 	move() {
-		this.dx = Math.floor(random(this.dxArray));
-		this.dy = Math.floor(random(this.dyArray));
 		this.x += random(-this.speed + this.dx, this.speed + this.dx);
 		this.y += random(-this.speed + this.dy, this.speed + this.dy);
 	}
