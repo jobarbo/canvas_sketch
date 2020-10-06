@@ -1,25 +1,24 @@
 export default class Pen {
-	constructor() {
-		this.x = random(0, width);
-		this.y = height - 600;
-		this.diameter = random(1, 15);
-		this.speed = 10;
-		this.dxArray = [-1, 1];
-		this.dyArray = [-1, 1];
-		this.dx = Math.floor(random(this.dxArray));
-		this.dy = Math.floor(random(this.dyArray));
+	constructor(y) {
+		this.x = 600;
+		this.y = y;
+		this.diameter = random(3, 20);
+		this.speedX = 5;
+		this.speedY = 5;
 	}
-	move() {
-		this.x += random(-this.speed + this.dx, this.speed + this.dx);
-		this.y += random(-this.speed + this.dy, this.speed + this.dy);
+	move(dx, dy) {
+		//this.x += dx + random(-this.speedX, this.speedX);
+		this.x += dx + this.speedX;
+		this.y += dy;
 	}
 
 	display() {
 		let xc = constrain(this.x, 600, width - 600);
 		let yc = constrain(this.y, 600, height - 600);
 
-		stroke(0, 0, 10, 10);
-		fill(60, 5, 95, 10);
+		strokeWeight(1);
+		stroke(0, 0, 10, 50);
+		fill(60, 5, 95, 100);
 		ellipse(xc, yc, this.diameter, this.diameter);
 	}
 }

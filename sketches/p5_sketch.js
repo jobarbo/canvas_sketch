@@ -33,11 +33,15 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	colorMode(HSB, 360, 100, 100, 100);
 	background(0, 0, 10);
 
-	let penNum = 500;
+	let penNum = 300;
 	let pen = [];
+	let startY = 400;
+	let dxArr = [1];
+	let dyArr = [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 	for (let i = 0; i <= penNum; i++) {
-		pen[i] = new Pen();
+		pen[i] = new Pen(startY);
+		startY += 100;
 	}
 
 	// Visualize the trim area with a yellow guide (ignored on export)
@@ -45,11 +49,16 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		// Draw with p5.js things
-
+		let dx = random(dxArr);
+		let dy = random(dyArr);
 		for (let i = 0; i <= penNum; i++) {
-			pen[i].move();
+			pen[i].move(dx, dy);
 			pen[i].display();
 		}
+		strokeWeight(15);
+		stroke(60, 5, 95, 100);
+		noFill();
+		rect(600, 600, width - 1200, height - 1200);
 
 		exporting = true;
 		if (!exporting && bleed > 0) {
