@@ -33,11 +33,10 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	colorMode(HSB, 360, 100, 100, 100);
 	background(0, 0, 10);
 
-	let penNum = 300;
+	let penNum = 250;
 	let pen = [];
-	let startY = 400;
-	let dxArr = [1];
-	let dyArr = [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+	let yOff = 0;
+	let startY = -5000;
 
 	for (let i = 0; i <= penNum; i++) {
 		pen[i] = new Pen(startY);
@@ -49,12 +48,13 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		// Draw with p5.js things
-		let dx = random(dxArr);
-		let dy = random(dyArr);
+
 		for (let i = 0; i <= penNum; i++) {
-			pen[i].move(dx, dy);
+			pen[i].move(yOff);
 			pen[i].display();
 		}
+		yOff += 0.001;
+
 		strokeWeight(15);
 		stroke(60, 5, 95, 100);
 		noFill();
