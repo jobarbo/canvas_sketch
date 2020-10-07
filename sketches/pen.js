@@ -5,9 +5,8 @@ export default class Pen {
 		this.x = 600;
 		this.startY = startY;
 		this.y = startY;
-		this.diameter = random(3, 20);
-		this.speedX = 5;
-		this.speedY = 5;
+		this.diameter = random(1, 3);
+		this.speedX = 50;
 		this.prevY = this.y;
 		this.prevX = 600;
 	}
