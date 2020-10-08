@@ -2,34 +2,35 @@ import { LinearEncoding } from 'three';
 
 export default class Pen {
 	constructor(startY) {
-		this.x = 600;
+		this.x = -300;
 		this.startY = startY;
 		this.y = startY;
-		this.diameter = random(1, 3);
-		this.speedX = 50;
+		this.dArr = [30, 120, 240];
+		this.diameter = random(this.dArr);
+		this.speedX = 5;
 		this.prevY = this.y;
-		this.prevX = 600;
+		this.prevX = this.x;
 	}
 	move(yoff) {
 		this.prevY = this.y;
 		this.prevX = this.x;
-		if (this.x >= width - 600) {
-			this.x = this.x;
-			this.y = this.y;
-		} else {
-			this.x += this.speedX;
-		}
-		this.y = map(noise(yoff), 0, 1, 600, height - 600) + (this.startY - 600);
+		this.x += this.speedX;
+
+		this.y = map(noise(yoff), 0, 1, 0, height) + this.startY;
 	}
 
 	display() {
-		let xc = constrain(this.x, 600, width - 600);
-		let yc = constrain(this.y, 600, height - 600);
-		let pxc = constrain(this.prevX, 600, width - 600);
-		let pyc = constrain(this.prevY, 600, height - 600);
+		let xc = constrain(this.x - 100, 0, width + 100);
+		let yc = constrain(this.y - 100, 0, height + 100);
+		let pxc = constrain(this.prevX - 100, 0, width + 100);
+		let pyc = constrain(this.prevY - 100, 0, height + 100);
 
+		if (this.x <= 100) {
+			stroke(60, 5, 95, 0);
+		} else {
+			stroke(60, 5, 95, 100);
+		}
 		strokeWeight(this.diameter);
-		stroke(60, 5, 95, 100);
 		line(pxc, pyc, xc, yc);
 
 		strokeWeight(1);

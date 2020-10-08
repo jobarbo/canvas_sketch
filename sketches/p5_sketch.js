@@ -32,15 +32,19 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	//blendMode(ADD);
 	colorMode(HSB, 360, 100, 100, 100);
 	background(0, 0, 10);
+	ellipseMode(CENTER);
 
-	let penNum = 600;
+	let penNum = 2;
 	let pen = [];
 	let yOff = 0;
-	let startY = -5000;
+	let startY = 0;
+
+	fill(60, 5, 95, 100);
+	ellipse(random(900, width - 900), random(height / 3, 900), 1000, 1000);
 
 	for (let i = 0; i <= penNum; i++) {
 		pen[i] = new Pen(startY);
-		startY += 30;
+		startY += 400;
 	}
 
 	// Visualize the trim area with a yellow guide (ignored on export)
@@ -53,7 +57,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			pen[i].move(yOff);
 			pen[i].display();
 		}
-		yOff += 0.003;
+		yOff += 0.001;
 
 		strokeWeight(15);
 		stroke(60, 5, 95, 100);
