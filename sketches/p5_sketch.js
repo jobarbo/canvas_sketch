@@ -1,5 +1,5 @@
 // Import sketch objects
-import Pen from './pen.js';
+//import Pen from './pen.js';
 
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
@@ -32,19 +32,54 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	//blendMode(ADD);
 	colorMode(HSB, 360, 100, 100, 100);
 	background(0, 0, 10);
-	ellipseMode(CENTER);
 
-	let penNum = 2;
-	let pen = [];
-	let yOff = 0;
-	let startY = 0;
+	// -- Frame -- //
+	strokeWeight(15);
+	stroke(60, 5, 95, 100);
+	noFill();
+	rect(600, 600, width - 1200, height - 1200);
 
-	fill(60, 5, 95, 100);
-	ellipse(random(900, width - 900), random(height / 3, 900), 1000, 1000);
+	translate(width / 2, height - 600);
+	blendMode(SUBTRACT);
+	for (let i = 1; i < 10000; i++) {
+		let sequence = [];
+		let n = i;
+		while (n != 1) {
+			n = collatz(n);
+			sequence.push(n);
+		}
+		sequence.push(1);
+		sequence.reverse();
 
-	for (let i = 0; i <= penNum; i++) {
-		pen[i] = new Pen(startY);
-		startY += 400;
+		let len = 45;
+		let angle = 0.15;
+		resetMatrix();
+		translate(width / 2, height - 600);
+		for (let j = 0; j < sequence.length; j++) {
+			let value = sequence[j];
+			if (value % 2 == 0) {
+				rotate(angle);
+			} else {
+				rotate(-angle);
+			}
+			strokeCap(SQUARE);
+			strokeJoin(ROUND);
+			strokeWeight(5);
+			stroke(60, 5, 95, 10);
+			line(0, 0, 0, -len);
+			translate(0, -len);
+		}
+		//console.log(steps);
+	}
+
+	function collatz(n) {
+		// Even
+		if (n % 2 == 0) {
+			return n / 2;
+			// Odd
+		} else {
+			return (n * 3 + 1) / 2;
+		}
 	}
 
 	// Visualize the trim area with a yellow guide (ignored on export)
@@ -52,17 +87,6 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		// Draw with p5.js things
-
-		for (let i = 0; i <= penNum; i++) {
-			pen[i].move(yOff);
-			pen[i].display();
-		}
-		yOff += 0.001;
-
-		strokeWeight(15);
-		stroke(60, 5, 95, 100);
-		noFill();
-		rect(600, 600, width - 1200, height - 1200);
 
 		exporting = true;
 		if (!exporting && bleed > 0) {
