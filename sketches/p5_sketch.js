@@ -4,7 +4,7 @@
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 30 * 300;
+const horizontal = 14 * 300;
 const vertical = 20 * 300;
 
 const settings = {
@@ -31,62 +31,48 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	//blendMode(ADD);
 	colorMode(HSB, 360, 100, 100, 100);
-	background(0, 0, 10);
 
-	// -- Frame -- //
-	strokeWeight(15);
-	stroke(60, 5, 95, 100);
-	noFill();
-	rect(600, 600, width - 1200, height - 1200);
+	let wCenter = width / 2;
+	let hCenter = height / 2;
+	let baseHeight = height - 1200;
+	let angle = PI / 4;
 
-	translate(width / 2, height - 600);
-	blendMode(SUBTRACT);
-	for (let i = 1; i < 10000; i++) {
-		let sequence = [];
-		let n = i;
-		while (n != 1) {
-			n = collatz(n);
-			sequence.push(n);
-		}
-		sequence.push(1);
-		sequence.reverse();
+	let slider = createSlider(0, TWO_PI, PI / 4, 0.01);
 
-		let len = 45;
-		let angle = 0.15;
-		resetMatrix();
-		translate(width / 2, height - 600);
-		for (let j = 0; j < sequence.length; j++) {
-			let value = sequence[j];
-			if (value % 2 == 0) {
-				rotate(angle);
-			} else {
-				rotate(-angle);
-			}
-			strokeCap(SQUARE);
-			strokeJoin(ROUND);
-			strokeWeight(5);
-			stroke(60, 5, 95, 10);
-			line(0, 0, 0, -len);
-			translate(0, -len);
-		}
-		//console.log(steps);
-	}
+	function branch(len, sw) {
+		stroke(60, 5, 95, 100);
+		strokeCap(ROUND);
+		strokeWeight(sw);
+		line(0, 0, 0, 0);
+		translate(0, -len);
 
-	function collatz(n) {
-		// Even
-		if (n % 2 == 0) {
-			return n / 2;
-			// Odd
-		} else {
-			return (n * 3 + 1) / 2;
+		if (len > 10) {
+			push();
+			rotate(angle);
+			branch(len * 0.67, sw * 0.7);
+			pop();
+			push();
+			rotate(-angle);
+			branch(len * 0.57, sw * 0.7);
+			pop();
 		}
 	}
-
-	// Visualize the trim area with a yellow guide (ignored on export)
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		// Draw with p5.js things
+		background(0, 0, 10);
+
+		// -- Frame -- //
+		strokeWeight(15);
+		stroke(60, 5, 95, 100);
+		noFill();
+		rect(600, 600, width - 1200, height - 1200);
+		// --      -- //
+
+		angle = slider.value();
+		translate(wCenter, baseHeight);
+		branch(4000, 250);
 
 		exporting = true;
 		if (!exporting && bleed > 0) {
