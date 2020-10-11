@@ -4,7 +4,7 @@
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 14 * 300;
+const horizontal = 30 * 300;
 const vertical = 20 * 300;
 
 const settings = {
