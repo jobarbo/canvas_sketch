@@ -53,7 +53,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			pop();
 			push();
 			rotate(-angle);
-			branch(len * 0.57, sw * 0.7);
+			branch(len * 0.67, sw * 0.7);
 			pop();
 		}
 	}
