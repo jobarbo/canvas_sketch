@@ -34,8 +34,12 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	let wCenter = width / 2;
 	let hCenter = height / 2;
-	let baseHeight = height - 1200;
+	let baseHeight = height - 625;
 	let angle = PI / 4;
+
+	let radius = random(800, 1000);
+	let sunPositionY = random(600 + radius, height / 3);
+	let sunPositionX = random(600 + radius, width - (600 + radius));
 
 	let slider = createSlider(0, TWO_PI, PI / 4, 0.01);
 
@@ -43,17 +47,18 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		stroke(60, 5, 95, 100);
 		strokeCap(ROUND);
 		strokeWeight(sw);
-		line(0, 0, 0, 0);
+		line(0, 0, 0, -len);
+		//point(-len, 0, 0, -len);
 		translate(0, -len);
 
 		if (len > 10) {
 			push();
 			rotate(angle);
-			branch(len * 0.67, sw * 0.7);
+			branch(len * 0.65, sw * 0.7);
 			pop();
 			push();
 			rotate(-angle);
-			branch(len * 0.67, sw * 0.7);
+			branch(len * 0.75, sw * 0.7);
 			pop();
 		}
 	}
@@ -69,10 +74,11 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		noFill();
 		rect(600, 600, width - 1200, height - 1200);
 		// --      -- //
-
+		fill(60, 5, 95, 100);
+		ellipse(sunPositionX, sunPositionY, radius, radius);
 		angle = slider.value();
 		translate(wCenter, baseHeight);
-		branch(4000, 250);
+		branch(1000, 50);
 
 		exporting = true;
 		if (!exporting && bleed > 0) {
