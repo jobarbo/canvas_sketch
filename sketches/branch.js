@@ -9,8 +9,8 @@ export default class Branch {
 	}
 
 	jitter() {
-		this.end.x += random(-5, 5);
-		this.end.y += random(-5, 5);
+		this.end.x += random(-1, 1);
+		this.end.y += random(-1, 1);
 	}
 	show() {
 		strokeWeight(this.bWidth);
