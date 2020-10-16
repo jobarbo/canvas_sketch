@@ -28,7 +28,7 @@ const preload = () => {
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup
 	// Like p5.js 'setup' function
-
+	background(0, 0, 10);
 	let x = 0.01;
 	let y = 0;
 	let z = 0;
@@ -39,9 +39,9 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	let points = new Array();
 
-	blendMode(ADD);
+	blendMode(BLEND);
 	colorMode(HSB, 360, 100, 100, 100);
-	background(0, 0, 10);
+
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		// Draw with p5.js things
@@ -55,14 +55,14 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 		let dt = 0.01;
 		let dx = a * (y - x) * dt;
-		let dy = (x * (b - z) - y) * dt;
+		let dy = (x * (b - z) + y) * dt;
 		let dz = (x * y - c * z) * dt;
 		x = x + dx;
 		y = y + dy;
 		z = z + dz;
 
-		points.push(new p5.Vector(x, y, z));
-		translate(0, 0, -80);
+		points.push(new p5.Vector(x, y));
+
 		//let camX = map(mouseX, 0, width, -5000, 5000);
 		//let camY = map(mouseY, 0, height, -5000, 5000);
 		//camera(camX, camY, height / 2.0 / tan((PI * 30.0) / 90.0), 0, 0, 0, 0, 1, 0);
@@ -77,9 +77,9 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		beginShape();
 
 		for (let v of points) {
-			stroke(60, 5, 95, 10);
+			stroke(60, 5, 95, 100);
 			noFill();
-			curveVertex(v.x, v.y, v.z);
+			curveVertex(v.x, v.y);
 			//var offset = p5.Vector.random3D();
 			//offset.mult(0.1);
 			//v.add(offset);
