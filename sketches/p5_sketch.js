@@ -2,8 +2,8 @@
 //import Branch from './branch.js';
 
 const canvasSketch = require('canvas-sketch');
-const p5 = require('p5');
-new p5();
+const p5js = require('p5');
+new p5js();
 const horizontal = 30 * 300;
 const vertical = 20 * 300;
 
@@ -28,24 +28,23 @@ const preload = () => {
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup
 	// Like p5.js 'setup' function
-	background(0, 0, 10);
-	let x = 0.01;
-	let y = 0;
+	//background(0, 0, 10);
+	let x = 0.000001;
+	let y = 5;
 	let z = 0;
 
 	let a = 10;
-	let b = 25;
-	let c = 10.0 / 5.0;
+	let b = 28;
+	let c = 8.0 / 3.0;
 
 	let points = new Array();
 
-	blendMode(BLEND);
 	colorMode(HSB, 360, 100, 100, 100);
 
 	// Return a renderer, which is like p5.js 'draw' function
-	return ({ time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
+	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		// Draw with p5.js things
-
+		background(0, 0, 10);
 		// -- Frame -- //
 		strokeWeight(15);
 		stroke(60, 5, 95, 100);
@@ -55,13 +54,13 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 		let dt = 0.01;
 		let dx = a * (y - x) * dt;
-		let dy = (x * (b - z) + y) * dt;
+		let dy = (x * (b - z) - y) * dt;
 		let dz = (x * y - c * z) * dt;
 		x = x + dx;
 		y = y + dy;
 		z = z + dz;
 
-		points.push(new p5.Vector(x, y));
+		points.push(new p5js.Vector(x, y));
 
 		//let camX = map(mouseX, 0, width, -5000, 5000);
 		//let camY = map(mouseY, 0, height, -5000, 5000);
@@ -77,12 +76,16 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		beginShape();
 
 		for (let v of points) {
-			stroke(60, 5, 95, 100);
-			noFill();
-			curveVertex(v.x, v.y);
-			//var offset = p5.Vector.random3D();
-			//offset.mult(0.1);
-			//v.add(offset);
+			let elW = random(0.01, 0.35);
+			let elA = random(60, 100);
+			//stroke(60, 5, 95, elA);
+			noStroke();
+			fill(60, 5, 95, elA);
+			//noFill();
+			ellipse(v.x, v.y, elW, elW);
+			var offset = p5js.Vector.random2D();
+			offset.mult(0.0001);
+			v.add(offset);
 		}
 		endShape();
 		exporting = true;
