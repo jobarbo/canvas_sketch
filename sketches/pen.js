@@ -1,30 +1,26 @@
-import { LinearEncoding } from 'three';
-
 export default class Pen {
-	constructor(startX) {
+	constructor(startX1, startX2) {
 		this.y = 600;
-		this.startX = startX;
-		this.x = startX;
+		this.startX1 = startX1;
+		this.startX2 = startX2;
+		this.x1 = startX1;
+		this.x2 = startX2;
 		this.speedY = 3;
 		this.prevY = this.y;
 		this.prevX = this.x;
 	}
-	move(xoff) {
+	move(xoff1, xoff2) {
 		this.prevY = this.y;
 		this.prevX = this.x;
 		if (this.y < height - 600) {
 			this.y += this.speedY;
 		}
 
-		this.x = map(noise(xoff), 0, 1, 600, width / 2) + this.startX;
+		this.x1 = map(noise(xoff1), 0, 1, 600, width) + this.startX1;
+		this.x2 = map(noise(xoff2), 0, 1, this.x1, width / 3) + this.startX2;
 	}
 
 	display() {
-		let xc = constrain(this.x - 100, 0, width + 100);
-		let yc = constrain(this.y - 100, 0, height + 100);
-		let pxc = constrain(this.prevX - 100, 0, width + 100);
-		let pyc = constrain(this.prevY - 100, 0, height + 100);
-
 		if (this.x <= 100) {
 			stroke(60, 5, 95, 100);
 		} else {
@@ -32,6 +28,6 @@ export default class Pen {
 		}
 		strokeCap(SQUARE);
 		strokeWeight(5);
-		line(600, this.y, this.x, this.y);
+		line(this.x1, this.y, this.x2, this.y);
 	}
 }
