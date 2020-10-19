@@ -17,7 +17,7 @@ const settings = {
 	// pixelsPerInch: 72,
 
 	// Turn on a render loop
-	animate: true,
+	animate: false,
 };
 
 const preload = () => {
@@ -42,7 +42,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let elY1 = random(1000, height / 2);
 	let elX2 = random(width / 2, width - 1000);
 	let elY2 = random(1000, height / 2);
-	ellipseMode(CENTER);
+
 	pen[0] = new Pen(startX);
 
 	function makeSun() {
@@ -51,25 +51,23 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		fill(60, 5, 95, 100);
 		ellipse(elX2, elY1, 1000, 1000);
 	}
+
+	for (let i = 0; i < 6600; i++) {
+		pen[0].move(xOff);
+		pen[0].display();
+		xOff += 0.0008;
+	}
+	makeSun();
+
+	strokeWeight(15);
+	stroke(60, 5, 95, 100);
+	noFill();
+	rect(600, 600, width - 1200, height - 1200);
 	// Visualize the trim area with a yellow guide (ignored on export)
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		// Draw with p5.js things
-
-		pen[0].move(xOff);
-		pen[0].display();
-
-		if (mouseIsPressed) {
-			makeSun();
-		}
-
-		xOff += 0.0008;
-
-		strokeWeight(15);
-		stroke(60, 5, 95, 100);
-		noFill();
-		rect(600, 600, width - 1200, height - 1200);
 
 		exporting = true;
 		if (!exporting && bleed > 0) {
