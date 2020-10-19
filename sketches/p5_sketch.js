@@ -38,11 +38,11 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let xOff = 0;
 	let startX = width / 4;
 	let sunNum = 1;
-	let elX1 = random(600, width / 2);
+	let elX1 = random(1000, width / 2);
 	let elY1 = random(1000, height / 2);
-	let elX2 = random(width / 2, width - 600);
+	let elX2 = random(width / 2, width - 1000);
 	let elY2 = random(1000, height / 2);
-
+	ellipseMode(CENTER);
 	pen[0] = new Pen(startX);
 
 	function makeSun() {
@@ -64,7 +64,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			makeSun();
 		}
 
-		xOff += 0.003;
+		xOff += 0.0008;
 
 		strokeWeight(15);
 		stroke(60, 5, 95, 100);

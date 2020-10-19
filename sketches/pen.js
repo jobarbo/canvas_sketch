@@ -5,7 +5,7 @@ export default class Pen {
 		this.y = 600;
 		this.startX = startX;
 		this.x = startX;
-		this.speedY = 10;
+		this.speedY = 3;
 		this.prevY = this.y;
 		this.prevX = this.x;
 	}
@@ -30,7 +30,8 @@ export default class Pen {
 		} else {
 			stroke(60, 5, 95, 100);
 		}
-		strokeWeight(10);
+		strokeCap(SQUARE);
+		strokeWeight(5);
 		line(600, this.y, this.x, this.y);
 	}
 }
