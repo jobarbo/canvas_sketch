@@ -1,22 +1,22 @@
 import { LinearEncoding } from 'three';
 
 export default class Pen {
-	constructor(startY) {
-		this.x = -300;
-		this.startY = startY;
-		this.y = startY;
-		this.dArr = [30, 120, 240];
-		this.diameter = random(this.dArr);
-		this.speedX = 5;
+	constructor(startX) {
+		this.y = 600;
+		this.startX = startX;
+		this.x = startX;
+		this.speedY = 10;
 		this.prevY = this.y;
 		this.prevX = this.x;
 	}
-	move(yoff) {
+	move(xoff) {
 		this.prevY = this.y;
 		this.prevX = this.x;
-		this.x += this.speedX;
+		if (this.y < height - 600) {
+			this.y += this.speedY;
+		}
 
-		this.y = map(noise(yoff), 0, 1, 0, height) + this.startY;
+		this.x = map(noise(xoff), 0, 1, 600, width / 2) + this.startX;
 	}
 
 	display() {
@@ -26,16 +26,11 @@ export default class Pen {
 		let pyc = constrain(this.prevY - 100, 0, height + 100);
 
 		if (this.x <= 100) {
-			stroke(60, 5, 95, 0);
+			stroke(60, 5, 95, 100);
 		} else {
 			stroke(60, 5, 95, 100);
 		}
-		strokeWeight(this.diameter);
-		line(pxc, pyc, xc, yc);
-
-		strokeWeight(1);
-		stroke(0, 0, 10, 0);
-		fill(60, 5, 95, 100);
-		ellipse(xc, yc, this.diameter, this.diameter);
+		strokeWeight(10);
+		line(600, this.y, this.x, this.y);
 	}
 }

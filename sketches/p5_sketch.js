@@ -34,30 +34,37 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	background(0, 0, 10);
 	ellipseMode(CENTER);
 
-	let penNum = 2;
 	let pen = [];
-	let yOff = 0;
-	let startY = 0;
+	let xOff = 0;
+	let startX = width / 4;
+	let sunNum = 1;
+	let elX1 = random(600, width / 2);
+	let elY1 = random(1000, height / 2);
+	let elX2 = random(width / 2, width - 600);
+	let elY2 = random(1000, height / 2);
 
-	fill(60, 5, 95, 100);
-	ellipse(random(900, width - 900), random(height / 3, 900), 1000, 1000);
+	pen[0] = new Pen(startX);
 
-	for (let i = 0; i <= penNum; i++) {
-		pen[i] = new Pen(startY);
-		startY += 400;
+	function makeSun() {
+		fill(0, 0, 10, 100);
+		ellipse(elX1, elY1, 1000, 1000);
+		fill(60, 5, 95, 100);
+		ellipse(elX2, elY1, 1000, 1000);
 	}
-
 	// Visualize the trim area with a yellow guide (ignored on export)
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		// Draw with p5.js things
 
-		for (let i = 0; i <= penNum; i++) {
-			pen[i].move(yOff);
-			pen[i].display();
+		pen[0].move(xOff);
+		pen[0].display();
+
+		if (mouseIsPressed) {
+			makeSun();
 		}
-		yOff += 0.001;
+
+		xOff += 0.003;
 
 		strokeWeight(15);
 		stroke(60, 5, 95, 100);
