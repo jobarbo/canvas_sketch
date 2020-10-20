@@ -5,19 +5,17 @@ export default class Pen {
 		this.startX2 = startX2;
 		this.x1 = startX1;
 		this.x2 = startX2;
-		this.speedY = 3;
+		this.speedY = 2;
 		this.prevY = this.y;
 		this.prevX = this.x;
+		this.speedLimit = 600 + this.speedY;
 	}
 	move(xoff1, xoff2) {
-		this.prevY = this.y;
-		this.prevX = this.x;
-		if (this.y < height - 600) {
+		if (this.y < height - this.speedLimit) {
 			this.y += this.speedY;
+			this.x1 = map(noise(xoff1), 0, 1, 300, width / 4) + this.startX1;
+			this.x2 = map(noise(xoff2), 0, 1, this.x1, this.x1 + 200) + this.startX2;
 		}
-
-		this.x1 = map(noise(xoff1), 0, 1, 600, width) + this.startX1;
-		this.x2 = map(noise(xoff2), 0, 1, this.x1, width / 3) + this.startX2;
 	}
 
 	display() {
