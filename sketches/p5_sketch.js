@@ -1,77 +1,93 @@
-// Import sketch objects
-import Pen from './pen.js';
-
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 30 * 300;
-const vertical = 20 * 300;
 
 const settings = {
 	// Pass the p5 instance, and preload function if necessary
 	p5: true,
-	dimensions: [horizontal, vertical],
+	dimensions: [30 * 300, 20 * 300],
 	units: 'px',
-	bleed: 1 * 300,
-	// dimension 14 x 20 avec bleed
-	// pixelsPerInch: 72,
+	//pixelsPerInch: 72,
 
 	// Turn on a render loop
-	animate: false,
+	animate: true,
 };
 
 const preload = () => {
 	// You can use p5.loadImage() here, etc...
 };
 
-canvasSketch((context, bleed, trimWidth, trimHeight) => {
+canvasSketch((context) => {
 	// Sketch setup
 	// Like p5.js 'setup' function
-	//const Bubble = require('./Bubble');
 
-	//blendMode(ADD);
+	blendMode(BLEND);
 	colorMode(HSB, 360, 100, 100, 100);
 	background(0, 0, 10);
-	ellipseMode(CENTER);
 
-	let pen = [];
-	let xOff1 = 0;
-	let xOff2 = 0;
-	let startX1 = 0;
-	let startX2 = 0;
-
-	for (let i = 0; i < 30; i++) {
-		pen[i] = new Pen(startX1, startX2);
-		console.log(pen[i]);
-		startX1 += 200;
-		startX2 += 0;
-	}
-
-	for (let i = 0; i < 6600; i++) {
-		for (let i = 0; i < 30; i++) {
-			pen[i].move(xOff1, xOff2);
-			pen[i].display();
-		}
-		xOff1 += 0.003;
-		xOff2 += 0.003;
-	}
+	let margin = 1000;
+	let wSpacing = 500;
+	let hSpacing = 400;
+	let xoff = 0.0006;
+	let yoff = 0.001;
+	let woff = 0.00003;
+	let wContainer = wSpacing / 2;
+	let hContainer = hSpacing;
+	let minW = 5;
+	let maxW = 30;
 
 	strokeWeight(15);
 	stroke(60, 5, 95, 100);
 	noFill();
 	rect(600, 600, width - 1200, height - 1200);
-	// Visualize the trim area with a yellow guide (ignored on export)
+
+	paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContainer, minW, maxW);
 
 	// Return a renderer, which is like p5.js 'draw' function
-	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
+	return ({ p5, time, width, height }) => {
 		// Draw with p5.js things
-
-		exporting = true;
-		if (!exporting && bleed > 0) {
-			stroke(0);
-			noFill();
-			strokeWeight(10);
-			rect(bleed, bleed, trimWidth, trimHeight);
-		}
 	};
 }, settings);
+
+function paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContainer, minW, maxW) {
+	for (let iy = 600; iy < height - 600; iy = iy + hSpacing) {
+		for (let ix = margin; ix <= width - margin; ix = ix + wSpacing) {
+			//debugGrid(ix,iy,wSpacing,hSpacing);
+
+			cx = ix;
+			cy = iy;
+
+			let y = cy;
+			let xoffIteration = 0.0009;
+
+			for (let s = 0; s < hSpacing; s++) {
+				let x = map(noise(xoff), 0, 1, cx - wContainer, cx + wContainer);
+				let elW = map(noise(woff), 0, 1, minW, maxW);
+
+				let elHue = map(elW, minW, maxW, 60, 65, true);
+				let elSat = map(elW, minW, maxW, 0, 10, true);
+				let elBright = map(elW, minW, maxW, 84, 100, true);
+				let elAlpha = map(elW, minW, maxW, 50, 90, true);
+
+				noStroke();
+				//stroke(190, 53, 89,0);
+				fill(elHue, elSat, elBright, elAlpha);
+				ellipse(x, y, elW, elW);
+
+				y++;
+
+				xoff += xoffIteration;
+				yoff += 0.1;
+				woff += 0.0005;
+				//xoffIteration = xoffIteration + 0.000001;
+			}
+		}
+	}
+}
+
+function debugGrid(ix, iy, wSpacing, hSpacing) {
+	strokeWeight(5);
+	stroke(0, 100, 100);
+	noFill();
+	rect(ix, iy, wSpacing, hSpacing);
+}
