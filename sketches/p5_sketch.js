@@ -25,21 +25,21 @@ canvasSketch((context) => {
 	colorMode(HSB, 360, 100, 100, 100);
 	background(0, 0, 10);
 
-	let margin = 1000;
+	let margin = 1200;
 	let wSpacing = 500;
-	let hSpacing = 400;
+	let hSpacing = 800;
 	let xoff = 0.0006;
 	let yoff = 0.001;
 	let woff = 0.00003;
-	let wContainer = wSpacing / 2;
+	let wContainer = wSpacing / 5;
 	let hContainer = hSpacing;
-	let minW = 5;
+	let minW = 20;
 	let maxW = 30;
 
 	strokeWeight(15);
 	stroke(60, 5, 95, 100);
 	noFill();
-	rect(600, 600, width - 1200, height - 1200);
+	rect(600, 560, width - 1200, height - 1100);
 
 	paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContainer, minW, maxW);
 
@@ -69,10 +69,11 @@ function paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContai
 				let elBright = map(elW, minW, maxW, 84, 100, true);
 				let elAlpha = map(elW, minW, maxW, 50, 90, true);
 
-				noStroke();
-				//stroke(190, 53, 89,0);
+				//noStroke();
+				strokeWeight(elW);
+				stroke(elHue, elSat, elBright, elAlpha);
 				fill(elHue, elSat, elBright, elAlpha);
-				ellipse(x, y, elW, elW);
+				line(x, y, x + elW, y + elW);
 
 				y++;
 
