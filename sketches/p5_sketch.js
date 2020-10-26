@@ -27,8 +27,8 @@ canvasSketch((context) => {
 	ellipseMode(CENTER);
 
 	let margin = 1200;
-	let wSpacing = 500;
-	let hSpacing = 500;
+	let wSpacing = 100;
+	let hSpacing = 10;
 	let xoff = 0.0006;
 	let yoff = 0.001;
 	let woff = 0.00003;
@@ -62,18 +62,18 @@ function paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContai
 			cy2 = random(cy - maxW / 2, cy + maxW / 2);
 			elw = random(minW, maxW);
 
-			strokeWeight(20);
+			strokeWeight(random(5, 20));
 			noFill();
-			stroke(60, 5, 95, 100);
-			ellipse(cx, cy, elw, elw);
+			stroke(60, 5, 95, 10);
+			line(cx, cy, cx2, cy2);
 
 			noStroke();
-			fill(60, 5, 95, 100);
-			ellipse(cx2, cy2, elw, elw);
+			fill(60, 5, 95, 10);
+			line(cx2, cy2, cx2 + 50, cy2 + 50);
 
 			noFill();
 			stroke(0, 0, 10);
-			ellipse(cx2, cy2, elw, elw);
+			//rect(cx2, cy2, elw, elw);
 		}
 	}
 }
