@@ -4,15 +4,15 @@
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 30 * 300;
-const vertical = 20 * 300;
+const horizontal = 900;
+const vertical = 600;
 
 const settings = {
 	// Pass the p5 instance, and preload function if necessary
 	p5: true,
 	dimensions: [horizontal, vertical],
 	units: 'px',
-	bleed: 1 * 300,
+	bleed: 1 * 72,
 	// dimension 14 x 20 avec bleed
 	// pixelsPerInch: 72,
 
@@ -27,64 +27,121 @@ const preload = () => {
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup
 	// Like p5.js 'setup' function
-	//const Bubble = require('./Bubble');
-
-	//blendMode(ADD);
 	colorMode(HSB, 360, 100, 100, 100);
 
-	let wCenter = width / 2;
-	let hCenter = height / 2;
-	let baseHeight = height / 1.4;
-	let alpha = 0.1;
-	let angle = PI / 4;
+	let dA = 1.1;
+	let dB = 0.5;
+	let feed = 0.055;
+	let k = 0.062;
 
-	let radius = random(800, 1000);
-	let sunPositionY = random(600 + radius, height / 3);
-	let sunPositionX = random(600 + radius, width - (600 + radius));
+	let marginW = floor(width / 10);
+	let marginH = floor(height / 10);
+	let marginEndW = floor(width - (width / 10) * 2);
+	let marginEndH = floor(height - (height / 10) * 2);
+	let grid = [];
+	let next = [];
+	pixelDensity(1);
+	background(0, 0, 10);
+	// -- Frame -- //
+	strokeWeight(5);
+	stroke(60, 5, 95, 100);
+	noFill();
+	rect(marginW, marginH, marginEndW, marginEndH);
+	// --      -- //
 
-	let slider = createSlider(0, TWO_PI, PI / 4, 0.01);
-
-	function branch(len, sw, alpha) {
-		stroke(60, 5, 95, alpha);
-		strokeCap(ROUND);
-		strokeWeight(sw);
-		line(0, 0, 0, -len);
-		//point(-len, 0, 0, -len);
-		translate(0, -len);
-
-		if (len > 100) {
-			push();
-			rotate(angle);
-			branch(len * 0.75, sw * 0.7, alpha * 1.5);
-			pop();
-			push();
-			rotate(0);
-			branch(len * 0.75, sw * 0.7, alpha * 1.5);
-			pop();
-			push();
-			rotate(-angle);
-			branch(len * 0.75, sw * 0.7, alpha * 1.5);
-			pop();
+	for (let x = marginW; x < width - marginW; x++) {
+		grid[x] = [];
+		next[x] = [];
+		for (let y = marginH; y < height - marginH; y++) {
+			grid[x][y] = {
+				a: 1,
+				b: 0,
+			};
+			next[x][y] = {
+				a: 1,
+				b: 0,
+			};
 		}
+	}
+
+	for (var i = width / 2 - 50; i < width / 2 + 50; i++) {
+		for (var j = height / 2 - 1; j < height / 2 + 1; j++) {
+			grid[i][j].b = 1;
+		}
+	}
+
+	function swap() {
+		let temp = grid;
+		grid = next;
+		next = temp;
+	}
+
+	function laplaceA(x, y) {
+		let sumA = 0;
+		sumA += grid[x][y].a * -1;
+		sumA += grid[x - 1][y].a * 0.2;
+		sumA += grid[x + 1][y].a * 0.2;
+		sumA += grid[x][y + 1].a * 0.2;
+		sumA += grid[x][y - 1].a * 0.2;
+		sumA += grid[x - 1][y - 1].a * 0.05;
+		sumA += grid[x + 1][y - 1].a * 0.05;
+		sumA += grid[x + 1][y + 1].a * 0.05;
+		sumA += grid[x - 1][y + 1].a * 0.05;
+		return sumA;
+	}
+
+	function laplaceB(x, y) {
+		let sumB = 0;
+		sumB += grid[x][y].b * -1;
+		sumB += grid[x - 1][y].b * 0.2;
+		sumB += grid[x + 1][y].b * 0.2;
+		sumB += grid[x][y + 1].b * 0.2;
+		sumB += grid[x][y - 1].b * 0.2;
+		sumB += grid[x - 1][y - 1].b * 0.05;
+		sumB += grid[x + 1][y - 1].b * 0.05;
+		sumB += grid[x + 1][y + 1].b * 0.05;
+		sumB += grid[x - 1][y + 1].b * 0.05;
+		return sumB;
 	}
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		// Draw with p5.js things
-		background(0, 0, 10);
 
-		// -- Frame -- //
-		strokeWeight(15);
-		stroke(60, 5, 95, 100);
-		noFill();
-		rect(600, 600, width - 1200, height - 1200);
-		// --      -- //
-		//fill(60, 5, 95, 100);
-		//ellipse(sunPositionX, sunPositionY, radius, radius);
-		angle = slider.value();
-		translate(wCenter, baseHeight);
-		branch(1000, 50, 1);
+		//background(0, 0, 10);
+		for (let x = marginW + 1; x < width - 1 - marginW; x++) {
+			for (let y = marginH + 1; y < height - 1 - marginH; y++) {
+				let a = grid[x][y].a;
+				let b = grid[x][y].b;
+				next[x][y].a = a + dA * laplaceA(x, y) - a * b * b + feed * (1 - a);
+				next[x][y].b = b + dB * laplaceB(x, y) + a * b * b - (k + feed) * b;
 
+				next[x][y].a = constrain(next[x][y].a, 0, 1);
+				next[x][y].b = constrain(next[x][y].b, 0, 1);
+			}
+		}
+
+		loadPixels();
+		for (let x = marginW; x < width - marginW; x++) {
+			for (let y = marginH; y < height - marginH; y++) {
+				let pix = (x + y * width) * 4;
+				let a = next[x][y].a;
+				let b = next[x][y].b;
+				let c1 = floor((a - b) * 255);
+				let c2 = floor((a - b) * 255);
+				let c3 = floor((a - b) * 255);
+				c1 = constrain(c1, 0, 255);
+				c2 = constrain(c2, 0, 255);
+				c3 = constrain(c3, 0, 255);
+				pixels[pix + 0] = c1;
+				pixels[pix + 1] = c2;
+				pixels[pix + 2] = c3;
+				pixels[pix + 3] = 255;
+			}
+		}
+		updatePixels();
+
+		swap();
 		exporting = true;
 		if (!exporting && bleed > 0) {
 			stroke(0);
