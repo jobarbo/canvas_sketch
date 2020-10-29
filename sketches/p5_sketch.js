@@ -45,7 +45,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let slider = createSlider(0, TWO_PI, PI / 4, 0.01);
 	background(0, 0, 10);
 	// -- Frame -- //
-	strokeWeight(15);
+	strokeWeight(5);
 	stroke(60, 5, 95, 100);
 	noFill();
 	rect(600, 600, width - 1200, height - 1200);
@@ -53,6 +53,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	function branch(len, sw, alpha) {
 		let lenDiff = random(0.7, 0.8);
+		let alphaDiff = random(0.5, 2.3);
 		angle = PI / random(2, 2);
 		stroke(60, 5, 95, alpha);
 		strokeCap(SQUARE);
@@ -64,23 +65,30 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		if (len > 20) {
 			push();
 			rotate(angle);
-			branch(len * lenDiff, sw * 0.7, alpha * 2);
+			branch(len * lenDiff, sw * 0.7, alpha * alphaDiff);
 			pop();
 			push();
 			rotate(-angle);
-			branch(len * lenDiff, sw * 0.7, alpha * 2);
+			branch(len * lenDiff, sw * 0.7, alpha * alphaDiff);
 			pop();
 		}
 	}
 
 	// Attach events to window to receive them
 	window.mouseClicked = () => {
+		background(0, 0, 10);
+		// -- Frame -- //
+		strokeWeight(5);
+		stroke(60, 5, 95, 100);
+		noFill();
+		rect(600, 600, width - 1200, height - 1200);
+		// --      -- //
 		let len = random(1700, 1800);
 
 		console.log('Mouse clicked');
 		push();
 		translate(mouseX, mouseY);
-		branch(len, 50, 1);
+		branch(len, 250, 1);
 		pop();
 	};
 	// Return a renderer, which is like p5.js 'draw' function
