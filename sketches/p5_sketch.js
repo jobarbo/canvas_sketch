@@ -17,7 +17,7 @@ const settings = {
 	// pixelsPerInch: 72,
 
 	// Turn on a render loop
-	animate: true,
+	animate: false,
 };
 
 const preload = () => {
@@ -43,47 +43,52 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let sunPositionX = random(600 + radius, width - (600 + radius));
 
 	let slider = createSlider(0, TWO_PI, PI / 4, 0.01);
+	background(0, 0, 10);
+	// -- Frame -- //
+	strokeWeight(15);
+	stroke(60, 5, 95, 100);
+	noFill();
+	rect(600, 600, width - 1200, height - 1200);
+	// --      -- //
 
 	function branch(len, sw, alpha) {
+		let lenDiff = random(0.7, 0.8);
+		angle = PI / random(2, 2);
 		stroke(60, 5, 95, alpha);
-		strokeCap(ROUND);
+		strokeCap(SQUARE);
 		strokeWeight(sw);
 		line(0, 0, 0, -len);
 		//point(-len, 0, 0, -len);
 		translate(0, -len);
 
-		if (len > 100) {
+		if (len > 20) {
 			push();
 			rotate(angle);
-			branch(len * 0.75, sw * 0.7, alpha * 1.5);
-			pop();
-			push();
-			rotate(0);
-			branch(len * 0.75, sw * 0.7, alpha * 1.5);
+			branch(len * lenDiff, sw * 0.7, alpha * 2);
 			pop();
 			push();
 			rotate(-angle);
-			branch(len * 0.75, sw * 0.7, alpha * 1.5);
+			branch(len * lenDiff, sw * 0.7, alpha * 2);
 			pop();
 		}
 	}
 
+	// Attach events to window to receive them
+	window.mouseClicked = () => {
+		let len = random(1700, 1800);
+
+		console.log('Mouse clicked');
+		push();
+		translate(mouseX, mouseY);
+		branch(len, 50, 1);
+		pop();
+	};
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		// Draw with p5.js things
-		background(0, 0, 10);
 
-		// -- Frame -- //
-		strokeWeight(15);
-		stroke(60, 5, 95, 100);
-		noFill();
-		rect(600, 600, width - 1200, height - 1200);
-		// --      -- //
 		//fill(60, 5, 95, 100);
 		//ellipse(sunPositionX, sunPositionY, radius, radius);
-		angle = slider.value();
-		translate(wCenter, baseHeight);
-		branch(1000, 50, 1);
 
 		exporting = true;
 		if (!exporting && bleed > 0) {
