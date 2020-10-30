@@ -42,10 +42,9 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let sunPositionY = random(600 + radius, height / 3);
 	let sunPositionX = random(600 + radius, width - (600 + radius));
 
-	let slider = createSlider(0, TWO_PI, PI / 4, 0.01);
 	background(0, 0, 10);
 	// -- Frame -- //
-	strokeWeight(5);
+	strokeWeight(15);
 	stroke(60, 5, 95, 100);
 	noFill();
 	rect(600, 600, width - 1200, height - 1200);
@@ -53,13 +52,13 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	function branch(len, sw, alpha) {
 		let lenDiff = random(0.7, 0.8);
-		let alphaDiff = random(0.5, 2.3);
+		let alphaDiff = random(0.2, 2.5);
 		angle = PI / random(2, 2);
 		stroke(60, 5, 95, alpha);
 		strokeCap(SQUARE);
 		strokeWeight(sw);
-		line(0, 0, 0, -len);
-		//point(-len, 0, 0, -len);
+		//line(0, 0, 0, -len);
+		point(0, -len);
 		translate(0, -len);
 
 		if (len > 20) {
@@ -85,10 +84,9 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		// --      -- //
 		let len = random(1700, 1800);
 
-		console.log('Mouse clicked');
 		push();
 		translate(mouseX, mouseY);
-		branch(len, 250, 1);
+		branch(len, 6000, 1);
 		pop();
 	};
 	// Return a renderer, which is like p5.js 'draw' function
