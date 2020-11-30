@@ -30,12 +30,12 @@ canvasSketch((context) => {
 		skyMaxY = 0;
 		landMinY = height / 4;
 		landMaxY = height / 2;
-		landHue = 211;
-		landSat = 100;
-		landBright = 30;
-		skyHue = 187;
-		skySat = 86;
-		skyBright = 60;
+		landHue = 330;
+		landSat = 0;
+		landBright = 47;
+		skyHue = 210;
+		skySat = 8;
+		skyBright = 85;
 		landscapeStep = 200;
 		skyStep = 2;
 		noiseSeed();
@@ -91,24 +91,22 @@ canvasSketch((context) => {
 		yoff += 0.1;
 	}
 
-	function createMoon() {
-		fill(20, 0, 100);
-		ellipse(random(0, width), height / 3, width / 8, width / 8);
-	}
-
-	function createStars() {
-		for (let stars = 0; stars <= 400; stars++) {
-			starWidth = random(5, 15);
-			fill(20, 0, 100);
-			console.log(stars);
-			ellipse(random(0, width), random(0, height / 2), starWidth, starWidth);
+	function createSun() {
+		let elX = random(0, width);
+		let elY = height / 3;
+		let elW = width / 3;
+		let elA = 0;
+		for (let i = 0; i <= 20; i++) {
+			fill(40, 10, 100, elA);
+			ellipse(elX, elY, elW, elW);
+			elW = elW / 1.1;
+			elA += 2;
 		}
 	}
 
 	init();
 	makeSky();
-	createStars();
-	createMoon();
+	createSun();
 	createLandscape();
 
 	// Return a renderer, which is like p5.js 'draw' function
