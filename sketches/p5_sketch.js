@@ -25,24 +25,19 @@ const preload = () => {
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
-	// Sketch setup
-	// Like p5.js 'setup' function
-	//const Bubble = require('./Bubble');
+	// Sketch setup => Like p5.js 'setup' function
 
-	//blendMode(ADD);
 	colorMode(HSB, 360, 100, 100, 100);
 	background(0, 0, 10);
 	ellipseMode(CENTER);
-
-	// Visualize the trim area with a yellow guide (ignored on export)
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		// Draw with p5.js things
 
-		exporting = true;
+		exporting = false;
 		if (!exporting && bleed > 0) {
-			stroke(0);
+			stroke(0, 100, 100);
 			noFill();
 			strokeWeight(10);
 			rect(bleed, bleed, trimWidth, trimHeight);
