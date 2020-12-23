@@ -30,12 +30,12 @@ canvasSketch((context) => {
 		skyMaxY = 0;
 		landMinY = height / 4;
 		landMaxY = height / 2;
-		landHue = 330;
-		landSat = 0;
-		landBright = 47;
+		landHue = 169;
+		landSat = 65;
+		landBright = 20;
 		skyHue = 210;
-		skySat = 8;
-		skyBright = 85;
+		skySat = 45;
+		skyBright = 10;
 		landscapeStep = 200;
 		skyStep = 2;
 		noiseSeed();
@@ -47,6 +47,7 @@ canvasSketch((context) => {
 
 		for (let i = 0; i < 3; i++) {
 			beginShape();
+			noStroke();
 			fill(landHue, landSat, landBright);
 			for (let x = 0; x <= width + landscapeStep; x += landscapeStep) {
 				let y = map(noise(xoff, yoff), 0, 1, landMaxY, landMinY);
@@ -57,7 +58,7 @@ canvasSketch((context) => {
 			landMinY += height / 7;
 			landMaxY += height / 6;
 			landHue += 5;
-			landSat += 5;
+			landSat -= 5;
 			landBright -= 5;
 			vertex(width, height);
 			vertex(0, height);
@@ -70,7 +71,7 @@ canvasSketch((context) => {
 		//background(30, 20, 40);
 		let xoff = 0;
 		let skyAlpha = 100;
-		for (let i = 0; i < 1; i++) {
+		for (let i = 0; i < 20; i++) {
 			beginShape();
 			fill(skyHue, skySat, skyBright, skyAlpha);
 			for (let x = 0; x <= width + skyStep; x += skyStep) {
@@ -79,34 +80,39 @@ canvasSketch((context) => {
 				xoff += 0.0005;
 			}
 			skyMinY += height / 20;
-			skyMaxY += height / 8;
-			skyHue -= 2;
-			skySat += 5;
-			skyBright += 5;
+			skyMaxY += height / 10;
+			skyHue -= 20;
+			skySat += 15;
+			skyBright += 10;
 			skyAlpha += 5;
 			vertex(width, height);
 			vertex(0, height);
 			endShape(CLOSE);
+			if (skyHue <= 0) {
+				skyHue = 359;
+			}
+			if (skyHue >= 360) {
+				skyHue = 1;
+			}
 		}
 		yoff += 0.1;
 	}
 
-	function createSun() {
-		let elX = random(0, width);
-		let elY = height / 3;
-		let elW = width / 3;
-		let elA = 0;
-		for (let i = 0; i <= 20; i++) {
-			fill(40, 10, 100, elA);
-			ellipse(elX, elY, elW, elW);
-			elW = elW / 1.1;
-			elA += 2;
+	function createStars() {
+		for (let i = 0; i <= 500; i++) {
+			let elW = random(5, 15);
+			let elA = random(20, 80);
+			let elX = random(0, width);
+			let elY = random(0, height);
+			stroke(0, 0, 100, 100);
+			strokeWeight(elW);
+			point(elX, elY);
 		}
 	}
 
 	init();
 	makeSky();
-	createSun();
+	createStars();
 	createLandscape();
 
 	// Return a renderer, which is like p5.js 'draw' function
