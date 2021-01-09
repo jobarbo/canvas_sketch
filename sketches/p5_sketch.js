@@ -29,33 +29,31 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	const widthStep = width / 10;
 	const heightStep = height / 10;
-	const squareStep = widthStep / 500;
-	const squarePoint = widthStep / 4;
+	const squareStep = widthStep / 20;
+	const squarePoint = widthStep / 10;
 	const sketchMargin = 300;
 	const loopMargin = sketchMargin / 2;
 
 	colorMode(HSB, 360, 100, 100, 100);
-	background(221, 36, 59, 100);
+	background(52, 9, 96, 100);
 	ellipseMode(CENTER);
 
 	for (let x = widthStep + sketchMargin; x < width - sketchMargin; x += widthStep) {
 		for (let y = heightStep + sketchMargin; y < height - sketchMargin; y += heightStep) {
-			fill(221, 36, 59, 100);
-			strokeWeight(5);
-			stroke(227, 11, 82, 100);
-			//ellipse(x, y, widthStep - loopMargin);
+			strokeWeight(20);
+			stroke(234, 33, 36, 100);
+			fill(151, 28, 70, 100);
+			ellipse(x, y, widthStep - loopMargin);
 
-			for (let k = squareStep; k < squarePoint; k += 5) {
+			for (let k = squareStep; k < squarePoint; k += 2) {
 				let elX = random(x - loopMargin, x + loopMargin);
 				let elY = random(y - loopMargin, y + loopMargin);
-				let newK1 = random(-500, 500);
-				//let newK2 = random(-500, 500);
-				stroke(227, 11, 82, 50);
+				let newK1 = random(-widthStep / 2, widthStep / 2);
+				let newK2 = random(-heightStep / 2, heightStep / 2);
+				stroke(234, 33, 36, 100);
 				line(elX, elY, elX + newK1, elY + newK1);
-				stroke(227, 11, 82, 100);
-				fill(221, 36, 59, 100);
-				ellipse(elX, elY, 30);
-				curveVertex(elX, elY);
+				fill(13, 58, 88, 100);
+				ellipse(elX, elY, widthStep / 10);
 			}
 		}
 	}
