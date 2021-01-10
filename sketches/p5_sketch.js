@@ -1,5 +1,5 @@
 // Import sketch objects
-//import Points from './points.js';
+import CA from './ca.js';
 
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
@@ -28,8 +28,46 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 
 	colorMode(HSB, 360, 100, 100, 100);
-	background(0, 0, 10);
+	//background(0, 0, 10);
 	ellipseMode(CENTER);
+
+	const margin = 300;
+	const ruleset = [0, 1, 0, 1, 1, 0, 1, 0];
+	let cells = [1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0];
+
+	let widthStep = (width - 600) / 20;
+
+	// Draw first Generation
+	for (let i = 0; i < cells.length; i++) {
+		if (cells[i] === 0) {
+			fill(0, 0, 90);
+		} else {
+			fill(0, 0, 10);
+		}
+		strokeWeight(5);
+		stroke(0, 0, 10);
+		rect(300 + i * widthStep, 300, widthStep, widthStep);
+	}
+
+	const newCells = cells;
+
+	for (let i = 1; i < cells.length - 1; i++) {
+		let left = cells[i - 1];
+		let middle = cells[i];
+		let right = cells[i + 1];
+
+		let newstate = rules(left, middle, right);
+		console.log(newstate);
+		newCells[i] = newstate;
+		cells = newCells;
+	}
+
+	function rules(left, middle, right) {
+		let string = '' + left + middle + right + '';
+		let index = parseInt(string, 2);
+
+		return ruleset[index];
+	}
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
