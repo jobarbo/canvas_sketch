@@ -10,7 +10,7 @@ export default class Firefly {
 	}
 
 	display() {
-		this.t += 0.01;
+		this.t += 0.005;
 		this.treshold = this.treshold + random(-5, 5);
 		if (this.treshold > 70) {
 			this.brightness = this.brightness + 2;

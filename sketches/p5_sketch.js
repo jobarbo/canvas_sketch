@@ -13,11 +13,11 @@ const settings = {
 	dimensions: [horizontal, vertical],
 	units: 'px',
 	bleed: 300,
-	// dimension 14 x 20 avec bleed
-	// pixelsPerInch: 72,
-
-	// Turn on a render loop
+	duration: 6,
 	animate: true,
+	attributes: {
+		antialias: true,
+	},
 };
 
 const preload = () => {
