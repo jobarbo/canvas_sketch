@@ -12,9 +12,9 @@ const settings = {
 	p5: true,
 	dimensions: [horizontal, vertical],
 	units: 'px',
-	bleed: 300,
-	duration: 6,
+	duration: 30,
 	animate: true,
+	fps: 60,
 	attributes: {
 		antialias: true,
 	},
@@ -32,11 +32,11 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let moonY = random(height / 15, height / 8);
 	let firefly = [];
 	colorMode(HSB, 360, 100, 100, 100);
-	background(0, 0, 5, 100);
+	background(0, 0, 5);
 	//blendMode(SCREEN);
 	ellipseMode(CENTER);
 
-	for (let i = 0; i <= 50; i++) {
+	for (let i = 0; i <= 120; i++) {
 		const rdnX = random(0, 400);
 		const rdnY = random(0, 400);
 		const x = width * noise(t + rdnX);
@@ -46,7 +46,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
-		fill(0, 0, 5, 35);
+		fill(0, 0, 5, 70);
 		noStroke();
 		rect(0, 0, width, height);
 
@@ -55,7 +55,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		ellipse(moonX, moonY, width / 7);
 
 		// Draw with p5.js things
-		for (let i = 0; i <= 50; i++) {
+		for (let i = 0; i <= 120; i++) {
 			firefly[i].display();
 		}
 

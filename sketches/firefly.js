@@ -10,7 +10,7 @@ export default class Firefly {
 	}
 
 	display() {
-		this.t += 0.005;
+		this.t += 0.001;
 		this.treshold = this.treshold + random(-5, 5);
 		if (this.treshold > 70) {
 			this.brightness = this.brightness + 2;
@@ -27,7 +27,7 @@ export default class Firefly {
 		const x = width * noise(this.t + this.rdnX);
 		const y = height * noise(this.t + this.rdnY);
 		stroke(50, 60, 100, this.brightness);
-		strokeWeight(10);
+		strokeWeight(5);
 		point(x, y);
 	}
 }
