@@ -13,5 +13,8 @@
 		"canvas-sketch": "^0.7.4",
 		"p5": "^1.2.0",
 		"three": "^0.125.0"
+	},
+	"devDependencies": {
+		"@ffmpeg-installer/ffmpeg": "^1.0.20"
 	}
 }
