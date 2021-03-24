@@ -4,8 +4,8 @@
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 16 * 300;
-const vertical = 16 * 300;
+const horizontal = 18 * 300;
+const vertical = 18 * 300;
 
 const settings = {
 	// Pass the p5 instance, and preload function if necessary
@@ -28,38 +28,37 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 
 	colorMode(HSB, 360, 100, 100, 100);
-	background(207, 33, 94);
+	background(207, 0, 8);
 	let xoff = 0;
 	let yoff = 1;
 	let woff = 0;
 	let x = map(noise(xoff), 0, 1, 500, width - 500);
 	let y = map(noise(yoff), 0, 1, 500, height - 500);
-	let w = map(noise(woff), 0, 1, 200, 350);
-	for (let index = 0; index < 60000; index++) {
+	let w = map(noise(woff), 0, 1, 20, 350);
+	for (let index = 0; index < 40000; index++) {
 		x = map(noise(xoff), 0, 1, 500, width - 500);
 		y = map(noise(yoff), 0, 1, 500, height - 500);
-		xoff += 0.002;
-		yoff += 0.0021;
-		if (index >= 55000) {
-			if (w > 0) {
-				w = w - 1;
-				strokeWeight(5);
-				fill(357, 26, 96);
+		xoff += 0.0031;
+		yoff += 0.003;
+		if (index >= 36000) {
+			if (w > 5) {
+				w = w - 1.1;
+				strokeWeight(8);
+				fill(357, 0, 85);
 				stroke(358, 46, 67);
 				ellipse(x, y, w, w);
 			} else {
-				blendMode(OVERLAY);
 				strokeWeight(10);
-				fill(357, 0, 96);
-				stroke(355, 0, 65);
+				fill(358, 0, 8, 100);
+				stroke(358, 46, 67, 100);
 				ellipse(x, y, w, w);
 			}
 		} else {
-			w = map(noise(woff), 0, 1, 200, 350);
+			w = map(noise(woff), 0, 1, 20, 350);
 			woff += 0.05;
-			strokeWeight(5);
-			fill(357, 26, 96);
-			stroke(358, 46, 67);
+			strokeWeight(8);
+			fill(357, 0, 85);
+			stroke(358, 0, 8);
 			ellipse(x, y, w, w);
 		}
 	}
