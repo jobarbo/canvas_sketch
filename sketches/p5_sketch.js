@@ -50,12 +50,10 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			resolution = resolution / 1.04;
 
 			if (radius <= width / 10) {
-				strokeW = strokeW * 1.015;
-				radius += -10;
-			}
-			if (radius <= 0) {
 				radius = 0;
 				strokeW = 0;
+			}
+			if (radius <= 0) {
 			}
 		} else {
 			radius += -5;
