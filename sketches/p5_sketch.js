@@ -30,7 +30,7 @@ window.preload = () => {
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 
-	let t = 0;
+	let time = 0;
 	let strokeW = 5;
 	let alpha = 100;
 	let radius = random(width / 2.5, width / 2.5);
@@ -43,23 +43,25 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let noiseAmplitude = 1.1;
 
 	colorMode(HSB, 360, 100, 100, 100);
-
-	image(sunset, 0, 0);
+	background(199, 47, 89);
+	//image(sunset, 0, 0);
 	createSun();
 	createTexture();
+	createFlower(time);
+
 	// Return a renderer, which is like p5.js 'draw' function
-	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
-		createFlower(time);
-	};
+	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {};
 
 	function createTexture() {
+		//blendMode(SCREEN);
+		//fill(199, 47, 89, 50);
+		//rect(0, 0, width, height);
 		let texture = [];
-		for (let index = 0; index < 20; index++) {
-			const smudgeX = random(0, width);
-			const smudgeY = random(0, height);
-			const w1 = random(1, 20);
-			const w2 = random(1, 20);
-			texture[index] = new Smudge(smudgeX, smudgeY, w1, w2);
+		for (let index = 0; index < 200; index++) {
+			const rdnX = random(0, width);
+			const rdnY = random(0, height);
+			const rdnW1 = random(5, 150);
+			texture[index] = new Smudge(rdnX, rdnY, rdnW1);
 			texture[index].display();
 		}
 	}
@@ -73,53 +75,55 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	}
 
 	function createFlower(time) {
-		if (radius <= width / 6) {
-			radius += -12;
-			strokeW = 7;
-			noiseAmplitude = noiseAmplitude * 1.006;
-			if (radius <= width / 10) {
-				alpha = 60;
-				resolution = resolution / 1.2;
-				strokeW = strokeW * 1.55;
-				radius += -15;
-			}
-			if (radius <= 0) {
-				radius = 0;
-				strokeW = 0;
-			}
-		} else {
-			radius += -8;
-		}
-		push();
-		translate(posX, posY);
-
-		strokeWeight(strokeW);
-		beginShape();
-		for (let a = 0; a < TWO_PI; a += TWO_PI / resolution) {
-			const noiseVal = map(noise(cos(a) * noiseIntensity + 1, sin(a) * noiseIntensity + 1, time), 0, 1, noiseAmplitude, 1.0);
-			const r = radius + noiseVal;
-			const x = cos(a) * r * noiseVal;
-			const y = sin(a) * r * noiseVal;
-
+		for (let index = 0; index < 2000; index++) {
 			if (radius <= width / 6) {
-				fill(54, 44, 22, alpha);
-				stroke(32, 58, 95, alpha);
-				ellipse(x, y, 1, 1);
+				radius += -12;
+				strokeW = 7;
+				noiseAmplitude = noiseAmplitude * 1.006;
+				if (radius <= width / 10) {
+					alpha = 60;
+					resolution = resolution / 1.2;
+					strokeW = strokeW * 1.55;
+					radius += -15;
+				}
+				if (radius <= 0) {
+					radius = 0;
+					strokeW = 0;
+				}
 			} else {
-				if (radius <= width / 6 + 10 && radius >= width / 6) {
+				radius += -8;
+			}
+			push();
+			translate(posX, posY);
+
+			strokeWeight(strokeW);
+			beginShape();
+			for (let a = 0; a < TWO_PI; a += TWO_PI / resolution) {
+				const noiseVal = map(noise(cos(a) * noiseIntensity + 1, sin(a) * noiseIntensity + 1, time), 0, 1, noiseAmplitude, 1.0);
+				const r = radius + noiseVal;
+				const x = cos(a) * r * noiseVal;
+				const y = sin(a) * r * noiseVal;
+
+				if (radius <= width / 6) {
 					fill(54, 44, 22, alpha);
-					noStroke();
-					curveVertex(x, y);
-				} else {
-					fill(26, 48, 80, alpha);
 					stroke(32, 58, 95, alpha);
-					curveVertex(x, y);
+					ellipse(x, y, 1, 1);
+				} else {
+					if (radius <= width / 6 + 10 && radius >= width / 6) {
+						fill(54, 44, 22, alpha);
+						noStroke();
+						curveVertex(x, y);
+					} else {
+						fill(26, 48, 80, alpha);
+						stroke(32, 58, 95, alpha);
+						curveVertex(x, y);
+					}
 				}
 			}
+
+			endShape(CLOSE);
+
+			pop();
 		}
-
-		endShape(CLOSE);
-
-		pop();
 	}
 }, settings);

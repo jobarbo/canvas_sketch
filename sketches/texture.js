@@ -1,29 +1,34 @@
 export default class Smudge {
-	constructor(x, y, w1, w2) {
+	constructor(rdnX, rdnY, w1) {
 		this.xoff = 0;
 		this.yoff = 1;
 		this.woff1 = 0;
-		this.woff2 = 0;
-		this.x = x;
-		this.y = y;
-		this.w1 = w1;
-		this.w2 = w2;
+		this.rdnX = rdnX;
+		this.rdnY = rdnY;
+		this.rdnW1 = w1;
+		this.t = 0;
+		this.alpha = random(0, 25);
 	}
 
 	display() {
-		for (let index = 0; index < 5000; index++) {
-			this.x = this.x + map(noise(this.xoff), 0, 1, -1000, width + 1000);
-			this.y = this.y + map(noise(this.yoff), 0, 1, -1000, height + 1000);
-			this.xoff += 0.001;
-			this.yoff += 0.0015;
-			this.w1 = map(noise(this.woff1), 0, 1, 1, 20);
-			this.w2 = map(noise(this.woff2), 0, 1, 1, 20);
-			this.woff1 += 0.005;
-			this.woff2 += 0.001;
-			strokeWeight(6);
-			fill(0, 0, 0);
-			stroke(0, 0, 0);
-			ellipse(this.x, this.y, this.w1, this.w2);
+		//blendMode(BLEND);
+		push();
+		translate(-width / 2, -height / 2);
+		for (let index = 0; index < 300; index++) {
+			//blendMode(OVERLAY);
+			this.xoff += 0.00005;
+			this.yoff += 0.000035;
+			this.woff1 += 5;
+
+			const w1 = 50 * noise(this.woff1 + this.rdnW1);
+			const x = width * 2 * noise(this.xoff + this.rdnX);
+			const y = (height / 1.5) * 2 * noise(this.yoff + this.rdnY);
+
+			fill(180, 0, 100, this.alpha);
+			noStroke();
+			ellipse(x, y, w1, w1);
+			this.t += 0.001;
 		}
+		pop();
 	}
 }
