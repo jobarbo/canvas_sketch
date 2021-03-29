@@ -43,21 +43,21 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let noiseAmplitude = 1.1;
 
 	colorMode(HSB, 360, 100, 100, 100);
-	background(199, 47, 89);
-	image(sunset, 0, 0);
-	createSun();
-	createFlower(time);
+	//background(199, 85, 80);
+	//image(sunset, 0, 0);
+	//createSun();
+	//createFlower(time);
 	createTexture();
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {};
 
 	function createTexture() {
 		blendMode(BURN);
-		fill(199, 47, 89, 100);
+		fill(20, 10, 85, 100);
 		rect(0, 0, width, height);
 		let texture = [];
-		for (let index = 0; index < 500; index++) {
-			const rdnX = random(600, width + 600);
+		for (let index = 0; index < 5; index++) {
+			const rdnX = random(0, 50);
 			const rdnY = random(600, height + 600);
 			const rdnW1 = random(5, 150);
 			texture[index] = new Smudge(rdnX, rdnY, rdnW1);
