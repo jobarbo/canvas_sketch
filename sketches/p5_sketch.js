@@ -44,26 +44,26 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	colorMode(HSB, 360, 100, 100, 100);
 	background(199, 47, 89);
-	//image(sunset, 0, 0);
+	image(sunset, 0, 0);
 	createSun();
-	createTexture();
 	createFlower(time);
-
+	createTexture();
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {};
 
 	function createTexture() {
-		//blendMode(SCREEN);
-		//fill(199, 47, 89, 50);
-		//rect(0, 0, width, height);
+		blendMode(BURN);
+		fill(199, 47, 89, 100);
+		rect(0, 0, width, height);
 		let texture = [];
-		for (let index = 0; index < 200; index++) {
-			const rdnX = random(0, width);
-			const rdnY = random(0, height);
+		for (let index = 0; index < 500; index++) {
+			const rdnX = random(600, width + 600);
+			const rdnY = random(600, height + 600);
 			const rdnW1 = random(5, 150);
 			texture[index] = new Smudge(rdnX, rdnY, rdnW1);
 			texture[index].display();
 		}
+		blendMode(BLEND);
 	}
 
 	function createSun() {
@@ -71,7 +71,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		ellipseMode(CENTER);
 		noStroke();
 		fill(359, 31, 95);
-		ellipse(random(width / 500, width / 1.3), random(height / 8, height / 6), width / 5);
+		ellipse(random(width / 500, width / 1.3), random(height / 8, height / 6), width / 7);
 	}
 
 	function createFlower(time) {
