@@ -53,9 +53,15 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	};
 
 	function createTexture() {
-		//for (let index = 0; index < 2000; index++) {}
-		let texture = new Smudge();
-		texture.display();
+		let texture = [];
+		for (let index = 0; index < 20; index++) {
+			const smudgeX = random(0, width);
+			const smudgeY = random(0, height);
+			const w1 = random(1, 20);
+			const w2 = random(1, 20);
+			texture[index] = new Smudge(smudgeX, smudgeY, w1, w2);
+			texture[index].display();
+		}
 	}
 
 	function createSun() {
