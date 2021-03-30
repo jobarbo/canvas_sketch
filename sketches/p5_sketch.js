@@ -40,8 +40,11 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let noiseIntensity = 50;
 	let noiseAmplitude = 1.05;
 
+	let hueNoiseIntensity = 100;
+	let hueNoiseAmplitude = 0.5;
+
 	colorMode(HSB, 360, 100, 100, 100);
-	background(0, 50, 12, 100);
+	background(25, 10, 100, 100);
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
@@ -67,18 +70,18 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			const r = radius + noiseVal;
 			const x = cos(a) * r * noiseVal;
 			const y = sin(a) * r * noiseVal;
+			const h = map(noiseVal, 1.01, 1.04, 0, 220);
 			if (radius <= width / 10) {
 				alpha = alpha / 1;
-				fill(285, 24, 25, alpha);
-				stroke(29, 39, 81, alpha);
+				fill(0, 50, 12, alpha);
+				stroke(h, 46, 88, alpha);
 				ellipse(x, y, 1, 1);
 			} else {
-				fill(285, 24, 25, alpha);
-				stroke(29, 39, 81, alpha);
+				fill(0, 50, 12, alpha);
+				stroke(h, 46, 88, alpha);
 				curveVertex(x, y);
 			}
 		}
-		console.log(resolution);
 
 		endShape(CLOSE);
 		pop();
