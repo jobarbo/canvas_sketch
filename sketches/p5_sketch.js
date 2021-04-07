@@ -33,7 +33,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	colorMode(HSB, 360, 100, 100);
 	background(0, 0, 10);
 	// Create objects
-	for (let i = 0; i < 1000; i++) {
+	for (let i = 0; i < 50; i++) {
 		const rdnX = random(0, width / 2);
 		waves.push(new Waves(xoff, yoff, rdnX));
 	}
@@ -68,7 +68,6 @@ class Waves {
 		this.width = this.height;
 		this.speed = 5;
 		this.yincrement = 0.01;
-		console.log(this.x);
 	}
 
 	move() {
@@ -77,12 +76,13 @@ class Waves {
 		this.xoff += 0.02;
 		this.yoff += 0.001;
 		this.yincrement *= 1.01;
-		this.width *= 1.001;
+		this.height *= 1.001;
+		this.width *= 1.005;
 	}
 
 	display() {
 		stroke(200, 30, 95, 1);
-		fill(200, 75, 50);
+		fill(200, 75, 50, 1);
 		ellipse(this.x, this.rdny, this.width, this.height);
 	}
 }
