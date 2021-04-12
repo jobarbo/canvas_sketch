@@ -86,7 +86,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 					strokeW = strokeW * 1.55;
 					radius += -15;
 				}
-				if (radius <= 0) {
+				if (radius <= 20) {
 					radius = 0;
 					strokeW = 0;
 				}
