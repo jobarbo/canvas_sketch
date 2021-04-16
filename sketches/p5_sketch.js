@@ -44,6 +44,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	image(backgroundImg, 0, -height / 3);
 
 	displaySun();
+	createTexture();
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
@@ -60,6 +61,21 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		}
 	};
 }, settings);
+
+function createTexture() {
+	blendMode(BURN);
+	fill(199, 47, 89, 100);
+	rect(0, 0, width, height);
+	let texture = [];
+	for (let index = 0; index < 500; index++) {
+		const rdnX = random(600, width + 600);
+		const rdnY = random(600, height + 600);
+		const rdnW1 = random(5, 150);
+		texture[index] = new Smudge(rdnX, rdnY, rdnW1);
+		texture[index].display();
+	}
+	blendMode(BLEND);
+}
 
 function displaySun() {
 	noStroke();
