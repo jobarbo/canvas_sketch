@@ -20,8 +20,10 @@ const settings = {
 	},
 };
 
-const preload = () => {
-	// You can use p5.loadImage() here, etc...
+let backgroundImg;
+window.preload = () => {
+	// Preload sounds/images/etc...
+	backgroundImg = loadImage('media/images/background.png');
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
@@ -38,7 +40,10 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		waves.push(new Waves(xoff, yoff, rdnX));
 	}
 
-	background(50, 0, 100);
+	background(199, 47, 89);
+	image(backgroundImg, 0, -height / 3);
+
+	displaySun();
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
@@ -56,6 +61,13 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	};
 }, settings);
 
+function displaySun() {
+	noStroke();
+	fill(360, 30, 89);
+	let sunW = random(width / 10, width / 3);
+	let sunX = random(0 + sunW, width - sunW);
+	ellipse(sunX, height / 2, sunW);
+}
 // Jitter class
 class Waves {
 	constructor(xoff, yoff, rdnx) {
@@ -68,6 +80,7 @@ class Waves {
 		this.width = this.height;
 		this.speed = 5;
 		this.yincrement = 0.01;
+		this.startHue = 18;
 	}
 
 	move() {
@@ -78,10 +91,14 @@ class Waves {
 		this.yincrement *= 1.01;
 		this.height *= 1.001;
 		this.width *= 1.005;
+		this.startHue += 0.95;
+		if (this.startHue >= 360) {
+			this.startHue = 0;
+		}
 	}
 
 	display() {
-		stroke(200, 30, 95, 1);
+		stroke(this.startHue, 30, 95, 100);
 		fill(200, 75, 50, 1);
 		ellipse(this.x, this.rdny, this.width, this.height);
 	}
