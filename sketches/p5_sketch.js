@@ -29,12 +29,12 @@ const preload = () => {
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	let t = 0;
-	let strokeW = 2;
+	let strokeW = 10;
 	let alpha = 100;
-	let radius = random(width / 3, width / 3);
+	let radius = random(width, width * 1.1);
 	let resolution = 500;
 
-	let posX = width / 2;
+	let posX = -width / 2;
 	let posY = height / 2;
 
 	let noiseIntensity = 50;
@@ -44,34 +44,32 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let hueNoiseAmplitude = 0.5;
 
 	colorMode(HSB, 360, 100, 100, 100);
-	background(25, 10, 100, 100);
+	background(0, 50, 12, 100);
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		if (radius <= width / 8) {
-			radius += -5;
-			resolution = resolution / 1.04;
+			radius += -25;
+			//resolution = resolution / 1.04;
 
-			if (radius <= width / 10) {
-				radius = 0;
+			if (radius <= width / 150) {
+				radius = width / 150;
 				strokeW = 0;
 			}
-			if (radius <= 0) {
-			}
 		} else {
-			radius += -5;
+			radius += -25;
 		}
 		push();
 		translate(posX, posY);
 		strokeWeight(strokeW);
 		beginShape();
-		for (let a = 0; a < TWO_PI; a += TWO_PI / resolution) {
-			const noiseVal = map(noise(cos(a) * noiseIntensity + 1, sin(a) * noiseIntensity + 1, time), 0, 1, noiseAmplitude, 1.0);
+		for (let a = TWO_PI; a > 0; a -= TWO_PI / resolution) {
+			const noiseVal = map(noise(sin(a) * noiseIntensity + 1, cos(a) * noiseIntensity + 1, time), 0, 1, noiseAmplitude, 1.0);
 			const r = radius + noiseVal;
 			const x = cos(a) * r * noiseVal;
 			const y = sin(a) * r * noiseVal;
-			const h = map(noiseVal, 1.01, 1.04, 0, 220);
-			if (radius <= width / 10) {
+			const h = map(noiseVal, 1.0, 1.04, 0, 360);
+			if (radius <= width / 150) {
 				alpha = alpha / 1;
 				fill(0, 50, 12, alpha);
 				stroke(h, 46, 88, alpha);
