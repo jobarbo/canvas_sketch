@@ -44,14 +44,17 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	image(backgroundImg, 0, -height / 3);
 
 	displaySun();
-	createTexture();
-
-	// Return a renderer, which is like p5.js 'draw' function
-	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
+	for (let i = 0; i < 1000; i++) {
 		for (let i = 0; i < waves.length; i++) {
 			waves[i].move();
 			waves[i].display();
 		}
+	}
+
+	createTexture();
+
+	// Return a renderer, which is like p5.js 'draw' function
+	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		exporting = true;
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);
@@ -63,9 +66,6 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 }, settings);
 
 function createTexture() {
-	blendMode(BURN);
-	fill(199, 47, 89, 100);
-	rect(0, 0, width, height);
 	let texture = [];
 	for (let index = 0; index < 500; index++) {
 		const rdnX = random(600, width + 600);
@@ -74,13 +74,16 @@ function createTexture() {
 		texture[index] = new Smudge(rdnX, rdnY, rdnW1);
 		texture[index].display();
 	}
+	//blendMode(BURN);
+	//fill(199, 47, 89, 100);
+	//rect(0, 0, width, height);
 	blendMode(BLEND);
 }
 
 function displaySun() {
 	noStroke();
-	fill(360, 30, 89);
-	let sunW = random(width / 10, width / 3);
+	fill(360, 30, 95);
+	let sunW = random(width / 6, width / 3);
 	let sunX = random(0 + sunW, width - sunW);
 	ellipse(sunX, height / 2, sunW);
 }
@@ -107,7 +110,7 @@ class Waves {
 		this.yincrement *= 1.01;
 		this.height *= 1.001;
 		this.width *= 1.005;
-		this.startHue += 0.95;
+		this.startHue += 2.25;
 		if (this.startHue >= 360) {
 			this.startHue = 0;
 		}
@@ -117,5 +120,34 @@ class Waves {
 		stroke(this.startHue, 30, 95, 100);
 		fill(200, 75, 50, 1);
 		ellipse(this.x, this.rdny, this.width, this.height);
+	}
+}
+
+export default class Smudge {
+	constructor(rdnX, rdnY, w1) {
+		this.xoff = 0;
+		this.yoff = 1;
+		this.woff1 = 0;
+		this.rdnX = rdnX;
+		this.rdnY = rdnY;
+		this.rdnW1 = w1;
+		this.alpha = random(0, 1);
+	}
+
+	display() {
+		blendMode(BLEND);
+		for (let index = 0; index < 500; index++) {
+			this.xoff += 0.03;
+			this.yoff += 0.02;
+			this.woff1 += 0.0055;
+
+			const w1 = map(noise(this.woff1 + this.rdnW1), 0, 1, 1, 3);
+			const x = map(noise(this.xoff + this.rdnX), 0, 1, -width / 3, width * 1.5);
+			const y = map(noise(this.yoff + this.rdnY), 0, 1, -height / 3, height * 1.5);
+
+			fill(0, 0, 100, this.alpha);
+			noStroke();
+			ellipse(x, y, w1, w1);
+		}
 	}
 }
