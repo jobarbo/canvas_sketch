@@ -32,19 +32,24 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let xoff = 0.0;
 	let yoff = 0.01;
 
-	colorMode(HSB, 360, 100, 100);
+	colorMode(HSB, 360, 100, 100, 100);
 	background(0, 0, 10);
 	// Create objects
-	for (let i = 0; i < 50; i++) {
+	for (let i = 0; i < 150; i++) {
 		const rdnX = random(0, width / 2);
 		waves.push(new Waves(xoff, yoff, rdnX));
 	}
 
 	background(199, 47, 89);
-	image(backgroundImg, 0, -height / 3);
-
+	imageMode(CENTER);
+	image(backgroundImg, width / 2, 0);
 	displaySun();
-	for (let i = 0; i < 1000; i++) {
+	push();
+	rotate(PI);
+	image(backgroundImg, -width / 2, -height);
+	pop();
+
+	for (let i = 0; i < 1500; i++) {
 		for (let i = 0; i < waves.length; i++) {
 			waves[i].move();
 			waves[i].display();
@@ -74,10 +79,6 @@ function createTexture() {
 		texture[index] = new Smudge(rdnX, rdnY, rdnW1);
 		texture[index].display();
 	}
-	//blendMode(BURN);
-	//fill(199, 47, 89, 100);
-	//rect(0, 0, width, height);
-	blendMode(BLEND);
 }
 
 function displaySun() {
@@ -98,8 +99,8 @@ class Waves {
 		this.height = random(5, 60);
 		this.width = this.height;
 		this.speed = 5;
-		this.yincrement = 0.01;
-		this.startHue = 18;
+		this.yincrement = 0.1;
+		this.startHue = 360;
 	}
 
 	move() {
@@ -110,14 +111,15 @@ class Waves {
 		this.yincrement *= 1.01;
 		this.height *= 1.001;
 		this.width *= 1.005;
-		this.startHue += 2.25;
+		this.startHue += 0.025;
 		if (this.startHue >= 360) {
 			this.startHue = 0;
 		}
 	}
 
 	display() {
-		stroke(this.startHue, 30, 95, 100);
+		strokeWeight(1);
+		stroke(this.startHue, 30, 95, 20);
 		fill(200, 75, 50, 1);
 		ellipse(this.x, this.rdny, this.width, this.height);
 	}
@@ -131,7 +133,7 @@ export default class Smudge {
 		this.rdnX = rdnX;
 		this.rdnY = rdnY;
 		this.rdnW1 = w1;
-		this.alpha = random(0, 1);
+		this.alpha = random(15, 60);
 	}
 
 	display() {
