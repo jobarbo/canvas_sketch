@@ -55,7 +55,6 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			waves[i].display();
 		}
 	}
-
 	createTexture();
 
 	// Return a renderer, which is like p5.js 'draw' function
@@ -83,10 +82,11 @@ function createTexture() {
 
 function displaySun() {
 	noStroke();
-	fill(360, 30, 95);
+	fill(360, 10, 100);
 	let sunW = random(width / 6, width / 3);
-	let sunX = random(0 + sunW, width - sunW);
-	ellipse(sunX, height / 2, sunW);
+	let sunX = width / 2;
+	let sunY = height / 2;
+	ellipse(width / 2, height / 2, sunW);
 }
 // Jitter class
 class Waves {
