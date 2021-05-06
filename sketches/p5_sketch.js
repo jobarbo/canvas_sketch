@@ -38,7 +38,6 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		const rdnX = random(0, width / 2);
 		waves.push(new Waves(xoff, yoff, rdnX));
 	}
-
 	background(199, 47, 89);
 	imageMode(CENTER);
 	image(backgroundImg, width / 2, 0);
@@ -48,13 +47,16 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	image(backgroundImg, -width / 2, -height);
 	pop();
 
+	let sunRepeat = 0;
+
 	for (let i = 0; i < 1500; i++) {
 		for (let i = 0; i < waves.length; i++) {
 			waves[i].move();
 			waves[i].display();
 		}
+		sunRepeat++;
 	}
-	createTexture();
+	//createTexture();
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
@@ -81,8 +83,8 @@ function createTexture() {
 
 function displaySun() {
 	noStroke();
-	fill(360, 10, 100);
-	let sunW = random(width / 6, width / 3);
+	fill(360, 40, 100);
+	let sunW = random(width / 5, width / 2);
 	let sunX = width / 2;
 	let sunY = height / 2;
 	ellipse(width / 2, height / 2, sunW);
@@ -100,6 +102,7 @@ class Waves {
 		this.speed = 5;
 		this.yincrement = 0.1;
 		this.startHue = 360;
+		this.fillSat = 0;
 	}
 
 	move() {
@@ -111,15 +114,19 @@ class Waves {
 		this.height *= 1.001;
 		this.width *= 1.005;
 		this.startHue += 0.025;
+		this.fillSat += 2;
 		if (this.startHue >= 360) {
 			this.startHue = 0;
+		}
+		if (this.fillSat >= 100) {
+			this.fillSat = 0;
 		}
 	}
 
 	display() {
 		strokeWeight(1);
-		stroke(this.startHue, 30, 95, 20);
-		fill(200, 75, 50, 1);
+		stroke(this.startHue, 30, 95, 10);
+		fill(230, this.fillSat, 50, 1);
 		ellipse(this.x, this.rdny, this.width, this.height);
 	}
 }
@@ -136,7 +143,6 @@ export default class Smudge {
 	}
 
 	display() {
-		blendMode(BLEND);
 		for (let index = 0; index < 500; index++) {
 			this.xoff += 0.03;
 			this.yoff += 0.02;
