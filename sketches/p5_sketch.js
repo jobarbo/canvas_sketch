@@ -1,5 +1,4 @@
 // Import sketch objects
-//import Firefly from './firefly.js';
 
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
