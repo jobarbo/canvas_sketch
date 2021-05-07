@@ -40,21 +40,20 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	}
 	background(199, 47, 89);
 	imageMode(CENTER);
-	image(backgroundImg, width / 2, 0);
+	blendMode(LIGHTEST);
 	displaySun();
+	image(backgroundImg, width / 2, 0);
+	blendMode(BLEND);
 	push();
 	rotate(PI);
 	image(backgroundImg, -width / 2, -height);
 	pop();
-
-	let sunRepeat = 0;
 
 	for (let i = 0; i < 1500; i++) {
 		for (let i = 0; i < waves.length; i++) {
 			waves[i].move();
 			waves[i].display();
 		}
-		sunRepeat++;
 	}
 	//createTexture();
 
@@ -83,7 +82,7 @@ function createTexture() {
 
 function displaySun() {
 	noStroke();
-	fill(360, 40, 100);
+	fill(360, 15, 100);
 	let sunW = random(width / 5, width / 2);
 	let sunX = width / 2;
 	let sunY = height / 2;
