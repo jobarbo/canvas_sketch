@@ -100,8 +100,9 @@ class Waves {
 		this.width = this.height;
 		this.speed = 5;
 		this.yincrement = 0.1;
-		this.startHue = 360;
-		this.fillSat = 0;
+		this.strokeHue = 360;
+		this.fillSat = 60;
+		this.fillHue = 210;
 	}
 
 	move() {
@@ -112,20 +113,24 @@ class Waves {
 		this.yincrement *= 1.01;
 		this.height *= 1.001;
 		this.width *= 1.005;
-		this.startHue += 0.025;
-		this.fillSat += 2;
+		this.strokeHue += 0.025;
+		this.fillHue += 0.2;
+		this.fillSat += 1;
 		if (this.startHue >= 360) {
 			this.startHue = 0;
 		}
 		if (this.fillSat >= 100) {
-			this.fillSat = 0;
+			this.fillSat = 20;
+		}
+		if (this.fillHue >= random(250, 360)) {
+			this.fillHue = 210;
 		}
 	}
 
 	display() {
 		strokeWeight(1);
-		stroke(this.startHue, 30, 95, 10);
-		fill(230, this.fillSat, 50, 1);
+		stroke(this.strokeHue, 30, 95, 10);
+		fill(this.fillHue, this.fillSat, 70, 3);
 		ellipse(this.x, this.rdny, this.width, this.height);
 	}
 }
