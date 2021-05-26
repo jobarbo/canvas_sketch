@@ -28,27 +28,40 @@ window.preload = () => {
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	let waves = [];
+	let clouds = [];
 	let xoff = 0.0;
 	let yoff = 0.01;
 
 	colorMode(HSB, 360, 100, 100, 100);
 	background(0, 0, 10);
+
 	// Create objects
 	for (let i = 0; i < 150; i++) {
 		const rdnX = random(0, width / 2);
 		waves.push(new Waves(xoff, yoff, rdnX));
 	}
+
+	// Create objects
+	for (let i = 0; i < 10; i++) {
+		const rdnX = random(0, width / 2);
+		clouds.push(new Clouds(xoff, yoff, rdnX));
+	}
+
 	background(199, 47, 89);
 	imageMode(CENTER);
-	blendMode(LIGHTEST);
-	displaySun();
 	image(backgroundImg, width / 2, 0);
-	blendMode(BLEND);
+	displaySun();
 	push();
 	rotate(PI);
 	image(backgroundImg, -width / 2, -height);
 	pop();
 
+	for (let i = 0; i < 1500; i++) {
+		for (let i = 0; i < clouds.length; i++) {
+			clouds[i].move();
+			clouds[i].display();
+		}
+	}
 	for (let i = 0; i < 1500; i++) {
 		for (let i = 0; i < waves.length; i++) {
 			waves[i].move();
@@ -82,7 +95,7 @@ function createTexture() {
 
 function displaySun() {
 	noStroke();
-	fill(360, 15, 100);
+	fill(20, 20, 100);
 	let sunW = random(width / 5, width / 2);
 	let sunX = width / 2;
 	let sunY = height / 2;
@@ -99,38 +112,78 @@ class Waves {
 		this.height = random(5, 60);
 		this.width = this.height;
 		this.speed = 5;
-		this.yincrement = 0.1;
+		this.yIncrement = 0.1;
 		this.strokeHue = 360;
-		this.fillSat = 60;
+		this.fillSat = 0;
 		this.fillHue = 210;
 	}
 
 	move() {
 		this.x = map(noise(this.xoff + this.rdnx), 0, 1, -width, width * 2);
-		this.rdny = this.rdny + this.yincrement;
+		this.rdny = this.rdny + this.yIncrement;
 		this.xoff += 0.02;
 		this.yoff += 0.001;
-		this.yincrement *= 1.01;
+		this.yIncrement *= 1.01;
 		this.height *= 1.001;
 		this.width *= 1.005;
 		this.strokeHue += 0.025;
 		this.fillHue += 0.2;
 		this.fillSat += 1;
-		if (this.startHue >= 360) {
-			this.startHue = 0;
+		if (this.fillSat >= random(0, 100)) {
+			this.fillSat = 60;
 		}
-		if (this.fillSat >= 100) {
-			this.fillSat = 20;
-		}
-		if (this.fillHue >= random(250, 360)) {
-			this.fillHue = 210;
+		if (this.fillHue >= random(200, 360)) {
+			this.fillHue = 180;
 		}
 	}
 
 	display() {
 		strokeWeight(1);
-		stroke(this.strokeHue, 30, 95, 10);
+		stroke(this.strokeHue, 30, 95, 0);
 		fill(this.fillHue, this.fillSat, 70, 3);
+		ellipse(this.x, this.rdny, this.width, this.height);
+	}
+}
+
+class Clouds {
+	constructor(xoff, yoff, rdnx) {
+		this.rdnx = rdnx;
+		this.rdny = height / 2;
+		this.xoff = xoff;
+		this.yoff = yoff;
+		this.x = rdnx;
+		this.height = random(5, 60);
+		this.width = this.height;
+		this.speed = 5;
+		this.yIncrement = 0.1;
+		this.strokeHue = 210;
+		this.fillSat = 0;
+		this.fillHue = 20;
+	}
+
+	move() {
+		this.x = map(noise(this.xoff + this.rdnx), 0, 1, -width, width * 2);
+		this.rdny = this.rdny - this.yIncrement;
+		this.xoff += 0.02;
+		this.yoff += 0.001;
+		this.yIncrement *= 1.01;
+		this.height *= random(1, 1.001);
+		this.width *= random(1.005, 1.01);
+		this.strokeHue += 0.025;
+		this.fillHue += 0.2;
+		this.fillSat += 50;
+		if (this.fillSat >= random(20, 40)) {
+			this.fillSat = random(0, 20);
+		}
+		if (this.fillHue >= random(0, 30)) {
+			this.fillHue = 20;
+		}
+	}
+
+	display() {
+		strokeWeight(2);
+		stroke(this.strokeHue, 10, 90, 5);
+		fill(this.fillHue, this.fillSat, 90, 10);
 		ellipse(this.x, this.rdny, this.width, this.height);
 	}
 }
