@@ -42,13 +42,14 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	}
 
 	// Create objects
-	for (let i = 0; i < 10; i++) {
+	for (let i = 0; i < 20; i++) {
 		const rdnX = random(0, width / 2);
 		clouds.push(new Clouds(xoff, yoff, rdnX));
 	}
 
 	background(199, 47, 89);
 	imageMode(CENTER);
+
 	image(backgroundImg, width / 2, 0);
 	displaySun();
 	push();
@@ -56,12 +57,14 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	image(backgroundImg, -width / 2, -height);
 	pop();
 
+	blendMode(SOFT_LIGHT);
 	for (let i = 0; i < 1500; i++) {
 		for (let i = 0; i < clouds.length; i++) {
 			clouds[i].move();
 			clouds[i].display();
 		}
 	}
+	blendMode(BLEND);
 	for (let i = 0; i < 1500; i++) {
 		for (let i = 0; i < waves.length; i++) {
 			waves[i].move();
@@ -95,11 +98,13 @@ function createTexture() {
 
 function displaySun() {
 	noStroke();
-	fill(20, 20, 100);
+	fill(20, 50, 100);
 	let sunW = random(width / 5, width / 2);
 	let sunX = width / 2;
 	let sunY = height / 2;
+	blendMode(HARD_LIGHT);
 	ellipse(width / 2, height / 2, sunW);
+	blendMode(BLEND);
 }
 // Jitter class
 class Waves {
@@ -157,8 +162,8 @@ class Clouds {
 		this.speed = 5;
 		this.yIncrement = 0.1;
 		this.strokeHue = 210;
-		this.fillSat = 0;
-		this.fillHue = 20;
+		this.fillSat = 60;
+		this.fillHue = 10;
 	}
 
 	move() {
@@ -166,24 +171,24 @@ class Clouds {
 		this.rdny = this.rdny - this.yIncrement;
 		this.xoff += 0.02;
 		this.yoff += 0.001;
-		this.yIncrement *= 1.01;
+		this.yIncrement *= 1.009;
 		this.height *= random(1, 1.001);
-		this.width *= random(1.005, 1.01);
+		this.width *= random(1.005, 1.010);
 		this.strokeHue += 0.025;
 		this.fillHue += 0.2;
-		this.fillSat += 50;
-		if (this.fillSat >= random(20, 40)) {
-			this.fillSat = random(0, 20);
+		this.fillSat -= 0.003;
+		if (this.fillSat >= random(30, 40)) {
+			//this.fillSat = random(15, 20);
 		}
-		if (this.fillHue >= random(0, 30)) {
-			this.fillHue = 20;
+		if (this.fillHue >= random(15, 25)) {
+			this.fillHue = 10;
 		}
 	}
 
 	display() {
 		strokeWeight(2);
-		stroke(this.strokeHue, 10, 90, 5);
-		fill(this.fillHue, this.fillSat, 90, 10);
+		stroke(this.fillHue, this.fillSat, 90, 30);
+		fill(this.fillHue, this.fillSat, 100, 15);
 		ellipse(this.x, this.rdny, this.width, this.height);
 	}
 }
