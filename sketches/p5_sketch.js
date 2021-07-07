@@ -42,7 +42,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	}
 
 	// Create objects
-	for (let i = 0; i < 20; i++) {
+	for (let i = 0; i < 10; i++) {
 		const rdnX = random(0, width / 2);
 		clouds.push(new Clouds(xoff, yoff, rdnX));
 	}
@@ -100,10 +100,10 @@ function displaySun() {
 	noStroke();
 	fill(20, 50, 100);
 	let sunW = random(width / 5, width / 2);
-	let sunX = width / 2;
+	let sunX = random(sunW,width-sunW);
 	let sunY = height / 2;
 	blendMode(HARD_LIGHT);
-	ellipse(width / 2, height / 2, sunW);
+	ellipse(sunX, height / 2, sunW);
 	blendMode(BLEND);
 }
 // Jitter class
@@ -119,8 +119,8 @@ class Waves {
 		this.speed = 5;
 		this.yIncrement = 0.1;
 		this.strokeHue = 360;
-		this.fillSat = 0;
-		this.fillHue = 210;
+		this.fillSat = 40;
+		this.fillHue = 160;
 	}
 
 	move() {
@@ -132,13 +132,13 @@ class Waves {
 		this.height *= 1.001;
 		this.width *= 1.005;
 		this.strokeHue += 0.025;
-		this.fillHue += 0.2;
-		this.fillSat += 1;
-		if (this.fillSat >= random(0, 100)) {
-			this.fillSat = 60;
+		this.fillHue += 0.75;
+		this.fillSat += 0.5;
+		if (this.fillSat >= random(60, 70)) {
+			this.fillSat = 40;
 		}
-		if (this.fillHue >= random(200, 360)) {
-			this.fillHue = 180;
+		if (this.fillHue >= random(210, 220)) {
+			this.fillHue = 160;
 		}
 	}
 
