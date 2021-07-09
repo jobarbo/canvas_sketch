@@ -22,7 +22,7 @@ const settings = {
 let backgroundImg;
 window.preload = () => {
 	// Preload sounds/images/etc...
-	backgroundImg = loadImage('media/images/background.png');
+	backgroundImg = loadImage('media/images/aurora.png');
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
@@ -42,20 +42,19 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	}
 
 	// Create objects
-	for (let i = 0; i < 10; i++) {
+	for (let i = 0; i < 20; i++) {
 		const rdnX = random(0, width / 2);
 		clouds.push(new Clouds(xoff, yoff, rdnX));
 	}
 
 	background(199, 47, 89);
-	imageMode(CENTER);
 
-	//image(backgroundImg, width / 2, 0);
-	displaySun();
-	push();
-	rotate(PI);
-	//image(backgroundImg, -width / 2, -height);
-	pop();
+	image(backgroundImg, 0, 0);
+
+	let sunW = random(width / 7, width / 4);
+	let sunX = random(sunW, width - sunW);
+	let sunY = height / 2;
+	displaySun(sunW, sunX, sunY);
 
 	blendMode(SOFT_LIGHT);
 	for (let i = 0; i < 1500; i++) {
@@ -65,13 +64,15 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		}
 	}
 	blendMode(BLEND);
+
 	for (let i = 0; i < 1500; i++) {
 		for (let i = 0; i < waves.length; i++) {
 			waves[i].move();
 			waves[i].display();
 		}
 	}
-	//createTexture();
+	displaySunReflection(sunW, sunX, sunY);
+	createTexture();
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
@@ -87,7 +88,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 function createTexture() {
 	let texture = [];
-	for (let index = 0; index < 500; index++) {
+	for (let index = 0; index < 5000; index++) {
 		const rdnX = random(600, width + 600);
 		const rdnY = random(600, height + 600);
 		const rdnW1 = random(5, 150);
@@ -96,16 +97,52 @@ function createTexture() {
 	}
 }
 
-function displaySun() {
-	noStroke();
-	fill(20, 50, 100);
-	let sunW = random(width / 7, width / 4);
-	let sunX = random(sunW, width - sunW);
-	let sunY = height / 2;
+function displaySun(sunW, sunX, sunY) {
 	blendMode(HARD_LIGHT);
+	noStroke();
+	fill(20, 50, 100, 100);
 	arc(sunX, height / 2, sunW, sunW, PI, 0, OPEN);
-	//arc(sunX, height / 2, sunW, sunW, 0, PI, OPEN);
-	//ellipse(sunX, height / 2, sunW);
+	blendMode(BLEND);
+}
+
+function displaySunReflection(sunW, sunX, sunY) {
+	blendMode(HARD_LIGHT);
+	let restriction = 5;
+	let alpha = 15;
+	let refX = sunX;
+	let refY = sunY - 20;
+	let refW = sunW;
+	let refH = 20;
+	let x = refX;
+	let xoff = 0.5;
+	let yoff = 0.01;
+	for (let index = 0; index < 5000; index++) {
+		x = map(noise(xoff + refX), 0, 1, refX - sunW / restriction, refX + sunW / restriction);
+		noStroke();
+		fill(20, 50, 100, alpha);
+		ellipse(x, refY, refW, refH);
+		alpha += random(-0.5, 0.49);
+		restriction -= 0.03;
+		xoff += 0.02;
+		yoff += 0.001;
+		refY += 0.6;
+		refW += random(-1.75, 1.23);
+		refH += random(-0.065, 0.063);
+		if (alpha <= 1) {
+			alpha = 1;
+		}
+		if (refH <= 1) {
+			refH = 1;
+		}
+		if (refW <= 1) {
+			refW = 1;
+		}
+		if (restriction <= 1) {
+			restriction = 1;
+		}
+	}
+
+	//arc(sunX, height / 2 - 20, sunW, sunW * 4, 0, PI, OPEN);
 	blendMode(BLEND);
 }
 // Jitter class
