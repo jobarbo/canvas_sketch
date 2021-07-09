@@ -3,8 +3,8 @@
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 18 * 300;
-const vertical = 18 * 300;
+const horizontal = 30 * 300;
+const vertical = 20 * 300;
 
 const settings = {
 	// Pass the p5 instance, and preload function if necessary
@@ -50,11 +50,11 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	background(199, 47, 89);
 	imageMode(CENTER);
 
-	image(backgroundImg, width / 2, 0);
+	//image(backgroundImg, width / 2, 0);
 	displaySun();
 	push();
 	rotate(PI);
-	image(backgroundImg, -width / 2, -height);
+	//image(backgroundImg, -width / 2, -height);
 	pop();
 
 	blendMode(SOFT_LIGHT);
@@ -99,11 +99,13 @@ function createTexture() {
 function displaySun() {
 	noStroke();
 	fill(20, 50, 100);
-	let sunW = random(width / 5, width / 2);
-	let sunX = random(sunW,width-sunW);
+	let sunW = random(width / 7, width / 4);
+	let sunX = random(sunW, width - sunW);
 	let sunY = height / 2;
 	blendMode(HARD_LIGHT);
-	ellipse(sunX, height / 2, sunW);
+	arc(sunX, height / 2, sunW, sunW, PI, 0, OPEN);
+	//arc(sunX, height / 2, sunW, sunW, 0, PI, OPEN);
+	//ellipse(sunX, height / 2, sunW);
 	blendMode(BLEND);
 }
 // Jitter class
@@ -173,7 +175,7 @@ class Clouds {
 		this.yoff += 0.001;
 		this.yIncrement *= 1.009;
 		this.height *= random(1, 1.001);
-		this.width *= random(1.005, 1.010);
+		this.width *= random(1.005, 1.01);
 		this.strokeHue += 0.025;
 		this.fillHue += 0.2;
 		this.fillSat -= 0.003;
