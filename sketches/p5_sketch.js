@@ -51,7 +51,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	image(backgroundImg, 0, 0);
 
-	let sunW = random(width / 7, width / 4);
+	let sunW = random(width / 8, width / 4);
 	let sunX = random(sunW, width - sunW);
 	let sunY = height / 2;
 	displaySun(sunW, sunX, sunY);
@@ -101,7 +101,8 @@ function displaySun(sunW, sunX, sunY) {
 	blendMode(HARD_LIGHT);
 	noStroke();
 	fill(20, 50, 100, 100);
-	arc(sunX, height / 2, sunW, sunW, PI, 0, OPEN);
+	arc(sunX, sunY, sunW, sunW, PI, 0, OPEN);
+	//arc(sunX, sunY, sunW, sunW, 0, PI, OPEN);
 	blendMode(BLEND);
 }
 
@@ -110,7 +111,7 @@ function displaySunReflection(sunW, sunX, sunY) {
 	let restriction = 5;
 	let alpha = 15;
 	let refX = sunX;
-	let refY = sunY - 20;
+	let refY = height - sunY - 20;
 	let refW = sunW;
 	let refH = 20;
 	let x = refX;
@@ -123,7 +124,7 @@ function displaySunReflection(sunW, sunX, sunY) {
 		ellipse(x, refY, refW, refH);
 		alpha += random(-0.5, 0.49);
 		restriction -= 0.03;
-		xoff += 0.02;
+		xoff += 5.6;
 		yoff += 0.001;
 		refY += 0.6;
 		refW += random(-1.75, 1.23);
