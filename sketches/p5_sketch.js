@@ -22,7 +22,7 @@ const settings = {
 let backgroundImg;
 window.preload = () => {
 	// Preload sounds/images/etc...
-	backgroundImg = loadImage('media/images/aurora.png');
+	backgroundImg = loadImage('media/images/pastel.png');
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
@@ -72,7 +72,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		}
 	}
 	displaySunReflection(sunW, sunX, sunY);
-	createTexture();
+	//createTexture();
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
@@ -117,7 +117,7 @@ function displaySunReflection(sunW, sunX, sunY) {
 	let x = refX;
 	let xoff = 0.5;
 	let yoff = 0.01;
-	for (let index = 0; index < 5000; index++) {
+	for (let index = 0; index < 8000; index++) {
 		x = map(noise(xoff + refX), 0, 1, refX - sunW / restriction, refX + sunW / restriction);
 		noStroke();
 		fill(20, 50, 100, alpha);
