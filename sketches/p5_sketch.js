@@ -22,7 +22,7 @@ const settings = {
 let backgroundImg;
 window.preload = () => {
 	// Preload sounds/images/etc...
-	backgroundImg = loadImage('media/images/pastel.png');
+	backgroundImg = loadImage('media/images/liminal3.png');
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
@@ -51,9 +51,9 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	image(backgroundImg, 0, 0);
 
-	let sunW = random(width / 8, width / 4);
+	let sunW = random(width / 14, width / 8);
 	let sunX = random(sunW, width - sunW);
-	let sunY = height / 2;
+	let sunY = random(sunW, height / 2 - sunW);
 	displaySun(sunW, sunX, sunY);
 
 	blendMode(SOFT_LIGHT);
@@ -100,18 +100,18 @@ function createTexture() {
 function displaySun(sunW, sunX, sunY) {
 	blendMode(HARD_LIGHT);
 	noStroke();
-	fill(20, 50, 100, 100);
-	arc(sunX, sunY, sunW, sunW, PI, 0, OPEN);
-	//arc(sunX, sunY, sunW, sunW, 0, PI, OPEN);
+	fill(20, 1, 100, 20);
+	//arc(sunX, sunY, sunW, sunW, PI, 0, OPEN);
+	ellipse(sunX, sunY, sunW);
 	blendMode(BLEND);
 }
 
 function displaySunReflection(sunW, sunX, sunY) {
 	blendMode(HARD_LIGHT);
 	let restriction = 5;
-	let alpha = 15;
+	let alpha = 2;
 	let refX = sunX;
-	let refY = height - sunY - 20;
+	let refY = height / 2 - 20;
 	let refW = sunW;
 	let refH = 20;
 	let x = refX;
@@ -120,9 +120,9 @@ function displaySunReflection(sunW, sunX, sunY) {
 	for (let index = 0; index < 8000; index++) {
 		x = map(noise(xoff + refX), 0, 1, refX - sunW / restriction, refX + sunW / restriction);
 		noStroke();
-		fill(20, 50, 100, alpha);
+		fill(20, 1, 100, alpha);
 		ellipse(x, refY, refW, refH);
-		alpha += random(-0.5, 0.49);
+		alpha += random(-0.05, 0.049);
 		restriction -= 0.03;
 		xoff += 5.6;
 		yoff += 0.001;
@@ -159,8 +159,9 @@ class Waves {
 		this.speed = 5;
 		this.yIncrement = 0.1;
 		this.strokeHue = 360;
-		this.fillSat = 40;
+		this.fillSat = 0;
 		this.fillHue = 160;
+		this.fillBright = 15;
 	}
 
 	move() {
@@ -173,7 +174,11 @@ class Waves {
 		this.width *= 1.005;
 		this.strokeHue += 0.025;
 		this.fillHue += 0.75;
-		this.fillSat += 0.5;
+		this.fillSat += 0.005;
+		this.fillBright -= 0.005;
+		if (this.fillBright <= random(2, 4)) {
+			this.fillBright = 10;
+		}
 		if (this.fillSat >= random(60, 70)) {
 			this.fillSat = 40;
 		}
@@ -184,8 +189,8 @@ class Waves {
 
 	display() {
 		strokeWeight(1);
-		stroke(this.strokeHue, 30, 95, 0);
-		fill(this.fillHue, this.fillSat, 70, 3);
+		stroke(this.strokeHue, 30, 95, 3);
+		fill(this.fillHue, this.fillSat, this.fillBright, 3);
 		ellipse(this.x, this.rdny, this.width, this.height);
 	}
 }
@@ -202,7 +207,7 @@ class Clouds {
 		this.speed = 5;
 		this.yIncrement = 0.1;
 		this.strokeHue = 210;
-		this.fillSat = 60;
+		this.fillSat = 0;
 		this.fillHue = 10;
 	}
 
@@ -218,7 +223,7 @@ class Clouds {
 		this.fillHue += 0.2;
 		this.fillSat -= 0.003;
 		if (this.fillSat >= random(30, 40)) {
-			//this.fillSat = random(15, 20);
+			this.fillSat = random(15, 20);
 		}
 		if (this.fillHue >= random(15, 25)) {
 			this.fillHue = 10;
@@ -227,8 +232,8 @@ class Clouds {
 
 	display() {
 		strokeWeight(2);
-		stroke(this.fillHue, this.fillSat, 90, 30);
-		fill(this.fillHue, this.fillSat, 100, 15);
+		stroke(this.fillHue, this.fillSat, 50, 30);
+		fill(this.fillHue, this.fillSat, 40, 15);
 		ellipse(this.x, this.rdny, this.width, this.height);
 	}
 }
