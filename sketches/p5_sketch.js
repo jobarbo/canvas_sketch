@@ -3,8 +3,8 @@
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 30 * 300;
-const vertical = 20 * 300;
+const horizontal = 18 * 300;
+const vertical = 18 * 300;
 
 const settings = {
 	// Pass the p5 instance, and preload function if necessary
@@ -22,13 +22,14 @@ const settings = {
 let backgroundImg;
 window.preload = () => {
 	// Preload sounds/images/etc...
-	backgroundImg = loadImage('media/images/liminal3.png');
+	backgroundImg = loadImage('media/images/liminal4.png');
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	let waves = [];
 	let clouds = [];
+	let tentacles = [];
 	let xoff = 0.0;
 	let yoff = 0.01;
 
@@ -56,27 +57,47 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let sunY = random(sunW, height / 2 - sunW);
 	displaySun(sunW, sunX, sunY);
 
-	blendMode(SOFT_LIGHT);
-	for (let i = 0; i < 1500; i++) {
-		for (let i = 0; i < clouds.length; i++) {
-			clouds[i].move();
-			clouds[i].display();
-		}
-	}
-	blendMode(BLEND);
-
 	for (let i = 0; i < 1500; i++) {
 		for (let i = 0; i < waves.length; i++) {
 			waves[i].move();
 			waves[i].display();
 		}
 	}
+
+	// Create Beings
+	let beingX = width / 4;
+	for (let num = 0; num < 3; num++) {
+		let beingHue = int(random(0, 360));
+
+		let beingY = random(300, height / 2 - 1500);
+		for (let tentaclesNum = 0; tentaclesNum < 200; tentaclesNum++) {
+			tentacles.push(new Beings(beingX, beingY, beingHue));
+		}
+		while (tentacles.length > 0) {
+			for (j = 0; j < tentacles.length; j++) {
+				tentacles[j].move();
+				tentacles[j].display();
+				tentacles[j].shrink();
+			}
+			isBeingDead(tentacles);
+		}
+		beingX += width / 4;
+	}
+	blendMode(SOFT_LIGHT);
+	for (let i = 0; i < 2000; i++) {
+		for (let i = 0; i < clouds.length; i++) {
+			clouds[i].move();
+			clouds[i].display();
+		}
+	}
+	blendMode(BLEND);
 	displaySunReflection(sunW, sunX, sunY);
-	//createTexture();
+	createTexture();
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		exporting = true;
+
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);
 			noFill();
@@ -85,6 +106,15 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		}
 	};
 }, settings);
+
+function isBeingDead(tentacles) {
+	for (let i = 0; i < tentacles.length; i++) {
+		tentacle = tentacles[i];
+		if (tentacle.diameter < 1) {
+			tentacles.splice(i, 1);
+		}
+	}
+}
 
 function createTexture() {
 	let texture = [];
@@ -100,7 +130,7 @@ function createTexture() {
 function displaySun(sunW, sunX, sunY) {
 	blendMode(HARD_LIGHT);
 	noStroke();
-	fill(20, 1, 100, 20);
+	fill(20, 1, 100, 10);
 	//arc(sunX, sunY, sunW, sunW, PI, 0, OPEN);
 	ellipse(sunX, sunY, sunW);
 	blendMode(BLEND);
@@ -238,7 +268,7 @@ class Clouds {
 	}
 }
 
-export default class Smudge {
+class Smudge {
 	constructor(rdnX, rdnY, w1) {
 		this.xoff = 0;
 		this.yoff = 1;
@@ -263,5 +293,39 @@ export default class Smudge {
 			noStroke();
 			ellipse(x, y, w1, w1);
 		}
+	}
+}
+class Beings {
+	constructor(particleX, particleY, hue) {
+		this.x = particleX;
+		this.y = particleY;
+		this.diameter = random(10, 30);
+		this.alpha = 1;
+		this.chaosXMinus = random(0, 1);
+		this.chaosXPlus = random(0, 1);
+		this.chaosYMinus = random(0, 1);
+		this.chaosYPlus = random(0, 6);
+		this.h = hue;
+		this.s = 0;
+		this.b = random(5, 25);
+	}
+
+	move() {
+		this.x += random(-this.chaosXMinus, this.chaosXPlus);
+		this.y += random(-this.chaosYMinus, this.chaosYPlus);
+	}
+
+	shrink() {
+		this.diameter -= 0.05;
+	}
+
+	display() {
+		blendMode(MULTIPLY);
+		strokeWeight(2);
+		stroke(360, 0, 100, 2);
+		//noStroke();
+		fill(this.h, this.s, this.b, this.alpha);
+		ellipse(this.x, this.y, this.diameter, this.diameter);
+		blendMode(BLEND);
 	}
 }
