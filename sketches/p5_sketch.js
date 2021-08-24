@@ -34,7 +34,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	ellipseMode(CENTER);
 	noStroke();
 	fill(26, 13, 90);
-	ellipse(random(width / 500, width / 2), random(height / 15, height / 8), 700);
+	ellipse(random(700, width / 2 - 1400), random(700, height / 2 - 1400), 1400);
 
 	stroke(160, 93, 35, 20);
 	strokeWeight(12);
