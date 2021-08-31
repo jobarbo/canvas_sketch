@@ -6,7 +6,7 @@ export default class Bubble {
 		this.yStep = yStep;
 		this.x = map(noise(this.xoff), 0, 1, 200, width - 200);
 		this.y = map(noise(this.yoff), 0, 1, 200, height - 200);
-		this.diameter = random(10, 20);
+		this.diameter = random(1, 2);
 		this.speed = this.diameter / 10;
 		this.choords = [];
 	}

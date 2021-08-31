@@ -36,21 +36,23 @@ canvasSketch((context) => {
 	let yoff;
 	let xStep;
 	let yStep;
+	let num = 5;
 
-	for (let i = 0; i < 25; i++) {
-		xoff = randomGaussian(0.05, 0.5);
-		yoff = randomGaussian(0.05, 0.5);
-		xStep = randomGaussian(0.0000005, 0.0000003);
-		yStep = randomGaussian(0.5, 0.003);
+	for (let i = 0; i < num; i++) {
+		xoff = randomGaussian(0.02, 0.000000005);
+		yoff = randomGaussian(0.005, 0.000000005);
+		xStep = randomGaussian(0.05, 0.0000003);
+		yStep = randomGaussian(0.5, 0.000000000003);
 		bubbles[i] = new Bubble(xoff, yoff, xStep, yStep);
 	}
-	console.log(bubbles);
-	// Return a renderer, which is like p5.js 'draw' function
-	return ({ p5, time, width, height }) => {
-		// Draw with p5.js things
-		for (let i = 0; i < 25; i++) {
+
+	for (let index = 0; index < 100000; index++) {
+		for (let i = 0; i < num; i++) {
 			bubbles[i].display();
 			bubbles[i].move();
 		}
+	}
+	return ({ p5, time, width, height }) => {
+		// Draw with p5.js things
 	};
 }, settings);
