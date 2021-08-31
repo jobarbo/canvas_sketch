@@ -51,9 +51,9 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	image(backgroundImg, 0, 0);
 
-	let sunW = random(width / 8, width / 4);
+	let sunW = random(width / 14, width / 8);
 	let sunX = random(sunW, width - sunW);
-	let sunY = height / 2;
+	let sunY = random(sunW, height / 2 - sunW);
 	displaySun(sunW, sunX, sunY);
 
 	blendMode(SOFT_LIGHT);
@@ -101,8 +101,9 @@ function displaySun(sunW, sunX, sunY) {
 	blendMode(HARD_LIGHT);
 	noStroke();
 	fill(20, 50, 100, 100);
-	arc(sunX, sunY, sunW, sunW, PI, 0, OPEN);
+	//arc(sunX, sunX, sunW, sunW, PI, 0, OPEN);
 	//arc(sunX, sunY, sunW, sunW, 0, PI, OPEN);
+	ellipse(sunX, sunY, sunW);
 	blendMode(BLEND);
 }
 
