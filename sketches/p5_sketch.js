@@ -22,7 +22,7 @@ const settings = {
 let backgroundImg;
 window.preload = () => {
 	// Preload sounds/images/etc...
-	backgroundImg = loadImage('media/images/aurora.png');
+	backgroundImg = loadImage('media/images/dawn3.png');
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
