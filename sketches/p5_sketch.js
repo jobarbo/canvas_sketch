@@ -156,6 +156,8 @@ class Waves {
 		this.rdny = height / 2;
 		this.xoff = xoff;
 		this.yoff = yoff;
+		this.yy = 0;
+		this.wobl = 1;
 		this.x = rdnx;
 		this.height = random(5, 60);
 		this.width = this.height;
@@ -168,11 +170,16 @@ class Waves {
 	}
 
 	move() {
+		// I add 777 into the noise to get different part of the noise than you use
 		this.x = map(noise(this.xoff + this.rdnx), 0, 1, -width, width * 2);
 		this.rdny = this.rdny + this.yIncrement;
+		let nof = noise(this.rdny * 0.004 + 777); // this is the noise offset based on the y coord
+		// here we take smooth noise based on this.x, and it changes a little based on nof
+		// the strength of the noise wobble is determined by wobl
+		this.yy = noise(this.x * 0.004 + 555 + nof * 10) * this.wobl;
 		this.xoff += 0.02;
-		this.yoff += 0.001;
 		this.yIncrement *= 1.01;
+		this.wobl *= 0.997; // wobl starts at 1, then decreases exponentially. it's how strong the hills are
 		this.height *= 1.001;
 		this.width *= 1.005;
 		this.strokeHue += 0.025;
@@ -194,7 +201,8 @@ class Waves {
 		strokeWeight(1);
 		stroke(this.strokeHue, 30, 95, 0);
 		fill(this.fillHue, this.fillSat, 70, this.fillAlpha);
-		ellipse(this.x, this.rdny, this.width, this.height);
+		// here we simply subtract this.yy, multiplied by a number that is the strength of the effect
+		ellipse(this.x, this.rdny - 300 * this.yy, this.width, this.height);
 	}
 }
 
