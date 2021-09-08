@@ -22,7 +22,7 @@ const settings = {
 let backgroundImg;
 window.preload = () => {
 	// Preload sounds/images/etc...
-	backgroundImg = loadImage('media/images/dawn3.png');
+	backgroundImg = loadImage('media/images/forest3.png');
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
@@ -36,7 +36,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	background(0, 0, 10);
 
 	// Create objects
-	for (let i = 0; i < 150; i++) {
+	for (let i = 0; i < 1000; i++) {
 		const rdnX = random(0, width / 2);
 		waves.push(new Waves(xoff, yoff, rdnX));
 	}
@@ -160,49 +160,54 @@ class Waves {
 		this.wobl = 1;
 		this.x = rdnx;
 		this.height = random(5, 60);
-		this.width = this.height;
+		this.width = this.height * 2;
 		this.speed = 5;
 		this.yIncrement = 0.1;
 		this.strokeHue = 360;
-		this.fillSat = 40;
-		this.fillHue = 160;
-		this.fillAlpha = 0;
+		this.fillHue = random(75, 90);
+		this.fillSat = random(35, 50);
+		this.fillBright = random(15, 50);
+		this.fillAlpha = 2;
 	}
 
 	move() {
 		// I add 777 into the noise to get different part of the noise than you use
 		this.x = map(noise(this.xoff + this.rdnx), 0, 1, -width, width * 2);
 		this.rdny = this.rdny + this.yIncrement;
-		let nof = noise(this.rdny * 0.004 + 777); // this is the noise offset based on the y coord
+		let nof = noise(this.rdny * 0.0002 + 777); // this is the noise offset based on the y coord
 		// here we take smooth noise based on this.x, and it changes a little based on nof
 		// the strength of the noise wobble is determined by wobl
-		this.yy = noise(this.x * 0.004 + 555 + nof * 10) * this.wobl;
+		this.yy = noise(this.x * 0.0002 + 555 + nof * 10) * this.wobl; // 10 is how quickly the landscape changes
 		this.xoff += 0.02;
 		this.yIncrement *= 1.01;
 		this.wobl *= 0.997; // wobl starts at 1, then decreases exponentially. it's how strong the hills are
 		this.height *= 1.001;
-		this.width *= 1.005;
+		this.width *= 1.0009;
 		this.strokeHue += 0.025;
 		this.fillHue += 0.75;
 		this.fillSat += 0.5;
-		this.fillAlpha += 0.01;
+		this.fillBright += 0.5;
+		this.fillAlpha += 0.11;
+		if (this.fillBright >= random(35, 45)) {
+			this.fillBright = random(25, 45);
+		}
 		if (this.fillSat >= random(60, 70)) {
-			this.fillSat = 40;
+			this.fillSat = random(35, 55);
 		}
-		if (this.fillHue >= random(210, 220)) {
-			this.fillHue = 160;
+		if (this.fillHue >= random(110, 130)) {
+			this.fillHue = random(75, 105);
 		}
-		if (this.fillAlpha >= 6) {
-			this.fillAlpha = 6;
+		if (this.fillAlpha >= 10) {
+			this.fillAlpha = 10;
 		}
 	}
 
 	display() {
 		strokeWeight(1);
 		stroke(this.strokeHue, 30, 95, 0);
-		fill(this.fillHue, this.fillSat, 70, this.fillAlpha);
+		fill(this.fillHue, this.fillSat, this.fillBright, this.fillAlpha);
 		// here we simply subtract this.yy, multiplied by a number that is the strength of the effect
-		ellipse(this.x, this.rdny - 300 * this.yy, this.width, this.height);
+		ellipse(this.x, this.rdny - 2000 * this.yy, this.width, this.height);
 	}
 }
 
