@@ -36,7 +36,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	background(0, 0, 10);
 
 	// Create objects
-	for (let i = 0; i < 1000; i++) {
+	for (let i = 0; i < 1080; i++) {
 		const rdnX = random(0, width / 2);
 		waves.push(new Waves(xoff, yoff, rdnX));
 	}
@@ -64,7 +64,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		}
 	}
 	blendMode(BLEND);
-	displaySunReflection(sunW, sunX, sunY);
+	//displaySunReflection(sunW, sunX, sunY);
 	for (let i = 0; i < 1500; i++) {
 		for (let i = 0; i < waves.length; i++) {
 			waves[i].move();
@@ -159,15 +159,14 @@ class Waves {
 		this.yy = 0;
 		this.wobl = 1;
 		this.x = rdnx;
-		this.height = random(5, 60);
-		this.width = this.height * 2;
-		this.speed = 5;
+		this.width = random(20, 40);
+		this.height = this.width * 3.5;
 		this.yIncrement = 0.1;
 		this.strokeHue = 360;
 		this.fillHue = random(75, 90);
-		this.fillSat = random(35, 50);
-		this.fillBright = random(15, 50);
-		this.fillAlpha = 2;
+		this.fillSat = random(15, 25);
+		this.fillBright = random(15, 35);
+		this.fillAlpha = 0.001;
 	}
 
 	move() {
@@ -180,25 +179,28 @@ class Waves {
 		this.yy = noise(this.x * 0.0002 + 555 + nof * 10) * this.wobl; // 10 is how quickly the landscape changes
 		this.xoff += 0.02;
 		this.yIncrement *= 1.01;
-		this.wobl *= 0.997; // wobl starts at 1, then decreases exponentially. it's how strong the hills are
+		this.wobl *= 0.999; // wobl starts at 1, then decreases exponentially. it's how strong the hills are
 		this.height *= 1.001;
 		this.width *= 1.0009;
 		this.strokeHue += 0.025;
 		this.fillHue += 0.75;
 		this.fillSat += 0.5;
 		this.fillBright += 0.5;
-		this.fillAlpha += 0.11;
+		this.fillAlpha *= 1.03;
 		if (this.fillBright >= random(35, 45)) {
-			this.fillBright = random(25, 45);
+			// this.fillBright = random(25, 45);
+			this.fillBright = 15;
 		}
-		if (this.fillSat >= random(60, 70)) {
-			this.fillSat = random(35, 55);
+		if (this.fillSat >= random(40, 50)) {
+			// this.fillSat = random(35, 55);
+			this.fillSat = 15;
 		}
 		if (this.fillHue >= random(110, 130)) {
-			this.fillHue = random(75, 105);
+			// this.fillHue = random(75, 105);
+			this.fillHue = 80;
 		}
-		if (this.fillAlpha >= 10) {
-			this.fillAlpha = 10;
+		if (this.fillAlpha >= 80) {
+			this.fillAlpha = random(0, 30);
 		}
 	}
 
