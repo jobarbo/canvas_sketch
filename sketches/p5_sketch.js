@@ -43,12 +43,6 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let sunPositionX = random(600 + radius, width - (600 + radius));
 
 	background(0, 0, 10);
-	// -- Frame -- //
-	strokeWeight(15);
-	stroke(60, 5, 95, 100);
-	noFill();
-	rect(600, 600, width - 1200, height - 1200);
-	// --      -- //
 
 	function branch(len, sw, alpha) {
 		let lenDiff = random(0.7, 0.8);
@@ -76,12 +70,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Attach events to window to receive them
 	window.mouseClicked = () => {
 		background(0, 0, 10);
-		// -- Frame -- //
-		strokeWeight(5);
-		stroke(60, 5, 95, 100);
-		noFill();
-		rect(600, 600, width - 1200, height - 1200);
-		// --      -- //
+
 		let len = random(1700, 1800);
 
 		push();
