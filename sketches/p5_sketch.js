@@ -77,7 +77,21 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		translate(mouseX, mouseY);
 		branch(len, 6000, 1);
 		pop();
+
+		createTexture();
 	};
+
+	function createTexture() {
+		let texture = [];
+
+		for (let index = 0; index < 5000; index++) {
+			const rdnX = random(600, width + 600);
+			const rdnY = random(600, height + 600);
+			const rdnW1 = random(5, 150);
+			texture[index] = new Smudge(rdnX, rdnY, rdnW1);
+			texture[index].display();
+		}
+	}
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
 		// Draw with p5.js things
