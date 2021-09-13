@@ -117,7 +117,7 @@ export default class Smudge {
 		this.rdnX = rdnX;
 		this.rdnY = rdnY;
 		this.rdnW1 = w1;
-		this.alpha = random(15, 60);
+		this.alpha = random(5, 40);
 	}
 
 	display() {
