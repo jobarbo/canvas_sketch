@@ -78,7 +78,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		branch(len, 6000, 0.25);
 		pop();
 
-		createTexture();
+		//createTexture();
 	};
 
 	function createTexture() {
