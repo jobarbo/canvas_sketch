@@ -4,8 +4,8 @@
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 18 * 300;
-const vertical = 18 * 300;
+const horizontal = 20 * 300;
+const vertical = 20 * 300;
 
 const settings = {
 	// Pass the p5 instance, and preload function if necessary
