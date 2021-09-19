@@ -31,10 +31,10 @@ export default class Bubble {
 		} else {
 			stroke(this.strokeHue, this.strokeSaturation, this.strokeBright);
 			strokeWeight(15);
-			blendMode(DIFFERENCE);
+			// blendMode(DIFFERENCE);
 			fill(this.fillHue, this.fillSat, this.fillBright, 100);
 			ellipse(this.x, this.y, this.diameter, this.diameter);
-			blendMode(BLEND);
+			// blendMode(BLEND);
 		}
 	}
 }
