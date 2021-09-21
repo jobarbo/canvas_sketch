@@ -29,6 +29,7 @@ canvasSketch((context) => {
 	//const Bubble = require('./Bubble');
 
 	//blendMode(ADD);
+
 	initSketch();
 	context.canvas.addEventListener('click', () => {
 		initSketch();
@@ -41,6 +42,7 @@ canvasSketch((context) => {
 }, settings);
 
 function initSketch() {
+	console.time();
 	let bgHue = int(random(0, 360));
 	let bgSat = int(random(10, 30));
 	let bgBright = int(random(10, 90));
@@ -63,12 +65,15 @@ function initSketch() {
 			bubble[i].display();
 		}
 	}
+	console.timeEnd();
+	console.time();
 	createTexture(bgHue, bgSat, bgBright);
+	console.timeEnd();
 }
 function createTexture(bgHue, bgSat, bgBright) {
 	let texture = [];
 
-	for (let index = 0; index < 1000; index++) {
+	for (let index = 0; index < 3000; index++) {
 		const rdnX = random(0, width + 0);
 		const rdnY = random(0, height + 0);
 		const rdnW1 = random(5, 150);
