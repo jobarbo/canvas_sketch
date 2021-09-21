@@ -103,7 +103,7 @@ export default class Smudge {
 			const x = map(noise(this.xoff + this.rdnX), 0, 1, -width / 3, width * 1.5);
 			const y = map(noise(this.yoff + this.rdnY), 0, 1, -height / 3, height * 1.5);
 
-			if (bgBright < 50) {
+			if (bgBright < 65) {
 				fill(0, 0, 100, this.alpha);
 			} else {
 				fill(0, 0, 0, this.alpha);

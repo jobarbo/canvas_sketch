@@ -9,7 +9,7 @@ export default class Bubble {
 		this.strokeBright = sBright;
 		this.fillHue = 0;
 		this.fillSat = 0;
-		if (this.strokeBright > 60) {
+		if (this.strokeBright > 65) {
 			this.fillBright = 10;
 		} else {
 			this.fillBright = 90;
