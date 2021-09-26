@@ -30,11 +30,15 @@ canvasSketch((context) => {
 
 	//blendMode(ADD);
 
+	console.time();
 	initSketch();
-	context.canvas.addEventListener('click', () => {
-		initSketch();
-	});
+	console.timeEnd();
 
+	context.canvas.addEventListener('click', () => {
+		console.time();
+		initSketch();
+		console.timeEnd();
+	});
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height }) => {
 		// Draw with p5.js things
@@ -42,38 +46,38 @@ canvasSketch((context) => {
 }, settings);
 
 function initSketch() {
-	console.time();
-	let bgHue = int(random(0, 360));
-	let bgSat = int(random(10, 30));
-	let bgBright = int(random(10, 90));
-	console.table(bgHue, bgSat, bgBright);
 	colorMode(HSB, 360, 100, 100, 100);
+
+	let bgHue = int(random(165, 255));
+	let bgSat = int(random(10, 80));
+	let bgBright = int(random(10, 40));
+	let bubble = [];
+	const bubbleNum = 50;
+	const hueList = [350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
+	let fSat = random(20, 30);
+	const fHue = random(hueList);
 
 	// old-color = hue , 10 ,95
 	background(bgHue, bgSat, bgBright);
 
-	let bubble = [];
-	const bubbleNum = int(random(5, 70));
-
-	for (let i = 0; i <= bubbleNum; i++) {
-		bubble[i] = new Bubble(bgHue, bgSat, bgBright);
+	for (let i = 0; i < bubbleNum; i++) {
+		fSat += 0.5;
+		bubble[i] = new Bubble(bgHue, bgSat, bgBright, fHue, fSat);
 	}
 
 	for (let index = 0; index < 500; index++) {
-		for (let i = 0; i <= bubbleNum; i++) {
+		for (let i = 0; i < bubbleNum; i++) {
 			bubble[i].move();
 			bubble[i].display();
 		}
 	}
-	console.timeEnd();
-	console.time();
+
 	createTexture(bgHue, bgSat, bgBright);
-	console.timeEnd();
 }
 function createTexture(bgHue, bgSat, bgBright) {
 	let texture = [];
 
-	for (let index = 0; index < 3000; index++) {
+	for (let index = 0; index < 4000; index++) {
 		const rdnX = random(0, width + 0);
 		const rdnY = random(0, height + 0);
 		const rdnW1 = random(5, 150);
