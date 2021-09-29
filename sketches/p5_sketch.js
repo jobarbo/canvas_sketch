@@ -1,7 +1,7 @@
 // Import sketch objects
 import Bubble from './bubble.js';
-
 const canvasSketch = require('canvas-sketch');
+const palettes = require('nice-color-palettes');
 const p5 = require('p5');
 new p5();
 const horizontal = 20 * 300;
@@ -72,7 +72,7 @@ function initSketch() {
 		}
 	}
 
-	createTexture(bgHue, bgSat, bgBright);
+	//createTexture(bgHue, bgSat, bgBright);
 }
 function createTexture(bgHue, bgSat, bgBright) {
 	let texture = [];
