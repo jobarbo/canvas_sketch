@@ -1,6 +1,7 @@
 // Import sketch objects
 import Ball_mc from './ball_mc.js';
 import * as dat from 'dat.gui';
+const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
@@ -29,15 +30,24 @@ const preload = () => {
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	colorMode(HSB, 360, 100, 100, 100);
+	let ballList = [];
+	let spacing = width / 6;
+	let x = spacing;
+	let rPalette = int(random(palettes.length));
 
-	const ball = new Ball_mc(width / 2, height / 2, width / 2, height / 2);
+	for (let index = 0; index < 5; index++) {
+		ballList[index] = new Ball_mc(x, height / 2, width / 2, height / 2, palettes[rPalette][index]);
+		x += spacing;
+	}
 
-	gui.add(ball, 'x', 0, width, 0.00001);
-	gui.add(ball, 'y', 0, width, 0.00001);
+	// gui.add(ball, 'x', 0, width, 0.00001);
+	// gui.add(ball, 'y', 0, width, 0.00001);
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
-		background(0, 0, 10);
-		ball.display();
+		background(30, 5, 100);
+		for (let index = 0; index < ballList.length; index++) {
+			ballList[index].display();
+		}
 
 		exporting = true;
 		if (!exporting && bleed > 0) {
