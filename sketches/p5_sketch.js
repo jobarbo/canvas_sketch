@@ -36,7 +36,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let rPalette = int(random(palettes.length));
 
 	for (let index = 0; index < 5; index++) {
-		ballList[index] = new Ball_mc(x, height / 2, width / 2, height / 2, palettes[rPalette][index]);
+		ballList[index] = new Ball_mc(x, height / 2, palettes[rPalette][index], spacing);
 		x += spacing;
 	}
 

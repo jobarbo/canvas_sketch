@@ -1,10 +1,9 @@
 export default class Ball_mc {
-	constructor(x, y, rdnX, rdnY, pickedcolor) {
+	constructor(x, y, pickedcolor, spacing) {
 		this.x = x;
 		this.y = y;
-		this.rdnX = rdnX;
-		this.rdnY = rdnY;
 		this.t = 0;
+		this.width = spacing / 1.25;
 		this.brightness = 100;
 		this.pickedColor = color(pickedcolor);
 		this.hue = this.pickedColor._getHue();
@@ -15,8 +14,8 @@ export default class Ball_mc {
 
 	display() {
 		strokeWeight(20);
-		stroke(this.hue, 20, 90, this.alpha);
+		stroke(this.hue, 20, 10, this.alpha);
 		fill(this.hue, this.sat, this.bright, this.alpha);
-		ellipse(this.x, this.y, 500, 500);
+		ellipse(this.x, this.y, this.width, this.width);
 	}
 }
