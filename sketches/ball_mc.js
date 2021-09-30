@@ -1,9 +1,10 @@
 export default class Ball_mc {
-	constructor(x, y, pickedcolor, spacing) {
+	constructor(x, y, pickedcolor, xSpacing, ySpacing) {
 		this.x = x;
 		this.y = y;
 		this.t = 0;
-		this.width = spacing / 1.25;
+		this.width = xSpacing / 1.25;
+		this.height = ySpacing / 1.25;
 		this.brightness = 100;
 		this.pickedColor = color(pickedcolor);
 		this.hue = this.pickedColor._getHue();

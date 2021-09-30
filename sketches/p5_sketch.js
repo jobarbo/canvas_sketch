@@ -31,13 +31,16 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	colorMode(HSB, 360, 100, 100, 100);
 	let ballList = [];
-	let spacing = width / 6;
-	let x = spacing;
+	let xSpacing = width / 6;
+	let ySpacing = height / 6;
+	let x = xSpacing;
+	let y = ySpacing;
 	let rPalette = int(random(palettes.length));
 
-	for (let index = 0; index < 5; index++) {
-		ballList[index] = new Ball_mc(x, height / 2, palettes[rPalette][index], spacing);
-		x += spacing;
+	for (let i = 0; i < 5; i++) {
+		console.log(i);
+		ballList[i] = new Ball_mc(x, y, palettes[rPalette][i], xSpacing, ySpacing);
+		y += ySpacing;
 	}
 
 	// gui.add(ball, 'x', 0, width, 0.00001);
