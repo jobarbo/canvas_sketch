@@ -52,7 +52,7 @@ function initSketch() {
 	let bgSat = int(random(50, 90));
 	let bgBright = int(random(15, 35));
 	let bubble = [];
-	const bubbleNum = 7;
+	const bubbleNum = 6;
 	const hueList = [350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
 	let fSat = random(25, 35);
 	const fHue = random(hueList);
@@ -77,7 +77,7 @@ function initSketch() {
 function createTexture(bgHue, bgSat, bgBright) {
 	let texture = [];
 
-	for (let index = 0; index < 4000; index++) {
+	for (let index = 0; index < 3000; index++) {
 		const rdnX = random(0, width);
 		const rdnY = random(0, height);
 		const rdnW1 = random(5, 150);

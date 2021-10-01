@@ -39,7 +39,7 @@ export default class Bubble {
 		} else {
 			this.diameter += random(-2, this.dMultiply);
 			this.x += this.rdnX;
-			this.rdnX = map(noise(this.xoff + this.noiseR), 0, 1, -80, 80);
+			this.rdnX = map(noise(this.xoff + this.noiseR), 0, 1, -60, 60);
 			this.y += this.speedY;
 			//this.rdnY = map(noise(this.yoff + this.startY), 0, 1, this.y - 60, this.y + 5);
 			this.dMultiply = this.dMultiply * 1.07;
