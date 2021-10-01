@@ -48,13 +48,13 @@ canvasSketch((context) => {
 function initSketch() {
 	colorMode(HSB, 360, 100, 100, 100);
 
-	let bgHue = int(random(165, 255));
-	let bgSat = int(random(10, 80));
-	let bgBright = int(random(10, 40));
+	let bgHue = int(random(265, 265));
+	let bgSat = int(random(50, 90));
+	let bgBright = int(random(15, 35));
 	let bubble = [];
-	const bubbleNum = 50;
+	const bubbleNum = 7;
 	const hueList = [350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
-	let fSat = random(20, 30);
+	let fSat = random(25, 35);
 	const fHue = random(hueList);
 
 	// old-color = hue , 10 ,95
@@ -71,18 +71,22 @@ function initSketch() {
 			bubble[i].display();
 		}
 	}
-
-	//createTexture(bgHue, bgSat, bgBright);
+	blendMode(BLEND);
+	createTexture(bgHue, bgSat, bgBright);
 }
 function createTexture(bgHue, bgSat, bgBright) {
 	let texture = [];
 
 	for (let index = 0; index < 4000; index++) {
-		const rdnX = random(0, width + 0);
-		const rdnY = random(0, height + 0);
+		const rdnX = random(0, width);
+		const rdnY = random(0, height);
 		const rdnW1 = random(5, 150);
 		texture[index] = new Smudge(rdnX, rdnY, rdnW1);
-		texture[index].display(bgBright);
+	}
+	for (let index = 0; index < texture.length; index++) {
+		for (let j = 0; j < 1000; j++) {
+			texture[index].display(bgBright);
+		}
 	}
 }
 
@@ -94,26 +98,28 @@ export default class Smudge {
 		this.rdnX = rdnX;
 		this.rdnY = rdnY;
 		this.rdnW1 = w1;
+		this.mapXLow = -width / 3;
+		this.mapXHigh = width * 1.5;
+		this.mapYLow = -height / 3;
+		this.mapYHigh = height * 1.5;
 		this.alpha = int(random(5, 25));
 	}
 
 	display(bgBright) {
-		for (let index = 0; index < 1000; index++) {
-			this.xoff += 0.003;
-			this.yoff += 0.00008;
-			this.woff1 += 0.55;
+		this.xoff += 0.003;
+		this.yoff += 0.00008;
+		this.woff1 += 0.55;
 
-			const w1 = map(noise(this.woff1 + this.rdnW1), 0, 1, 1, 3);
-			const x = map(noise(this.xoff + this.rdnX), 0, 1, -width / 3, width * 1.5);
-			const y = map(noise(this.yoff + this.rdnY), 0, 1, -height / 3, height * 1.5);
+		const w1 = map(noise(this.woff1 + this.rdnW1), 0, 1, 1, 3);
+		const x = map(noise(this.xoff + this.rdnX), 0, 1, this.mapXLow, this.mapXHigh);
+		const y = map(noise(this.yoff + this.rdnY), 0, 1, this.mapYLow, this.mapYHigh);
 
-			if (bgBright < 65) {
-				fill(0, 0, 100, this.alpha);
-			} else {
-				fill(0, 0, 0, this.alpha);
-			}
-			noStroke();
-			ellipse(x, y, w1, w1);
+		if (bgBright < 65) {
+			fill(0, 0, 100, this.alpha);
+		} else {
+			fill(0, 0, 0, this.alpha);
 		}
+		noStroke();
+		ellipse(x, y, w1, w1);
 	}
 }
