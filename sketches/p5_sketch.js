@@ -22,28 +22,27 @@ const settings = {
 		antialias: true,
 	},
 };
-let rImg;
-const preload = () => {
-	// You can use p5.loadImage() here, etc...
+let backgroundImg;
+window.preload = () => {
+	// Preload sounds/images/etc...
+	backgroundImg = loadImage("media/images/cap.png");
 };
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
-	rImg = loadImage("../media/images/cap.png");
 
 	let bgHue = 0;
 	let bgSat = 5;
-	let bgBright = 10;
+	let bgBright = 100;
 
 	colorMode(HSB, 360, 100, 100, 100);
-	background(bgHue, bgSat, bgBright, 5);
+	background(bgHue, bgSat, bgBright, 100);
 
-	image(rImg, 0, 0);
-
-	// createTexture(bgHue, bgSat, bgBright);
+	//image(backgroundImg, 0, 0);
+	backgroundImg.loadPixels();
+	createTexture(bgHue, bgSat, bgBright);
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
-		ellipse(width / 2, height / 2, 100);
 		exporting = true;
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);
@@ -57,14 +56,14 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 function createTexture(bgHue, bgSat, bgBright) {
 	let texture = [];
 
-	for (let index = 0; index < 1000; index++) {
+	for (let index = 0; index < 100000; index++) {
 		const rdnX = random(0, width);
 		const rdnY = random(0, height);
 		const rdnW1 = random(5, 150);
 		texture[index] = new Smudge(rdnX, rdnY, rdnW1);
 	}
 	for (let index = 0; index < texture.length; index++) {
-		for (let j = 0; j < 1000; j++) {
+		for (let j = 0; j < 1; j++) {
 			texture[index].display(bgBright);
 		}
 	}
@@ -82,6 +81,7 @@ export default class Smudge {
 		this.mapXHigh = width * 1.5;
 		this.mapYLow = -height / 3;
 		this.mapYHigh = height * 1.5;
+		this.c = get(this.rdnX, this.rdnY);
 		this.alpha = int(random(50, 100));
 	}
 
@@ -90,15 +90,10 @@ export default class Smudge {
 		this.yoff += 0.0008;
 		this.woff1 += 0.55;
 
-		const w1 = map(noise(this.woff1 + this.rdnW1), 0, 1, 0.2, 1.5);
+		const w1 = map(noise(this.woff1 + this.rdnW1), 0, 1, 10.2, 11.5);
 		const x = map(noise(this.xoff + this.rdnX), 0, 1, this.mapXLow, this.mapXHigh);
 		const y = map(noise(this.yoff + this.rdnY), 0, 1, this.mapYLow, this.mapYHigh);
-
-		if (bgBright < 65) {
-			fill(0, 0, 100, this.alpha);
-		} else {
-			fill(0, 0, 0, this.alpha);
-		}
+		fill(this.c[0], this.c[1], this.c[2], this.alpha);
 		noStroke();
 		ellipse(x, y, w1, w1);
 	}
