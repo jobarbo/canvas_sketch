@@ -1,14 +1,10 @@
 // Import sketch objects
-import Ball_mc from './ball_mc.js';
-import * as dat from 'dat.gui';
-const palettes = require('nice-color-palettes/1000.json');
+import Car from './ball_mc.js';
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
 const horizontal = 12 * 300;
 const vertical = 12 * 300;
-
-const gui = new dat.GUI({ closed: true });
 
 const settings = {
 	// Pass the p5 instance, and preload function if necessary
@@ -17,7 +13,7 @@ const settings = {
 	units: 'px',
 	//duration: 30,
 	//fps: 60,
-	animate: true,
+	animate: false,
 	attributes: {
 		antialias: true,
 	},
@@ -30,28 +26,31 @@ const preload = () => {
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	colorMode(HSB, 360, 100, 100, 100);
-	let ballList = [];
-	let xSpacing = width / 6;
-	let ySpacing = height / 6;
-	let x = xSpacing;
-	let y = ySpacing;
-	let rPalette = int(random(palettes.length));
-
-	for (let i = 0; i < 5; i++) {
-		console.log(i);
-		ballList[i] = new Ball_mc(x, y, palettes[rPalette][i], xSpacing, ySpacing);
-		y += ySpacing;
+	background(40, 10, 90);
+	let myCar = [];
+	let xsize, ysize;
+	let relDir = int(width / 100);
+	let relSpeed = int(width / 250);
+	let relLimit = int(width * (92 / 100));
+	let relSizeChange = int(width / 500);
+	let relWandering = int(width * (400 / 100));
+	let carNum = 150;
+	for (let i = 0; i < carNum; i++) {
+		xsize = random(width / 100, width / 10);
+		ysize = random(width / 100, width / 10);
+		myCar[i] = new Car(xsize, ysize, relDir, relSpeed, relSizeChange);
 	}
-
-	// gui.add(ball, 'x', 0, width, 0.00001);
-	// gui.add(ball, 'y', 0, width, 0.00001);
-	// Return a renderer, which is like p5.js 'draw' function
-	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
-		background(30, 5, 100);
-		for (let index = 0; index < ballList.length; index++) {
-			ballList[index].display();
+	for (let i = 0; i < 2000; i++) {
+		for (let j = 0; j < myCar.length; j++) {
+			myCar[j].move();
+			myCar[j].display();
+			if (i > relLimit) {
+				myCar[j].shrink();
+			}
 		}
-
+	}
+	// Return a renderer, which is like p5.js 'draw' function
+	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
 		exporting = true;
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);
@@ -60,4 +59,4 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			rect(bleed, bleed, trimWidth, trimHeight);
 		}
 	};
-}, settings);
+});

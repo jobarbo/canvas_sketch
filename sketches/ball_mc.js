@@ -1,22 +1,53 @@
-export default class Ball_mc {
-	constructor(x, y, pickedcolor, xSpacing, ySpacing) {
-		this.x = x;
-		this.y = y;
-		this.t = 0;
-		this.width = xSpacing / 1.25;
-		this.height = ySpacing / 1.25;
-		this.brightness = 100;
-		this.pickedColor = color(pickedcolor);
-		this.hue = this.pickedColor._getHue();
-		this.sat = this.pickedColor._getSaturation();
-		this.bright = this.pickedColor._getBrightness();
-		this.alpha = this.pickedColor._getAlpha();
+export default class Car {
+	constructor(xsize, ysize, relDir, relSpeed, relSizeChange) {
+		this.color = color(40, 10, 90);
+		this.xpos = random(xsize, width - xsize);
+		this.ypos = random(ysize, width - ysize);
+		this.xdirection = random(-relDir, relDir);
+		this.ydirection = random(-relDir, relDir);
+		this.xsize = xsize;
+		this.ysize = ysize;
+		this.alpha = 20;
+		this.relSpeed = relSpeed;
+		this.relSizeChange = relSizeChange;
 	}
 
 	display() {
-		strokeWeight(20);
-		stroke(this.hue, 20, 10, this.alpha);
-		fill(this.hue, this.sat, this.bright, this.alpha);
-		ellipse(this.x, this.y, this.width, this.width);
+		strokeWeight(width / 500);
+		stroke(20, 5, 20, this.alpha);
+		ellipseMode(CENTER);
+		fill(this.color);
+		ellipse(this.xpos, this.ypos, this.xsize, this.ysize);
+	}
+
+	move() {
+		let xspeed = random(-this.relSpeed, this.relSpeed);
+		let yspeed = random(-this.relSpeed, this.relSpeed);
+		let nAlpha = random(-1.1, 1.1);
+		this.alpha = this.alpha + nAlpha;
+		this.xpos = this.xpos + this.xdirection * xspeed;
+		this.ypos = this.ypos + this.ydirection * yspeed;
+		if (this.alpha > 100) {
+			this.alpha = 100;
+		} else if (this.alpha < 0) {
+			this.alpha = 0;
+		}
+		if (this.xpos > width) {
+			this.xpos = 0;
+		}
+		if (this.xpos < 0) {
+			this.xpos = width;
+		}
+	}
+
+	shrink() {
+		this.xsize -= this.relSizeChange;
+		this.ysize -= this.relSizeChange;
+		if (this.xsize <= this.relSizeChange) {
+			this.xsize = this.relSizeChange;
+		}
+		if (this.ysize <= this.relSizeChange) {
+			this.ysize = this.relSizeChange;
+		}
 	}
 }
