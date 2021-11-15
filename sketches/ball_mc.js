@@ -21,9 +21,9 @@ export default class Car {
 	}
 
 	move() {
-		let xspeed = random(-this.relSpeed, this.relSpeed);
-		let yspeed = random(-this.relSpeed, this.relSpeed);
-		let nAlpha = random(-1.1, 1.1);
+		let xspeed = random(-2, 2);
+		let yspeed = random(-2, 2);
+		let nAlpha = random(-1.01, 1.01);
 		this.alpha = this.alpha + nAlpha;
 		this.xpos = this.xpos + this.xdirection * xspeed;
 		this.ypos = this.ypos + this.ydirection * yspeed;

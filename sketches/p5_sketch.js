@@ -1,10 +1,14 @@
 // Import sketch objects
 import Car from './ball_mc.js';
+import * as dat from 'dat.gui';
+const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 12 * 300;
-const vertical = 12 * 300;
+const horizontal = 10 * 300;
+const vertical = 10 * 300;
+
+const gui = new dat.GUI({closed: true});
 
 const settings = {
 	// Pass the p5 instance, and preload function if necessary
@@ -34,13 +38,14 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let relLimit = int(width * (92 / 100));
 	let relSizeChange = int(width / 500);
 	let relWandering = int(width * (400 / 100));
+	//let carNum = int(width / 3.333);
 	let carNum = 150;
 	for (let i = 0; i < carNum; i++) {
 		xsize = random(width / 100, width / 10);
 		ysize = random(width / 100, width / 10);
 		myCar[i] = new Car(xsize, ysize, relDir, relSpeed, relSizeChange);
 	}
-	for (let i = 0; i < 2000; i++) {
+	for (let i = 0; i < 10000; i++) {
 		for (let j = 0; j < myCar.length; j++) {
 			myCar[j].move();
 			myCar[j].display();
@@ -59,4 +64,4 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			rect(bleed, bleed, trimWidth, trimHeight);
 		}
 	};
-});
+}, settings);
