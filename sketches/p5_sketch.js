@@ -5,8 +5,8 @@ const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 800;
-const vertical = 800;
+const horizontal = 10 * 300;
+const vertical = 10 * 300;
 
 const gui = new dat.GUI({closed: true});
 
@@ -37,8 +37,9 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let relSpeed = int(width / 250);
 	let relLimit = int(width * (92 / 100));
 	let relSizeChange = int(width / 500);
-	//let carNum = int(width / 3.333);
-	let carNum = 1500;
+	let carNum = int(width / 1.333);
+	console.log(carNum);
+	//let carNum = 1500;
 	for (let i = 0; i < carNum; i++) {
 		xsize = random(width / 100, width / 10);
 		ysize = random(width / 100, width / 10);
