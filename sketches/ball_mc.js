@@ -1,8 +1,8 @@
 export default class Car {
 	constructor(xsize, ysize, relDir, relSpeed, relSizeChange) {
-		this.satArr = [10, 10, 60, 10, 10, 10, 10, 40, 10, 10, 10, 30, 60, 10, 10, 50, 40, 70];
+		this.satArr = [10, 10, 10, 40, 10, 0, 0, 10, 60];
 		this.hueArr = [40, 40, 40, 40, 40, 0, 40, 120, 10, 10, 10, 80, 250, 40, 10, 20];
-		this.brightArr = [10, 70, 100, 70, 70, 70, 70, 40, 70, 70, 35, 30, 90, 70, 70, 80, 40, 70];
+		this.brightArr = [70, 70, 80, 80, 90];
 		this.color = color(random(this.hueArr), random(this.satArr), random(this.brightArr));
 		this.xpos = random(xsize, width - xsize);
 		this.ypos = random(ysize, width - ysize);
@@ -12,7 +12,7 @@ export default class Car {
 		this.ydirection = random(-relDir, relDir);
 		this.xsize = xsize;
 		this.ysize = ysize;
-		this.alpha = 1;
+		this.alpha = 10;
 		this.relSpeed = relSpeed;
 		this.relSizeChange = relSizeChange;
 	}
@@ -22,9 +22,9 @@ export default class Car {
 		stroke(20, 5, 20, this.alpha);
 		ellipseMode(CENTER);
 		fill(this.color);
-		//ellipse(this.xpos, this.ypos, this.xsize, this.ysize);
-		stroke(20, 5, 20, this.alpha);
-		line(this.prevxpos, this.prevypos, this.xpos, this.ypos);
+		ellipse(this.xpos, this.ypos, this.xsize, this.ysize);
+		//stroke(20, 5, 20, this.alpha);
+		//line(this.prevxpos, this.prevypos, this.xpos, this.ypos);
 	}
 
 	move() {

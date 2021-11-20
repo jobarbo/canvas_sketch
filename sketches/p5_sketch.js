@@ -36,9 +36,9 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let relDir = int(width / 100);
 	let relSpeed = int(width / 250);
 	let relLimit = int(width * (92 / 100));
-	let relSizeChange = int(width / 500);
+	let relSizeChange = int(width / 800);
+	console.log(relSizeChange);
 	let carNum = int(width / 1.333);
-	console.log(carNum);
 	//let carNum = 1500;
 	for (let i = 0; i < carNum; i++) {
 		xsize = random(width / 100, width / 10);
