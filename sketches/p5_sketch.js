@@ -31,6 +31,13 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	colorMode(HSB, 360, 100, 100, 100);
 
+	/**
+	 * GUI Helper
+	 */
+
+	// gui.add(module_name, 'x', 0, width, 0.00001);
+	// gui.add(module_name, 'y', 0, width, 0.00001);
+
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
 		exporting = true;
