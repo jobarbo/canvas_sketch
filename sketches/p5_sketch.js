@@ -1,5 +1,6 @@
 // Import sketch objects
 import Entity from './entity.js';
+import Stars from './stars.js';
 import * as dat from 'dat.gui';
 const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
@@ -30,6 +31,19 @@ const preload = () => {
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	colorMode(HSB, 360, 100, 100, 100);
+	background(10, 10, 90);
+
+	// let entity = new Entity(width / 2, height / 2, 150);
+	let stars = [];
+	for (let i = 0; i < 50; i++) {
+		stars[i] = new Stars(width / 2, 0, 50);
+	}
+	for (let frame = 0; frame < 5000; frame++) {
+		for (let i = 0; i < 50; i++) {
+			stars[i].display();
+			stars[i].move();
+		}
+	}
 
 	/**
 	 * GUI Helper
@@ -40,6 +54,9 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
+		//entity.display();
+		//entity.move();
+
 		exporting = true;
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);

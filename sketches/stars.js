@@ -1,15 +1,15 @@
-export default class Entity {
+export default class Stars {
 	constructor(x, y, w) {
 		this.x = x;
 		this.y = y;
 		this.w = w;
+		this.a = 10;
 		// Module ready to be built
 	}
 
 	display() {
-		stroke(10, 10, 90);
-		strokeWeight(10);
-		fill(244, 70, 90);
+		stroke(10, 10, 90, 100);
+		fill(0, 100, 100, this.a);
 		ellipse(this.x, this.y, this.w);
 	}
 
