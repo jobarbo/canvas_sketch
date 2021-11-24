@@ -12,7 +12,7 @@ export default class Car {
 		this.ydirection = random(-relDir, relDir);
 		this.xsize = xsize;
 		this.ysize = ysize;
-		this.alpha = 10;
+		this.alpha = 0.1;
 		this.relSpeed = relSpeed;
 		this.relSizeChange = relSizeChange;
 	}
@@ -28,9 +28,9 @@ export default class Car {
 	}
 
 	move() {
-		let xspeed = random(-0.8, 0.8);
-		let yspeed = random(-0.8, 0.8);
-		let nAlpha = random(-1, 1);
+		let xspeed = random(-1, 1);
+		let yspeed = random(-1, 1);
+		let nAlpha = random(-0.2, 0.2);
 		this.alpha = this.alpha + nAlpha;
 		this.prevxpos = this.xpos;
 		this.prevypos = this.ypos;
