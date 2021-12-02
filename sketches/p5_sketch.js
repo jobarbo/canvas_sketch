@@ -1,12 +1,14 @@
 // Import sketch objects
-import Car from './ball_mc.js';
+import Brush from './brush.js';
 import * as dat from 'dat.gui';
 const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 10 * 300;
-const vertical = 10 * 300;
+const horizontal = 12 * 300;
+const vertical = 12 * 300;
+//const vertical = 1080;
+//const horizontal = 1920;
 
 const gui = new dat.GUI({closed: true});
 
@@ -31,37 +33,37 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	colorMode(HSB, 360, 100, 100, 100);
 	background(40, 10, 90);
-	let myCar = [];
+	let pigments = [];
 	let xsize, ysize;
 	let relDir = int(width / 100);
 	let relSpeed = int(width / 250);
 	let relLimit = int(width * (92 / 100));
 	let relSizeChange = int(width / 800);
-	let carNum = int((width * height) / 10000);
+	let pigmentsNum = int((width * height) / 4000);
 
-	for (let i = 0; i < carNum; i++) {
+	for (let i = 0; i < pigmentsNum; i++) {
 		xsize = random(width / 100, width / 10);
-		ysize = random(width / 100, width / 10);
-		myCar[i] = new Car(xsize, ysize, relDir, relSpeed, relSizeChange);
+		ysize = random(height / 100, height / 10);
+		pigments[i] = new Brush(xsize, ysize, relDir, relSpeed, relSizeChange);
 	}
-	for (let i = 0; i < 10000; i++) {
-		for (let j = 0; j < myCar.length; j++) {
-			myCar[j].move();
-			myCar[j].display();
+	/* 	for (let i = 0; i < 10000; i++) {
+		for (let j = 0; j < pigments.length; j++) {
+			pigments[j].move();
+			pigments[j].display();
 			if (i > relLimit) {
-				myCar[j].shrink();
+				pigments[j].shrink();
 			}
 		}
-	}
+	} */
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
-		/* for (let j = 0; j < myCar.length - 3; j++) {
-			myCar[j].move();
-			myCar[j].display();
+		for (let j = 0; j < pigments.length; j++) {
+			pigments[j].move();
+			pigments[j].display();
 			if (time > relLimit / 1000) {
-				myCar[j].shrink();
+				pigments[j].shrink();
 			}
-		} */
+		}
 		exporting = true;
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);
