@@ -33,15 +33,17 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	colorMode(HSB, 360, 100, 100, 100);
 	background(40, 10, 90);
+	rectMode(CENTER);
 	let pigments = [];
 	let xsize, ysize;
 	let relDir = int(width / 100);
 	let relSpeed = int(width / 250);
 	let relLimit = int(width * (92 / 100));
-	let relSizeChange = int(width / 800);
-	let pigmentsNum = int((width * height) / 4000);
+	let sizeChangeArr = [int(width / 350), int(width / 700), int(width / 800), int(width / 900), int(width / 900), int(width / 800), int(width / 500), int(width / 500), int(width / 500), int(width / 800), int(width / 800), int(width / 600), int(width / 700), int(width / 700), int(width / 600), int(width / 700), int(width / 700), int(width / 600), int(width / 900)];
+	let pigmentsNum = int((width * height) / 10000);
 
 	for (let i = 0; i < pigmentsNum; i++) {
+		let relSizeChange = random(sizeChangeArr);
 		xsize = random(width / 100, width / 10);
 		ysize = random(height / 100, height / 10);
 		pigments[i] = new Brush(xsize, ysize, relDir, relSpeed, relSizeChange);
