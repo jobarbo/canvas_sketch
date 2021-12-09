@@ -1,30 +1,36 @@
 export default class Brush {
 	constructor(xsize, ysize, relDir, relSpeed, relSizeChange) {
-		this.fillAlpha = 50;
+		this.fillAlpha = 45;
 		this.fillPalettes = [
-			[19, 27, 82, this.fillAlpha],
-			[63, 11, 75, this.fillAlpha],
-			[117, 22, 70, this.fillAlpha],
-			[148, 36, 53, this.fillAlpha],
-			[160, 96, 45, this.fillAlpha],
+			[27, 84, 35, this.fillAlpha],
+			[28, 72, 50, this.fillAlpha],
+			[30, 61, 58, this.fillAlpha],
+			[35, 40, 65, this.fillAlpha],
+			[46, 21, 71, this.fillAlpha],
+			[67, 14, 77, this.fillAlpha],
+			[73, 22, 67, this.fillAlpha],
+			[74, 32, 43, this.fillAlpha],
+			[80, 29, 28, this.fillAlpha],
+			[90, 33, 24, this.fillAlpha],
 		];
 		this.strokeAlpha = 5;
 		this.strokePalettes = [
-			[19, 27, 82, this.strokeAlpha],
-			[63, 11, 75, this.strokeAlpha],
-			[117, 22, 70, this.strokeAlpha],
-			[148, 36, 53, this.strokeAlpha],
-			[160, 96, 45, this.strokeAlpha],
+			[27, 0, 35, this.strokeAlpha],
+			[28, 0, 50, this.strokeAlpha],
+			[30, 0, 58, this.strokeAlpha],
+			[35, 0, 65, this.strokeAlpha],
+			[46, 0, 71, this.strokeAlpha],
+			[67, 0, 77, this.strokeAlpha],
+			[73, 0, 67, this.strokeAlpha],
+			[74, 0, 43, this.strokeAlpha],
+			[80, 0, 28, this.strokeAlpha],
+			[90, 0, 24, this.strokeAlpha],
 		];
 
 		this.fillColor = color(random(this.fillPalettes));
 		this.strokeColor = color(random(this.strokePalettes));
-		//this.xpos = random(xsize, width - xsize);
-		//this.ypos = random(ysize, height - ysize);
-		this.xpos = random(width / 1.8, width / 2.2);
-		this.ypos = random(height / 1.8, height / 2.2);
-		//this.xpos = random(0, width);
-		//this.ypos = random(0, height);
+		this.xpos = random(0, width);
+		this.ypos = random(0, height);
 		this.prevxpos = this.xpos;
 		this.prevypos = this.ypos;
 		this.xdirection = random(-relDir, relDir);
@@ -35,8 +41,7 @@ export default class Brush {
 		this.relSizeChange = relSizeChange;
 		this.xspeed;
 		this.yspeed;
-		this.xoff = 0.01;
-		this.yoff = 0.023;
+		this.nAlpha;
 	}
 
 	display() {
@@ -45,22 +50,27 @@ export default class Brush {
 		ellipseMode(CENTER);
 		fill(this.fillColor);
 		ellipse(this.xpos, this.ypos, this.xsize, this.ysize);
-		//stroke(this.strokeColor);
 		//line(this.prevxpos, this.prevypos, this.xpos, this.ypos);
 	}
 
 	move() {
-		let nAlpha = random(-1, 1);
+		this.nAlpha = random(-1, 1);
 		this.xspeed = random(-0.5, 0.5);
 		this.yspeed = random(-0.5, 0.5);
-		this.fillAlpha = this.fillAlpha + nAlpha;
+		this.fillAlpha = this.fillAlpha + this.nAlpha;
+		this.strokeAlpha = this.strokeAlpha + this.nAlpha;
 		this.prevxpos = this.xpos;
 		this.prevypos = this.ypos;
 		this.xpos = this.xpos + this.xdirection * this.xspeed;
 		this.ypos = this.ypos + this.ydirection * this.yspeed;
 		if (this.fillAlpha > 100) {
-			this.strokeAlpha = 100;
+			this.fillAlpha = 100;
 		} else if (this.fillAlpha < 0) {
+			this.fillAlpha = 0;
+		}
+		if (this.strokeAlpha > 100) {
+			this.strokeAlpha = 100;
+		} else if (this.strokeAlpha < 0) {
 			this.strokeAlpha = 0;
 		}
 		if (this.xpos > width) {

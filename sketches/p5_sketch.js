@@ -39,13 +39,13 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let relDir = int(width / 100);
 	let relSpeed = int(width / 250);
 	let relLimit = int(width * (92 / 100));
-	let sizeChangeArr = [int(width / 350), int(width / 700), int(width / 800), int(width / 900), int(width / 900), int(width / 800), int(width / 500), int(width / 500), int(width / 500), int(width / 800), int(width / 800), int(width / 600), int(width / 700), int(width / 700), int(width / 600), int(width / 700), int(width / 700), int(width / 600), int(width / 900)];
+	let sizeChangeArr = [int(width / 900), int(width / 350), int(width / 700), int(width / 800), int(width / 900), int(width / 900), int(width / 800), int(width / 500), int(width / 500), int(width / 500), int(width / 800), int(width / 800), int(width / 600), int(width / 700), int(width / 700), int(width / 600), int(width / 700), int(width / 700), int(width / 600), int(width / 900)];
 	let pigmentsNum = int((width * height) / 10000);
 
 	for (let i = 0; i < pigmentsNum; i++) {
 		let relSizeChange = random(sizeChangeArr);
-		xsize = random(width / 100, width / 10);
-		ysize = random(height / 100, height / 10);
+		xsize = random(width / 20, width / 2);
+		ysize = random(height / 20, height / 2);
 		pigments[i] = new Brush(xsize, ysize, relDir, relSpeed, relSizeChange);
 	}
 	/* 	for (let i = 0; i < 10000; i++) {
