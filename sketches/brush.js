@@ -1,34 +1,13 @@
+const palettes = require('nice-color-palettes/1000.json');
 export default class Brush {
-	constructor(xsize, ysize, relDir, relSpeed, relSizeChange) {
-		this.fillAlpha = 45;
-		this.fillPalettes = [
-			[27, 84, 35, this.fillAlpha],
-			[28, 72, 50, this.fillAlpha],
-			[30, 61, 58, this.fillAlpha],
-			[35, 40, 65, this.fillAlpha],
-			[46, 21, 71, this.fillAlpha],
-			[67, 14, 77, this.fillAlpha],
-			[73, 22, 67, this.fillAlpha],
-			[74, 32, 43, this.fillAlpha],
-			[80, 29, 28, this.fillAlpha],
-			[90, 33, 24, this.fillAlpha],
-		];
-		this.strokeAlpha = 5;
-		this.strokePalettes = [
-			[27, 0, 35, this.strokeAlpha],
-			[28, 0, 50, this.strokeAlpha],
-			[30, 0, 58, this.strokeAlpha],
-			[35, 0, 65, this.strokeAlpha],
-			[46, 0, 71, this.strokeAlpha],
-			[67, 0, 77, this.strokeAlpha],
-			[73, 0, 67, this.strokeAlpha],
-			[74, 0, 43, this.strokeAlpha],
-			[80, 0, 28, this.strokeAlpha],
-			[90, 0, 24, this.strokeAlpha],
-		];
-
-		this.fillColor = color(random(this.fillPalettes));
-		this.strokeColor = color(random(this.strokePalettes));
+	constructor(xsize, ysize, relDir, relSpeed, relSizeChange, palettesIndex) {
+		console.log(palettesIndex);
+		this.fillAlpha = random(1, 45);
+		this.strokeAlpha = random(1, 45);
+		this.fillColor = color(random(palettes[palettesIndex]));
+		this.fillColor.setAlpha(this.fillAlpha);
+		this.strokeColor = color(random(palettes[palettesIndex]));
+		this.strokeColor.setAlpha(this.strokeAlpha);
 		this.xpos = random(0, width);
 		this.ypos = random(0, height);
 		this.prevxpos = this.xpos;
@@ -45,10 +24,11 @@ export default class Brush {
 	}
 
 	display() {
-		strokeWeight(width / 500);
-		stroke(this.strokeColor);
+		//strokeWeight(width / 500);
+		strokeWeight(this.xsize);
+		stroke(this.strokeColor, this.strokeAlpha);
 		ellipseMode(CENTER);
-		fill(this.fillColor);
+		fill(this.fillColor, this.fillAlpha);
 		ellipse(this.xpos, this.ypos, this.xsize, this.ysize);
 		//line(this.prevxpos, this.prevypos, this.xpos, this.ypos);
 	}
