@@ -37,9 +37,9 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let xsize, ysize;
 	let relDir = int(width / 100);
 	let relSpeed = int(width / 250);
-	let relLimit = int(width * (92 / 100));
-	let sizeChangeArr = [int(width / 250), int(width / 900), int(width / 300), int(width / 350), int(width / 700), int(width / 800), int(width / 900), int(width / 900), int(width / 800), int(width / 500), int(width / 500), int(width / 500), int(width / 800), int(width / 800), int(width / 600), int(width / 700), int(width / 700), int(width / 600), int(width / 700), int(width / 700), int(width / 700), int(width / 700), int(width / 700), int(width / 700), int(width / 700), int(width / 700), int(width / 700), int(width / 700), int(width / 700), int(width / 700), int(width / 700), int(width / 700), int(width / 600), int(width / 900)];
-	let pigmentsNum = int((width * height) / 10000);
+	let relLimit = 100;
+	let sizeChangeArr = [int(width / 800), int(width / 900)];
+	let pigmentsNum = 150;
 
 	colorMode(HSB, 360, 100, 100, 100);
 	rectMode(CENTER);
@@ -51,7 +51,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		ysize = random(height / 20, height / 2);
 		pigments[i] = new Brush(xsize, ysize, relDir, relSpeed, relSizeChange, palettesIndex);
 	}
-	/* 	for (let i = 0; i < 10000; i++) {
+	for (let i = 0; i < 20000; i++) {
 		for (let j = 0; j < pigments.length; j++) {
 			pigments[j].move();
 			pigments[j].display();
@@ -59,16 +59,16 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 				pigments[j].shrink();
 			}
 		}
-	} */
+	}
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
-		for (let j = 0; j < pigments.length; j++) {
+		/* for (let j = 0; j < pigments.length; j++) {
 			pigments[j].move();
 			pigments[j].display();
 			if (time > relLimit / 1000) {
 				pigments[j].shrink();
 			}
-		}
+		} */
 		exporting = true;
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);
