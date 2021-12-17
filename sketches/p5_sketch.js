@@ -39,7 +39,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let relSpeed = int(width / 250);
 	let relLimit = 100;
 	let sizeChangeArr = [int(width / 800), int(width / 900)];
-	let pigmentsNum = 150;
+	let pigmentsNum = 200;
 
 	colorMode(HSB, 360, 100, 100, 100);
 	rectMode(CENTER);
@@ -51,7 +51,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		ysize = random(height / 20, height / 2);
 		pigments[i] = new Brush(xsize, ysize, relDir, relSpeed, relSizeChange, palettesIndex);
 	}
-	for (let i = 0; i < 20000; i++) {
+	for (let i = 0; i < 10000; i++) {
 		for (let j = 0; j < pigments.length; j++) {
 			pigments[j].move();
 			pigments[j].display();
