@@ -5,7 +5,6 @@ export default class Brush {
 		this.strokeAlpha = random(1, 45);
 		this.subIndexArr = [0, 4];
 		this.fillSubIndex = random(this.subIndexArr);
-		console.log(this.fillSubIndex);
 		this.fillColor = color(palettes[palettesIndex][this.fillSubIndex]);
 		this.fillColor.setAlpha(this.fillAlpha);
 		this.strokeSubIndex = random(this.subIndexArr);
