@@ -1,9 +1,9 @@
 const palettes = require('nice-color-palettes/1000.json');
 export default class Brush {
 	constructor(xsize, ysize, relDir, relSpeed, relSizeChange, palettesIndex) {
-		this.fillAlpha = random(1, 20);
-		this.strokeAlpha = random(1, 20);
-		this.subIndexArr = [0, 2, 4];
+		this.fillAlpha = random(1, 40);
+		this.strokeAlpha = random(1, 40);
+		this.subIndexArr = [0, 4];
 		this.fillSubIndex = random(this.subIndexArr);
 		this.fillColor = color(palettes[palettesIndex][this.fillSubIndex]);
 		this.fillColor.setAlpha(this.fillAlpha);
