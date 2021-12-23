@@ -1,5 +1,4 @@
 // Import sketch objects
-import Entity from './entity.js';
 import Stars from './stars.js';
 import * as dat from 'dat.gui';
 const palettes = require('nice-color-palettes/1000.json');

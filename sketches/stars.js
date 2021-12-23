@@ -14,8 +14,8 @@ export default class Stars {
 	}
 
 	move() {
-		this.x += random(-50, 50);
-		this.y += random(-50, 50);
+		this.x += random(-100, 100);
+		this.y += random(-100, 100);
 		this.w += random(-1, 1);
 		if (this.x >= width) {
 			this.x = width;
