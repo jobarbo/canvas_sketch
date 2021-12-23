@@ -5,8 +5,8 @@ const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 12 * 300;
-const vertical = 12 * 300;
+const horizontal = 1080;
+const vertical = 1080;
 
 const gui = new dat.GUI({closed: true});
 
@@ -29,7 +29,35 @@ const preload = () => {
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
+	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
+	background(10);
+
+	let numPoints = 100000;
+	let margin = width / 15;
+
+	// HeadLight d'auto asphalte mouillé
+	for (let i = 0; i < numPoints; i++) {
+		blendMode(OVERLAY);
+		let angle = random(0, TWO_PI);
+		let scalar = random(margin, width);
+		let x = width / 2 + cos(angle) * scalar;
+		let y = height / 2.7 + sin(angle) * scalar;
+		let dirX = x + 14 + sin(angle) * 14;
+		let dirY = y + 14 + sin(angle) * 14;
+		let alpha = random(10, 90);
+		let sw = random(0.1, 3);
+		strokeWeight(sw);
+		stroke(random(0, 360), 15, 90, alpha);
+		line(x, y, dirX, dirY);
+		noStroke();
+		//push();
+		//translate(width/2,height/2.7);
+		//rotate(1.45);
+		//fill(0,0,10);
+		//ellipse(0,0,margin*2.8,margin*1.6);
+		//pop();
+	}
 
 	/**
 	 * GUI Helper
