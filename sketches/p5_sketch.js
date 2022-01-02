@@ -5,8 +5,8 @@ const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 1080;
-const vertical = 1080;
+const horizontal = 12 * 300;
+const vertical = 12 * 300;
 
 const gui = new dat.GUI({closed: true});
 
@@ -34,21 +34,21 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	background(10);
 
 	let numPoints = 100000;
-	let margin = width / 15;
+	let margin = width / 75;
 
 	// HeadLight d'auto asphalte mouillé
 	for (let i = 0; i < numPoints; i++) {
 		blendMode(OVERLAY);
 		let angle = random(0, TWO_PI);
 		let scalar = random(margin, width);
-		let x = width / 2 + cos(angle) * scalar;
-		let y = height / 2.7 + sin(angle) * scalar;
-		let dirX = x + 14 + sin(angle) * 14;
-		let dirY = y + 14 + sin(angle) * 14;
+		let x = width / 2.7 + cos(angle) * scalar;
+		let y = height / 3 + sin(angle) * scalar;
+		let dirX = x + 64 + cos(angle) * 64;
+		let dirY = y + 64 + sin(angle) * 64;
 		let alpha = random(10, 90);
-		let sw = random(0.1, 3);
+		let sw = random(3, 7);
 		strokeWeight(sw);
-		stroke(random(0, 360), 15, 90, alpha);
+		stroke(random(0, 360), random(10, 25), 90, alpha);
 		line(x, y, dirX, dirY);
 		noStroke();
 		//push();
