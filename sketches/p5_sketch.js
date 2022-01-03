@@ -23,7 +23,7 @@ const settings = {
 	},
 };
 
-window.preload = () => {
+const preload = () => {
 	// You can use p5.loadImage() here, etc...
 };
 
@@ -31,12 +31,56 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
-	background(20, 20, 100);
-	fill(20, 20, 20);
-	ellipse(width / 2, height / 2, 400, 400);
+	background(10);
+
+	let numPoints = 100000;
+	let margin = width / 15;
+
+	let posX = width / 2.7;
+	let posY = height / 3;
+	blendMode(OVERLAY);
+	// HeadLight d'auto asphalte mouillé
+	for (let i = 0; i < numPoints; i++) {
+		let angle = random(0, TWO_PI);
+		let scalar = random(margin, width);
+		let x = posX + cos(angle) * scalar;
+		let y = posY + sin(angle) * scalar;
+		let dirX = x + 3 + cos(angle) * 75;
+		let dirY = y + 3 + sin(angle) * 300;
+		let alpha = random(10, 60);
+		let sw = random(1, 10);
+		strokeWeight(sw);
+		stroke(random(0, 360), random(10, 25), 100, alpha);
+		line(x, y, dirX, dirY);
+	}
+	blendMode(BLEND);
+	noStroke();
+	push();
+	translate(posX, posY);
+	rotate(0);
+
+	let elW = margin * random(1.8, 2.4);
+	let elH = random(0, 360);
+	let elS = 100;
+	for (let alpha = 0; alpha < 100; alpha += 1) {
+		fill(elH, elS, 100, alpha);
+		ellipse(0, 0, elW, elW);
+		elH += random(1, 10);
+		if (elH <= 0 || elH >= 360) {
+			elH = 0;
+		}
+		elS = elS -= 10;
+		elW = elW -= 15;
+		if (elW <= 300) {
+			elW = 300;
+		}
+	}
+	pop();
+
 	/**
 	 * GUI Helper
 	 */
+
 	// gui.add(module_name, 'x', 0, width, 0.00001);
 	// gui.add(module_name, 'y', 0, width, 0.00001);
 
