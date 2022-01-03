@@ -23,42 +23,98 @@ const settings = {
 	},
 };
 
-const preload = () => {
+let render;
+window.preload = () => {
 	// You can use p5.loadImage() here, etc...
+	render = loadImage('/media/dither/output3_10.jpg');
 };
+
+function imageIndex(img, x, y) {
+	return 4 * (x + y * img.width);
+}
+
+function getColorAtindex(img, x, y) {
+	let idx = imageIndex(img, x, y);
+	let pix = img.pixels;
+	let red = pix[idx];
+	let green = pix[idx + 1];
+	let blue = pix[idx + 2];
+	let alpha = pix[idx + 3];
+	return color(red, green, blue, alpha);
+}
+
+function setColorAtIndex(img, x, y, colour) {
+	let idx = imageIndex(img, x, y);
+	let pix = img.pixels;
+	pix[idx] = red(colour);
+	pix[idx + 1] = green(colour);
+	pix[idx + 2] = blue(colour);
+	pix[idx + 3] = alpha(colour);
+}
+
+function closestStep(max, steps, value) {
+	return round((steps * value) / max) * floor(max / steps);
+}
+function makeDithered(img, steps) {
+	img.loadPixels();
+
+	for (let y = 0; y < img.height; y++) {
+		for (let x = 0; x < img.width; x++) {
+			let colour = getColorAtindex(img, x, y);
+			let oldR = red(colour);
+			let oldG = green(colour);
+			let oldB = blue(colour);
+			let newR = closestStep(255, steps, oldR);
+			let newG = closestStep(255, steps, oldG);
+			let newB = closestStep(255, steps, oldB);
+
+			let newColour = color(newR, newG, newB);
+			setColorAtIndex(img, x, y, newColour);
+
+			let errR = oldR - newR;
+			let errG = oldG - newG;
+			let errB = oldB - newB;
+
+			distributeError(img, x, y, errR, errG, errB);
+		}
+	}
+	img.updatePixels();
+}
+
+function distributeError(img, x, y, errR, errG, errB) {
+	addError(img, 7 / 16.0, x + 1, y, errR, errG, errB);
+	addError(img, 3 / 16.0, x - 1, y + 1, errR, errG, errB);
+	addError(img, 5 / 16.0, x, y + 1, errR, errG, errB);
+	addError(img, 1 / 16.0, x + 1, y + 1, errR, errG, errB);
+}
+
+function addError(img, factor, x, y, errR, errG, errB) {
+	if (x < 0 || x >= img.width || y < 0 || y >= img.height) {
+		return;
+	}
+	let colour = getColorAtindex(img, x, y);
+	let r = red(colour);
+	let g = green(colour);
+	let b = blue(colour);
+	colour.setRed(r + errR * factor);
+	colour.setGreen(g + errG * factor);
+	colour.setBlue(b + errB * factor);
+
+	setColorAtIndex(img, x, y, colour);
+}
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	noSmooth();
-	colorMode(HSB, 360, 100, 100, 100);
-	background(10);
-
-	let numPoints = 100000;
-	let margin = width / 75;
-
-	// HeadLight d'auto asphalte mouillé
-	for (let i = 0; i < numPoints; i++) {
-		blendMode(OVERLAY);
-		let angle = random(0, TWO_PI);
-		let scalar = random(margin, width);
-		let x = width / 2.7 + cos(angle) * scalar;
-		let y = height / 3 + sin(angle) * scalar;
-		let dirX = x + 64 + cos(angle) * 64;
-		let dirY = y + 64 + sin(angle) * 64;
-		let alpha = random(10, 90);
-		let sw = random(3, 7);
-		strokeWeight(sw);
-		stroke(random(0, 360), random(10, 25), 90, alpha);
-		line(x, y, dirX, dirY);
-		noStroke();
-		//push();
-		//translate(width/2,height/2.7);
-		//rotate(1.45);
-		//fill(0,0,10);
-		//ellipse(0,0,margin*2.8,margin*1.6);
-		//pop();
-	}
-
+	makeDithered(render, 2);
+	image(render, 0, 0, width, height);
+	filter(GRAY);
+	//filter(THRESHOLD);
+	//filter(OPAQUE);
+	//filter(POSTERIZE, 3);
+	//filter(DILATE);
+	//filter(BLUR, 3);
+	//filter(ERODE);
 	/**
 	 * GUI Helper
 	 */
