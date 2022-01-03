@@ -35,7 +35,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	let numPoints = 100000;
 	let margin = width / 15;
-
+	let bgBright = int(random(15, 35));
 	let posX = width / 2.7;
 	let posY = height / 3;
 	blendMode(OVERLAY);
@@ -59,7 +59,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	translate(posX, posY);
 	rotate(0);
 
-	let elW = margin * random(1.8, 2.4);
+	let elW = margin * random(2, 2.4);
 	let elH = random(0, 360);
 	let elS = 100;
 	for (let alpha = 0; alpha < 100; alpha += 1) {
@@ -70,13 +70,13 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			elH = 0;
 		}
 		elS = elS -= 10;
-		elW = elW -= 15;
-		if (elW <= 300) {
-			elW = 300;
+		elW = elW -= 10;
+		if (elW <= margin / 2) {
+			elW = margin / 2;
 		}
 	}
 	pop();
-	createTexture(bgHue, bgSat, bgBright);
+	createTexture(bgBright);
 	/**
 	 * GUI Helper
 	 */
@@ -96,7 +96,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	};
 }, settings);
 
-function createTexture(bgHue, bgSat, bgBright) {
+function createTexture(bgBright) {
 	let texture = [];
 
 	for (let index = 0; index < 3000; index++) {
@@ -124,12 +124,12 @@ export default class Smudge {
 		this.mapXHigh = width * 1.5;
 		this.mapYLow = -height / 3;
 		this.mapYHigh = height * 1.5;
-		this.alpha = int(random(5, 25));
+		this.alpha = int(random(1, 20));
 	}
 
 	display(bgBright) {
-		this.xoff += 0.003;
-		this.yoff += 0.00008;
+		this.xoff += 0.0002;
+		this.yoff += 0.004;
 		this.woff1 += 0.55;
 
 		const w1 = map(noise(this.woff1 + this.rdnW1), 0, 1, 1, 3);
