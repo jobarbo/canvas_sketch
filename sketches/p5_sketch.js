@@ -76,7 +76,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		}
 	}
 	pop();
-
+	createTexture(bgHue, bgSat, bgBright);
 	/**
 	 * GUI Helper
 	 */
