@@ -31,7 +31,9 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
-
+	background(20, 20, 100);
+	fill(20, 20, 20);
+	ellipse(width / 2, height / 2, 400, 400);
 	/**
 	 * GUI Helper
 	 */
