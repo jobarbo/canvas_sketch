@@ -31,7 +31,49 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
+	background(30, 10, 100);
+	rectMode(CENTER);
 
+	let arrX = [];
+	let arrY = [];
+	let formResolution = 64;
+	let rectW = 800;
+	let spacing = rectW / formResolution;
+	console.log(spacing);
+	let stepSize = 2;
+	let centerX = width / 2;
+	let centerY = height / 2;
+	let rightX = centerX + rectW / 2;
+	let leftX = centerX - rectW / 2;
+	let topY = centerY - rectW / 2;
+	let bottomY = centerY + rectW / 2;
+	let angle = radians(360 / formResolution);
+
+	fill(10, 10, 10);
+	rect(centerX, centerY, rectW, rectW);
+	point(centerX, centerY);
+
+	for (let x = leftX; x < rightX; x += spacing) {
+		//point(x, topY);
+		arrX.push(x);
+		arrY.push(topY);
+	}
+	for (let x = leftX; x < rightX; x += spacing) {
+		//point(x, bottomY);
+		arrX.push(x);
+		arrY.push(bottomY);
+	}
+	for (let y = topY; y < bottomY; y += spacing) {
+		//point(leftX, y);
+		arrX.push(leftX);
+		arrY.push(y);
+	}
+	for (let y = topY; y <= bottomY; y += spacing) {
+		//point(rightX, y);
+		arrX.push(rightX);
+		arrY.push(y);
+	}
+	console.log(arrY);
 	/**
 	 * GUI Helper
 	 */
@@ -40,6 +82,15 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
+		let hue = 65;
+		for (let i = 0; i <= formResolution * 4; i++) {
+			arrX[i] += random(-stepSize, stepSize);
+			arrY[i] += random(-stepSize, stepSize);
+			stroke(hue, 50, 25);
+			fill(hue, 50, 50);
+			ellipse(arrX[i], arrY[i], 5, 5);
+			hue += random(-2, 2);
+		}
 		exporting = true;
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);
