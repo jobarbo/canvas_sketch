@@ -31,16 +31,16 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
-	background(195, 17, 90);
+	background(40, 10, 90);
 	rectMode(CENTER);
 
 	let arrX = [];
 	let arrY = [];
 	let formResolution = 120;
-	let rectW = width / 6;
+	let rectW = width / 3;
 	let spacing = rectW / formResolution;
 	console.log(spacing);
-	let stepSize = 2;
+	let stepSize = 3;
 	let centerX = width / 2;
 	let centerY = height / 2;
 	let rightX = centerX + rectW / 2;
@@ -49,7 +49,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let bottomY = centerY + rectW / 2;
 	let angle = radians(360 / formResolution);
 
-	fill(30, 61, 58);
+	fill(30, 61, 18);
 	rect(centerX, centerY, rectW, rectW);
 	point(centerX, centerY);
 
