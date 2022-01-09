@@ -34,7 +34,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	background(0, 0, 100);
 	rectMode(CENTER);
 	let colorArr = random(palettes);
-	let spacing = 500;
+	let spacing = 600;
 	let rectColor = [];
 	let rectW = width;
 	let rectB = 0;
@@ -42,34 +42,45 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let curveColor = random(colorArr);
 	let middleX = random(width / 2 - spacing / 2, width / 2 + spacing / 2);
 	let middleY = random(height / 2 - spacing / 2, height / 2 + spacing / 2);
-	while (rectW >= spacing) {
-		if (counter % 2 == 0) {
-			rectColor = colorArr[0];
+	let iCol = 0;
+	let prevCol = 3;
+	while (rectW >= spacing * 2) {
+		/* 		if (counter % 2 == 0) {
+			rectColor = colorArr[iCol1];
 		} else {
-			rectColor = colorArr[4];
-		}
-
+			rectColor = colorArr[iCol2];
+		} */
+		rectColor = colorArr[iCol];
 		noStroke();
 		fill(rectColor);
 		rect(width / 2, height / 2, rectW, rectW);
 		rectW = rectW - spacing;
-
 		counter++;
+		iCol++;
+		prevCol++;
+		if (iCol > 4) {
+			iCol = 0;
+		}
+		if (prevCol > 4) {
+			prevCol = 0;
+		}
 	}
-	curveColor = colorArr[4];
+	curveColor = colorArr[prevCol];
 	blendMode(BLEND);
 	beginShape();
 	noFill();
 	stroke(curveColor);
 	strokeWeight(spacing / 4);
-	curveVertex(width / 2 - (spacing + 25) / 2, height / 2 - (spacing + 25) / 2);
-	curveVertex(width / 2 - (spacing + 25) / 2, height / 2 - (spacing + 25) / 2);
+	curveVertex(width / 2 - (spacing + 600) / 2, height / 2 - (spacing + 600) / 2);
+	curveVertex(width / 2 - (spacing + 600) / 2, height / 2 - (spacing + 600) / 2);
 
 	curveVertex(middleX, middleY);
 
-	curveVertex(width / 2 + (spacing + 25) / 2, height / 2 + (spacing + 25) / 2);
-	curveVertex(width / 2 + (spacing + 25) / 2, height / 2 + (spacing + 25) / 2);
+	curveVertex(width / 2 + (spacing + 600) / 2, height / 2 + (spacing + 600) / 2);
+	curveVertex(width / 2 + (spacing + 600) / 2, height / 2 + (spacing + 600) / 2);
 	endShape();
+
+	createTexture(0);
 	/**
 	 * GUI Helper
 	 */
@@ -87,3 +98,53 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		}
 	};
 }, settings);
+
+function createTexture(bgBright) {
+	let texture = [];
+
+	for (let index = 0; index < 2000; index++) {
+		const rdnX = random(0, width);
+		const rdnY = random(0, height);
+		const rdnW1 = random(5, 150);
+		texture[index] = new Smudge(rdnX, rdnY, rdnW1);
+	}
+	for (let index = 0; index < texture.length; index++) {
+		for (let j = 0; j < 1000; j++) {
+			texture[index].display(bgBright);
+		}
+	}
+}
+
+export default class Smudge {
+	constructor(rdnX, rdnY, w1) {
+		this.xoff = 0;
+		this.yoff = 1;
+		this.woff1 = 0;
+		this.rdnX = rdnX;
+		this.rdnY = rdnY;
+		this.rdnW1 = w1;
+		this.mapXLow = -width / 3;
+		this.mapXHigh = width * 1.5;
+		this.mapYLow = -height / 3;
+		this.mapYHigh = height * 1.5;
+		this.alpha = int(random(1, 20));
+	}
+
+	display(bgBright) {
+		this.xoff += 0.002;
+		this.yoff += 0.004;
+		this.woff1 += 0.55;
+
+		const w1 = map(noise(this.woff1 + this.rdnW1), 0, 1, 1, 3);
+		const x = map(noise(this.xoff + this.rdnX), 0, 1, this.mapXLow, this.mapXHigh);
+		const y = map(noise(this.yoff + this.rdnY), 0, 1, this.mapYLow, this.mapYHigh);
+
+		if (bgBright < 65) {
+			fill(0, 0, 100, this.alpha);
+		} else {
+			fill(0, 0, 0, this.alpha);
+		}
+		noStroke();
+		ellipse(x, y, w1, w1);
+	}
+}
