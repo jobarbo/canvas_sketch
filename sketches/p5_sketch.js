@@ -75,7 +75,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// createTexture();
 
 	// Return a renderer, which is like p5.js 'draw' function
-	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
+	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
 		exporting = true;
 
 		if (!exporting && bleed > 0) {
@@ -209,7 +209,7 @@ class Waves {
 		stroke(this.strokeHue, 30, 95, 0);
 		fill(this.fillHue, this.fillSat, this.fillBright, this.fillAlpha);
 		// here we simply subtract this.yy, multiplied by a number that is the strength of the effect
-		ellipse(this.x, this.rdny - 2000 * this.yy, this.width, this.height);
+		rect(this.x, this.rdny - 2000 * this.yy, this.width, this.height);
 	}
 }
 
