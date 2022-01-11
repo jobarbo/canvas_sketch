@@ -22,9 +22,11 @@ const settings = {
 		antialias: true,
 	},
 };
-
+let backgroundImg = '';
 window.preload = () => {
 	// You can use p5.loadImage() here, etc...
+	// Preload sounds/images/etc...
+	backgroundImg = loadImage('media/images/smoghd.png');
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
@@ -77,7 +79,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			waves[i].display();
 		}
 	}
-
+	createTexture();
 	/**
 	 * GUI Helper
 	 */
@@ -99,10 +101,10 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 function createTexture() {
 	let texture = [];
 
-	for (let index = 0; index < 5000; index++) {
-		const rdnX = random(600, width + 600);
-		const rdnY = random(600, height + 600);
-		const rdnW1 = random(5, 150);
+	for (let index = 0; index < 1000; index++) {
+		const rdnX = random(-200, width + 200);
+		const rdnY = random(-200, height + 200);
+		const rdnW1 = random(1, 5);
 		texture[index] = new Smudge(rdnX, rdnY, rdnW1);
 		texture[index].display();
 	}
@@ -175,7 +177,7 @@ class Waves {
 		this.fillHue = random(130, 270);
 		this.fillSat = random(0, 30);
 		this.fillBright = random(15, 35);
-		this.fillAlpha = 1;
+		this.fillAlpha = 0.11;
 	}
 
 	move() {
@@ -195,7 +197,7 @@ class Waves {
 		this.fillHue += 0.75;
 		this.fillSat += 0.5;
 		this.fillBright += 0.5;
-		this.fillAlpha *= 1.03;
+		this.fillAlpha *= 1.025;
 		if (this.fillBright >= random(35, 45)) {
 			// this.fillBright = random(25, 45);
 			this.fillBright = 10;
@@ -209,7 +211,7 @@ class Waves {
 			this.fillHue = 80;
 		}
 		if (this.fillAlpha >= 80) {
-			this.fillAlpha = random(0, 30);
+			this.fillAlpha = random(60, 100);
 		}
 	}
 
@@ -259,7 +261,7 @@ class Clouds {
 
 	display() {
 		strokeWeight(2);
-		stroke(this.fillHue, this.fillSat, 90, 30);
+		stroke(this.fillHue, this.fillSat, 90, 20);
 		fill(this.fillHue, this.fillSat, 100, 15);
 		ellipse(this.x, this.rdny, this.width, this.height);
 	}
