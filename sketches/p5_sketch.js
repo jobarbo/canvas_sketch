@@ -23,16 +23,38 @@ const settings = {
 	},
 };
 
+let img = '';
+let roboto;
 window.preload = () => {
 	// You can use p5.loadImage() here, etc...
+	img = loadImage('media/images/position-sticky.png');
+	roboto = loadFont('media/fonts/RobotoSlab-Medium.ttf');
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
-	background(0, 0, 100);
+	background(10, 5, 10);
 
+	let margin = width / 4;
+
+	image(img, margin / 2, margin / 3, width - margin, height - margin);
+	noFill();
+	strokeWeight(50);
+	stroke(46, 5, 98);
+	//rect(margin / 2, margin / 3, width - margin, height - margin);
+	textFont(roboto);
+	let s = 'Label: Fidenza, Tyler Hobbs ';
+	textSize(100);
+	fill(46, 5, 98);
+	strokeWeight(1);
+	text(s, margin / 2, height - margin + 400, 2000, 400); //
+	let s2 = 'Confidence: 99% ';
+	textSize(80);
+	fill(46, 5, 98);
+	strokeWeight(1);
+	text(s2, margin / 2, height - margin + 550, 2000, 550); //
 	/**
 	 * GUI Helper
 	 */
