@@ -31,7 +31,30 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
-	background(0, 0, 100);
+	background(0, 0, 15);
+	rectMode(CENTER);
+
+	const colorArr = random(palettes);
+	const margin = 160;
+	const hRes = 80;
+	const vRes = 800;
+	const dWidth = width - margin * 2;
+	const dHeight = height - margin * 2;
+	const hSteps = dWidth / hRes;
+	const vSteps = dHeight / vRes;
+	//blendMode(SCREEN);
+	for (let x = margin; x <= width - margin; x += hSteps) {
+		for (let y = margin; y <= height - margin; y += vSteps) {
+			let colour = random(colorArr);
+			let sColour = random(colorArr);
+			stroke(sColour);
+			strokeWeight(2);
+			fill(0, 0, 100);
+			//noStroke();
+			//line(x, y, x + hSteps, y + vSteps);
+			ellipse(x, y, hSteps, vSteps);
+		}
+	}
 
 	/**
 	 * GUI Helper
