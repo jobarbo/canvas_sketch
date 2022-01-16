@@ -15,15 +15,13 @@ require('three/examples/js/shaders/CopyShader.js');
 const canvasSketch = require('canvas-sketch');
 
 const settings = {
-	// Make the loop animated
 	animate: true,
-	dimensions: [800, 800],
+	dimensions: [3600, 3600],
 	units: 'px',
 	// Get a WebGL canvas rather than 2D
 	context: 'webgl',
 	// Turn on MSAA
 	attributes: {antialias: true},
-	resizeCanvas: false,
 };
 
 const sketch = ({context, width, height}) => {
@@ -130,16 +128,8 @@ const sketch = ({context, width, height}) => {
 	// draw each frame
 	return {
 		// Handle resize events here
-		resize({canvas, pixelRatio, viewportWidth, viewportHeight}) {
-			const dpr = Math.min(pixelRatio, 2); // Cap DPR scaling to 2x
-
-			canvas.width = viewportWidth * dpr;
-			canvas.height = viewportHeight * dpr;
-			canvas.style.width = viewportWidth + 'px';
-			canvas.style.height = viewportHeight + 'px';
-
-			bloomPass.resolution.set(viewportWidth, viewportHeight);
-
+		resize({pixelRatio, viewportWidth, viewportHeight}) {
+			const dpr = Math.min(pixelRatio, 2);
 			renderer.setPixelRatio(pixelRatio);
 			renderer.setSize(viewportWidth, viewportHeight);
 
@@ -158,12 +148,8 @@ const sketch = ({context, width, height}) => {
 		},
 		// Dispose of events & renderer for cleaner hot-reloading
 		unload() {
-			material.dispose();
-			hdrEquirect.dispose();
 			controls.dispose();
 			renderer.dispose();
-			bloomPass.dispose();
-			gui.destroy();
 		},
 	};
 };
