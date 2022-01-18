@@ -1,157 +1,70 @@
-// Ensure ThreeJS is in global scope for the 'examples/'
-global.THREE = require('three');
-
-// Include any additional ThreeJS examples below
-require('three/examples/js/controls/OrbitControls');
-require('three/examples/js/geometries/RoundedBoxGeometry.js');
-require('three/examples/js/loaders/RGBELoader.js');
-require('three/examples/js/postprocessing/EffectComposer.js');
-require('three/examples/js/postprocessing/RenderPass.js');
-require('three/examples/js/postprocessing/ShaderPass.js');
-require('three/examples/js/postprocessing/UnrealBloomPass.js');
-require('three/examples/js/shaders/LuminosityHighPassShader.js');
-require('three/examples/js/shaders/CopyShader.js');
-
+// Import sketch objects
+import Entity from './entity.js';
+import * as dat from 'dat.gui';
+const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
+const p5 = require('p5');
+new p5();
+const horizontal = 12 * 300;
+const vertical = 12 * 300;
+
+const gui = new dat.GUI({closed: true});
 
 const settings = {
-	animate: true,
-	dimensions: [3600, 3600],
+	// Pass the p5 instance, and preload function if necessary
+	p5: true,
+	dimensions: [horizontal, vertical],
 	units: 'px',
-	// Get a WebGL canvas rather than 2D
-	context: 'webgl',
-	// Turn on MSAA
-	attributes: {antialias: true},
+	//duration: 30,
+	//fps: 60,
+	animate: true,
+	attributes: {
+		antialias: true,
+	},
 };
 
-const sketch = ({context, width, height}) => {
-	// Create a renderer
-	const renderer = new THREE.WebGLRenderer({
-		context,
-	});
+window.preload = () => {
+	// You can use p5.loadImage() here, etc...
+};
 
-	// WebGL background color
-	renderer.setClearColor(0x1f1e1c, 1);
+canvasSketch((context, bleed, trimWidth, trimHeight) => {
+	// Sketch setup => Like p5.js 'setup' function
+	noSmooth();
+	colorMode(HSB, 360, 100, 100, 100);
+	background(201, 100, 29);
 
-	// Setup a camera
-	const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 100);
-	camera.position.set(0, 0, 5);
+	let elX = width / 2;
+	let elY = height / 2;
+	let elW = 40;
+	/**
+	 * GUI Helper
+	 */
+	// gui.add(module_name, 'x', 0, width, 0.00001);
+	// gui.add(module_name, 'y', 0, width, 0.00001);
 
-	// Setup camera controller
-	const controls = new THREE.OrbitControls(camera, context.canvas);
+	// Return a renderer, which is like p5.js 'draw' function
+	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
+		let rnd = floor(random(1, 3));
 
-	// Setup your scene
-	const scene = new THREE.Scene();
-
-	const bloomRadius = 0.33;
-	const bloomStrength = 0.25;
-	const bloomThreshold = 0.25;
-
-	const renderPass = new THREE.RenderPass(scene, camera);
-	const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(width, height), bloomStrength, bloomRadius, bloomThreshold);
-
-	const composer = new THREE.EffectComposer(renderer);
-	composer.addPass(renderPass);
-	composer.addPass(bloomPass);
-
-	const hdrEquirect = new THREE.RGBELoader().load('/media/images/empty_warehouse_01_4k.hdr', () => {
-		hdrEquirect.mapping = THREE.EquirectangularReflectionMapping;
-	});
-
-	const bgTexture = new THREE.TextureLoader().load('/media/images/aurora.png');
-	const bgGeometry = new THREE.PlaneGeometry(5, 5);
-	const bgMaterial = new THREE.MeshBasicMaterial({map: bgTexture});
-	const bgMesh = new THREE.Mesh(bgGeometry, bgMaterial);
-	bgMesh.position.set(0, 0, -1);
-	scene.add(bgMesh);
-
-	const textureLoader = new THREE.TextureLoader();
-	const normalMapTexture = textureLoader.load('/media/images/normal.jpeg');
-	normalMapTexture.wrapS = THREE.RepeatWrapping;
-	normalMapTexture.wrapT = THREE.RepeatWrapping;
-	normalMapTexture.repeat.set(1, 1);
-
-	const geometry = new THREE.RoundedBoxGeometry(1, 1, 1, 16, 0.2);
-	const material = new THREE.MeshPhysicalMaterial({roughness: 0.1, transmission: 1, thickness: 1.5, envMap: hdrEquirect, envMapIntensity: 1.5, clearcoat: 1, clearcoatRoughness: 0.51, normalScale: new THREE.Vector2(0.5), normalMap: normalMapTexture, clearcoatNormalMap: normalMapTexture, clearcoatNormalScale: new THREE.Vector2(0.5)});
-
-	const MESH_COUNT = 500;
-	const mesh = new THREE.InstancedMesh(geometry, material, MESH_COUNT);
-	scene.add(mesh);
-
-	const matrixDummy = new THREE.Object3D();
-
-	const instanceData = [...Array(MESH_COUNT)].map(() => {
-		const position = new THREE.Vector3(1.5 * (-1 + 2 * Math.random()), 1.5 * (-1 + 2 * Math.random()), 0.2 + (-1 + 2 * Math.random()));
-		const rotation = new THREE.Euler(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
-
-		const axis = new THREE.Vector3(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1);
-
-		const BASE_SCALE = 0.2;
-		const scale = BASE_SCALE * (0.25 + 0.75 * Math.random());
-
-		const rotateTime = 5 + 15 * Math.random();
-
-		return {
-			position,
-			rotation,
-			axis,
-			scale: new THREE.Vector3(scale, scale, scale),
-			rotateTime,
-		};
-	});
-	const updateInstances = (deltaTime) => {
-		for (let i = 0; i < MESH_COUNT; i++) {
-			const data = instanceData[i];
-
-			matrixDummy.position.copy(data.position);
-			matrixDummy.scale.copy(data.scale);
-			matrixDummy.quaternion.setFromEuler(data.rotation);
-			matrixDummy.rotateOnWorldAxis(data.axis, deltaTime / data.rotateTime);
-			data.rotation.copy(matrixDummy.rotation);
-
-			matrixDummy.updateMatrix();
-			mesh.setMatrixAt(i, matrixDummy.matrix);
+		stroke(201, 100, 29);
+		if (rnd % 2 == 0) {
+			fill(40, 71, 99);
+		} else {
+			fill(0, 81, 84);
 		}
-		mesh.instanceMatrix.needsUpdate = true;
+		strokeWeight(20);
+		ellipse(elX, elY, elW);
+
+		elX = randomGaussian(width / 2, width / 2);
+		elY = randomGaussian(height / 2, 250);
+		elW = randomGaussian(50, 50);
+
+		exporting = true;
+		if (!exporting && bleed > 0) {
+			stroke(0, 100, 100);
+			noFill();
+			strokeWeight(10);
+			rect(bleed, bleed, trimWidth, trimHeight);
+		}
 	};
-	// Specify an ambient/unlit colour
-	scene.add(new THREE.AmbientLight('#59314f'));
-
-	// Add some light
-	const light = new THREE.DirectionalLight(0xfff0dd, 1);
-	light.position.set(0, 5, 10);
-	scene.add(light);
-
-	const update = (time, deltaTime) => {
-		updateInstances(deltaTime);
-	};
-	// draw each frame
-	return {
-		// Handle resize events here
-		resize({pixelRatio, viewportWidth, viewportHeight}) {
-			const dpr = Math.min(pixelRatio, 2);
-			renderer.setPixelRatio(pixelRatio);
-			renderer.setSize(viewportWidth, viewportHeight);
-
-			composer.setPixelRatio(dpr);
-			composer.setSize(viewportWidth, viewportHeight);
-
-			camera.aspect = viewportWidth / viewportHeight;
-			camera.updateProjectionMatrix();
-		},
-		// Update & render your scene here
-		render({time, deltaTime}) {
-			update(time, deltaTime);
-			renderer.render(scene, camera);
-
-			composer.render();
-		},
-		// Dispose of events & renderer for cleaner hot-reloading
-		unload() {
-			controls.dispose();
-			renderer.dispose();
-		},
-	};
-};
-
-canvasSketch(sketch, settings);
+}, settings);
