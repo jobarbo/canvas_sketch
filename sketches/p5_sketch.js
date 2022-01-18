@@ -42,11 +42,11 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	}
 
 	// Create objects
-	for (let i = 0; i < 3; i++) {
+	/* 	for (let i = 0; i < 3; i++) {
 		const rdnX = random(0, width / 2);
 		clouds.push(new Clouds(xoff, yoff, rdnX));
 	}
-
+ */
 	background(199, 47, 89);
 
 	image(backgroundImg, 0, 0);
@@ -56,13 +56,13 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let sunY = random(sunW, height / 2 - sunW);
 	//	displaySun(sunW, sunX, sunY);
 
-	blendMode(SOFT_LIGHT);
+	/* 	blendMode(SOFT_LIGHT);
 	for (let i = 0; i < 1500; i++) {
 		for (let i = 0; i < clouds.length; i++) {
 			clouds[i].move();
 			clouds[i].display();
 		}
-	}
+	} */
 	blendMode(BLEND);
 	//displaySunReflection(sunW, sunX, sunY);
 	for (let i = 0; i < 1500; i++) {
@@ -90,7 +90,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 function createTexture() {
 	let texture = [];
 
-	for (let index = 0; index < 1000; index++) {
+	for (let index = 0; index < 1500; index++) {
 		const rdnX = random(600, width + 600);
 		const rdnY = random(600, height + 600);
 		const rdnW1 = random(5, 150);
@@ -153,7 +153,7 @@ function displaySunReflection(sunW, sunX, sunY) {
 class Waves {
 	constructor(xoff, yoff, rdnx) {
 		this.rdnx = rdnx;
-		this.rdny = height / 1.6;
+		this.rdny = 0;
 		this.xoff = xoff;
 		this.yoff = yoff;
 		this.yy = 0;
@@ -179,25 +179,25 @@ class Waves {
 		this.yy = noise(this.x * 0.0002 + 555 + nof * 10) * this.wobl; // 10 is how quickly the landscape changes
 		this.xoff += 0.02;
 		this.yIncrement *= 1.01;
-		this.wobl *= 0.9975; // wobl starts at 1, then decreases exponentially. it's how strong the hills are
-		this.height *= 1.003;
-		this.width *= 1.001;
+		this.wobl *= 0.99999; // wobl starts at 1, then decreases exponentially. it's how strong the hills are
+		this.height *= 1.005;
+		this.width *= 1.005;
 		this.strokeHue += 0.025;
-		this.fillHue += 0.1;
-		this.fillSat += 0.1;
-		this.fillBright += 0.1;
+		this.fillHue += 1.6;
+		this.fillSat += 0.6;
+		this.fillBright += 0.6;
 		this.fillAlpha *= 1.05;
-		if (this.fillBright >= random(94, 95)) {
+		if (this.fillBright >= random(85, 95)) {
 			// this.fillBright = random(25, 45);
-			this.fillBright = 80;
+			this.fillBright = 65;
 		}
-		if (this.fillSat >= random(64, 65)) {
+		if (this.fillSat >= random(90, 100)) {
 			// this.fillSat = random(35, 55);
-			this.fillSat = 55;
+			this.fillSat = 75;
 		}
-		if (this.fillHue >= random(44, 45)) {
+		if (this.fillHue >= 350) {
 			// this.fillHue = random(75, 105);
-			this.fillHue = 45;
+			this.fillHue = 10;
 		}
 		if (this.fillAlpha >= random(38, 40)) {
 			this.fillAlpha = 20;
@@ -264,13 +264,13 @@ export default class Smudge {
 		this.rdnX = rdnX;
 		this.rdnY = rdnY;
 		this.rdnW1 = w1;
-		this.alpha = random(15, 60);
+		this.alpha = random(1, 15);
 	}
 
 	display() {
-		for (let index = 0; index < 500; index++) {
-			this.xoff += 0.03;
-			this.yoff += 0.02;
+		for (let index = 0; index < 1500; index++) {
+			this.xoff += 0.003;
+			this.yoff += 0.002;
 			this.woff1 += 0.0055;
 
 			const w1 = map(noise(this.woff1 + this.rdnW1), 0, 1, 1, 3);
