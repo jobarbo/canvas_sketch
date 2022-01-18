@@ -31,8 +31,11 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
-	background(0, 0, 100);
+	background(201, 100, 29);
 
+	let elX = width / 2;
+	let elY = height / 2;
+	let elW = 40;
 	/**
 	 * GUI Helper
 	 */
@@ -41,6 +44,21 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
+		let rnd = floor(random(1, 3));
+
+		stroke(201, 100, 29);
+		if (rnd % 2 == 0) {
+			fill(40, 71, 99);
+		} else {
+			fill(0, 81, 84);
+		}
+		strokeWeight(20);
+		ellipse(elX, elY, elW);
+
+		elX = randomGaussian(width / 2, width / 2);
+		elY = randomGaussian(height / 2, 250);
+		elW = randomGaussian(50, 50);
+
 		exporting = true;
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);
