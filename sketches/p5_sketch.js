@@ -22,9 +22,10 @@ const settings = {
 		antialias: true,
 	},
 };
-
+let fontFamily;
 window.preload = () => {
-	// You can use p5.loadImage() here, etc...
+	// You can use p5.loadImage() here, etc..
+	fontFamily = loadFont('/media/fonts/LuxuriousRoman-regular.ttf');
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
@@ -33,11 +34,12 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	colorMode(HSB, 360, 100, 100, 100);
 	noFill();
 	cursor(CROSS);
-	ellipseMode(RADIUS);
-	rectMode(RADIUS);
-
+	ellipseMode(CENTER);
+	rectMode(CENTER);
+	textAlign(CENTER, CENTER);
+	textFont(fontFamily);
 	const maxRadius = 600;
-	const minRadius = 5;
+	const minRadius = 10;
 	const mouseRect = 200;
 	const margin = 50;
 
@@ -82,8 +84,9 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			// If the circle don't overlap, a new ellipse is born.
 			if (!intersection) {
 				const circleColor = random(colorArr);
+				const letterArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 				if (circleColor != bgColor) {
-					circles.push(new Circle(newX, newY, newR, circleColor));
+					circles.push(new Letter(newX, newY, newR, circleColor, letterArr));
 				} else {
 					circleColor = random(colorArr);
 				}
@@ -125,18 +128,23 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	};
 }, settings);
 
-class Circle {
-	constructor(x, y, r, c) {
+class Letter {
+	constructor(x, y, r, c, letterArr) {
 		this.x = x;
 		this.y = y;
 		this.r = r;
 		this.c = c;
+		this.l = random(letterArr);
+		this.d = this.r / 3;
 	}
 	draw() {
 		stroke(0);
 		fill(this.c);
 		strokeWeight(5);
-		//noStroke();
-		ellipse(this.x, this.y, this.r);
+		noStroke();
+		//ellipse(this.x, this.y, this.r * 2);
+		//fill(0);
+		textSize(this.r * 1.7);
+		text(this.l, this.x, this.y - this.d);
 	}
 }
