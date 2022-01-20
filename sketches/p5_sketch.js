@@ -163,9 +163,9 @@ class Tree {
 		this.height = this.width * 3.5;
 		this.yIncrement = 0.1;
 		this.strokeHue = 360;
-		this.fillHue = random(75, 90);
-		this.fillSat = random(15, 25);
-		this.fillBright = random(15, 35);
+		this.fillHue = random(60, 75);
+		this.fillSat = 100;
+		this.fillBright = random(20, 40);
 		this.fillAlpha = 0.001;
 	}
 
@@ -183,24 +183,23 @@ class Tree {
 		this.height *= 1.001;
 		this.width *= 1.0009;
 		this.strokeHue += 0.025;
-		this.fillHue += 0.75;
-		this.fillSat += 0.5;
-		this.fillBright += 0.5;
+		this.fillHue -= 10.5;
+		//this.fillSat += 0.5;
+		this.fillBright += 10.5;
 		this.fillAlpha *= 1.03;
-		if (this.fillBright >= random(35, 45)) {
-			// this.fillBright = random(25, 45);
-			this.fillBright = 15;
+		if (this.fillBright >= random(95, 100)) {
+			this.fillBright = random(20, 50);
 		}
-		if (this.fillSat >= random(40, 50)) {
+		if (this.fillSat >= random(95, 100)) {
 			// this.fillSat = random(35, 55);
-			this.fillSat = 15;
+			//this.fillSat = random(85, 90);
 		}
-		if (this.fillHue >= random(110, 130)) {
+		if (this.fillHue <= random(0, 20)) {
 			// this.fillHue = random(75, 105);
-			this.fillHue = 80;
+			this.fillHue = random(50, 60);
 		}
-		if (this.fillAlpha >= 80) {
-			this.fillAlpha = random(0, 30);
+		if (this.fillAlpha >= 100) {
+			this.fillAlpha = random(80, 100);
 		}
 	}
 
@@ -209,9 +208,7 @@ class Tree {
 		stroke(this.strokeHue, 30, 95, 0);
 		fill(this.fillHue, this.fillSat, this.fillBright, this.fillAlpha);
 		// here we simply subtract this.yy, multiplied by a number that is the strength of the effect
-		rect(this.x, this.rdny - 2000 * this.yy, this.width, this.height);
-		fill(10, 80, 40, this.fillAlpha);
-		rect(this.x, this.rdny - 2000 * this.yy, this.width / 3, this.height * 5);
+		ellipse(this.x, this.rdny - 2000 * this.yy, this.width, this.height);
 	}
 }
 
