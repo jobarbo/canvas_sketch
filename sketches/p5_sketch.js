@@ -71,8 +71,8 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			trees[i].display();
 		}
 	}
-
-	// createTexture();
+	blendMode(OVERLAY);
+	createTexture();
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
@@ -91,8 +91,8 @@ function createTexture() {
 	let texture = [];
 
 	for (let index = 0; index < 5000; index++) {
-		const rdnX = random(600, width + 600);
-		const rdnY = random(600, height + 600);
+		const rdnX = random(-width, width * 2);
+		const rdnY = random(-width, height * 2);
 		const rdnW1 = random(5, 150);
 		texture[index] = new Smudge(rdnX, rdnY, rdnW1);
 		texture[index].display();
@@ -109,47 +109,6 @@ function displaySun(sunW, sunX, sunY) {
 	blendMode(BLEND);
 }
 
-function displaySunReflection(sunW, sunX, sunY) {
-	blendMode(HARD_LIGHT);
-	let restriction = 5;
-	let alpha = 5;
-	let refX = sunX;
-	let refY = height / 2;
-	let refW = sunW;
-	let refH = 20;
-	let x = refX;
-	let xoff = 0.5;
-	let yoff = 0.01;
-	for (let index = 0; index < 8000; index++) {
-		x = map(noise(xoff + refX), 0, 1, refX - sunW / restriction, refX + sunW / restriction);
-		noStroke();
-		fill(340, 20, 100, alpha);
-		ellipse(x, refY, refW, refH);
-		alpha += random(-0.05, 0.049);
-		restriction -= 0.3;
-		xoff += 5.6;
-		yoff += 0.01;
-		refY += 0.9;
-		refW += random(-1.75, 1.23);
-		refH += random(-0.065, 0.063);
-		if (alpha <= 0.2) {
-			alpha = 0.2;
-		}
-		if (refH <= 1) {
-			refH = 1;
-		}
-		if (refW <= 1) {
-			refW = 1;
-		}
-		if (restriction <= 1) {
-			restriction = 1;
-		}
-	}
-
-	//arc(sunX, height / 2 - 20, sunW, sunW * 4, 0, PI, OPEN);
-	blendMode(BLEND);
-}
-// Jitter class
 class Tree {
 	constructor(xoff, yoff, rdnx) {
 		this.rdnx = rdnx;
@@ -183,9 +142,9 @@ class Tree {
 		this.height *= 1.001;
 		this.width *= 1.0009;
 		this.strokeHue += 0.025;
-		this.fillHue -= 10.5;
+		this.fillHue -= 20.5;
 		//this.fillSat += 0.5;
-		this.fillBright += 10.5;
+		this.fillBright += 0.5;
 		this.fillAlpha *= 1.03;
 		if (this.fillBright >= random(95, 100)) {
 			this.fillBright = random(20, 50);
