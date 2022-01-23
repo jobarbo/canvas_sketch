@@ -23,59 +23,55 @@ const settings = {
 	},
 };
 
-const preload = () => {
+let img = '';
+window.preload = () => {
 	// You can use p5.loadImage() here, etc...
+	img = loadImage('/media/images/autumn2.png');
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
-	background(10);
 
-	let numPoints = 100000;
-	let margin = width / 15;
-	let bgBright = int(random(15, 35));
-	let posX = width / 2.7;
+	image(img, 0, 0);
+
+	let colorArr = random(palettes);
+	let numPoints = 2000000;
+	let margin = 0;
+	let posX = random(width / 6, width / 1.5);
 	let posY = height / 3;
-	blendMode(OVERLAY);
+	let angleArr = [];
+	let scalarArr = [];
+	let arrX = [];
+	let arrY = [];
+	let colourArr = [];
+	strokeCap(SQUARE);
 	// HeadLight d'auto asphalte mouillé
 	for (let i = 0; i < numPoints; i++) {
-		let angle = random(0, TWO_PI);
-		let scalar = random(margin, width);
-		let x = posX + cos(angle) * scalar;
-		let y = posY + sin(angle) * scalar;
-		let dirX = x + 3 + cos(angle) * 75;
-		let dirY = y + 3 + sin(angle) * 300;
-		let alpha = random(10, 60);
-		let sw = random(1, 10);
+		angleArr[i] = random(0, TWO_PI);
+		scalarArr[i] = random(margin, width * 1);
+		arrX[i] = posX + sin(angleArr[i]) * scalarArr[i];
+		arrY[i] = posY + cos(angleArr[i]) * scalarArr[i];
+		colourArr[i] = get(arrX[i], arrY[i]);
+	}
+	background(50, 10, 100);
+	for (let i = 0; i < numPoints; i++) {
+		colorMode(RGB);
+		let angle = angleArr[i];
+		let scalar = scalarArr[i];
+		let x = arrX[i];
+		let y = arrY[i];
+		let dirX = x + 1 + sin(angle) * 3;
+		let dirY = y + 1 + cos(angle) * 3;
+		let alpha = 100;
+		let sw = random(1, 100);
+		let colour = colourArr[i];
 		strokeWeight(sw);
-		stroke(random(0, 360), random(10, 25), 100, alpha);
+		stroke(colour);
 		line(x, y, dirX, dirY);
+		colorMode(HSB, 360, 100, 100, 100);
 	}
-	blendMode(BLEND);
-	noStroke();
-	push();
-	translate(posX, posY);
-	rotate(0);
-
-	let elW = margin * random(2, 2.4);
-	let elH = random(0, 360);
-	let elS = 100;
-	for (let alpha = 0; alpha < 100; alpha += 1) {
-		fill(elH, elS, 100, alpha);
-		ellipse(0, 0, elW, elW);
-		elH += random(1, 10);
-		if (elH <= 0 || elH >= 360) {
-			elH = 0;
-		}
-		elS = elS -= 10;
-		elW = elW -= 10;
-		if (elW <= margin / 2) {
-			elW = margin / 2;
-		}
-	}
-	pop();
 	//createTexture(bgBright);
 	/**
 	 * GUI Helper
