@@ -31,8 +31,31 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
-	background(0, 0, 100);
+	background(54, 0, 100);
 
+	let state = 1;
+
+	let m = 256;
+	let a = 11;
+	let c = 4;
+	let x = floor(random(0, 200000));
+	let pScale = 30;
+
+	function lcg(mapStart, mapEnd) {
+		let rand = (a * x + c) % m;
+		x = rand;
+		rand = floor(map(x, 0, m, mapStart, mapEnd));
+		return rand;
+	}
+
+	for (var elx = pScale * 1; elx <= width - pScale * 1; elx += pScale) {
+		for (var ely = pScale * 1; ely <= height - pScale * 1; ely += pScale) {
+			fill(lcg(0, 60), lcg(20, 100), lcg(0, 100));
+			noStroke();
+			rectMode(CENTER);
+			rect(elx, ely, lcg(pScale, pScale));
+		}
+	}
 	/**
 	 * GUI Helper
 	 */
