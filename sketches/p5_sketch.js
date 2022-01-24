@@ -30,17 +30,13 @@ canvasSketch((context) => {
 
 	//blendMode(ADD);
 
-	console.time();
 	initSketch();
-	console.timeEnd();
 
 	context.canvas.addEventListener('click', () => {
-		console.time();
 		initSketch();
-		console.timeEnd();
 	});
 	// Return a renderer, which is like p5.js 'draw' function
-	return ({ p5, time, width, height }) => {
+	return ({p5, time, width, height}) => {
 		// Draw with p5.js things
 	};
 }, settings);
@@ -48,21 +44,25 @@ canvasSketch((context) => {
 function initSketch() {
 	colorMode(HSB, 360, 100, 100, 100);
 
-	let bgHue = int(random(165, 255));
-	let bgSat = int(random(10, 80));
-	let bgBright = int(random(10, 40));
+	let bgHue = int(random(165, 180));
+	let bgSat = int(random(10, 30));
+	let bgBright = int(random(90, 100));
 	let bubble = [];
-	const bubbleNum = 50;
-	const hueList = [350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
-	let fSat = random(20, 30);
-	const fHue = random(hueList);
+	const bubbleNum = 1500;
 
 	// old-color = hue , 10 ,95
 	background(bgHue, bgSat, bgBright);
 
+	fill(55, 40, 100);
+	noStroke();
+	ellipse(random(100, width - 100), random(100, height / 3), random(width / 3, width / 2));
+
 	for (let i = 0; i < bubbleNum; i++) {
+		let fSat = random(60, 90);
+		let fBright = random(20, 40);
+		const fHue = random(100, 160);
 		fSat += 0.5;
-		bubble[i] = new Bubble(bgHue, bgSat, bgBright, fHue, fSat);
+		bubble[i] = new Bubble(bgHue, bgSat, bgBright, fHue, fSat, fBright);
 	}
 
 	for (let index = 0; index < 500; index++) {
@@ -72,7 +72,7 @@ function initSketch() {
 		}
 	}
 
-	//createTexture(bgHue, bgSat, bgBright);
+	createTexture(bgHue, bgSat, bgBright);
 }
 function createTexture(bgHue, bgSat, bgBright) {
 	let texture = [];
@@ -110,7 +110,7 @@ export default class Smudge {
 			if (bgBright < 65) {
 				fill(0, 0, 100, this.alpha);
 			} else {
-				fill(0, 0, 0, this.alpha);
+				fill(0, 0, 100, this.alpha);
 			}
 			noStroke();
 			ellipse(x, y, w1, w1);
