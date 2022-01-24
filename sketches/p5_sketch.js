@@ -9,8 +9,6 @@ new p5();
 const horizontal = 20 * 300;
 const vertical = 20 * 300;
 
-const gui = new dat.GUI({closed: true});
-
 const settings = {
 	// Pass the p5 instance, and preload function if necessary
 	p5: true,
@@ -27,7 +25,6 @@ const settings = {
 window.preload = () => {
 	// You can use p5.loadImage() here, etc...
 };
-
 
 canvasSketch((context) => {
 	// Sketch setup
@@ -51,7 +48,6 @@ canvasSketch((context) => {
 			strokeWeight(10);
 			rect(bleed, bleed, trimWidth, trimHeight);
 		}
-
 	};
 }, settings);
 
