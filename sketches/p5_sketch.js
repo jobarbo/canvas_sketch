@@ -33,17 +33,18 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	noSmooth();
 	blendMode(BLEND);
 	colorMode(HSB, 360, 100, 100, 100);
-	background(45, 5, 98);
 
+	let chosenPalettes = random(palettes);
 	let margin = 0;
-	let wSpacing = width * 2;
-	let hSpacing = height * 2;
+	let wSpacing = width * 1.5;
+	let hSpacing = height * 1.5;
 	let xoff = 0.6;
 	let yoff = 0.1;
 	let woff = 0.3;
-	let wContainer = wSpacing / 1.5;
-	let hContainer = hSpacing / 1.5;
+	let wContainer = wSpacing;
+	let hContainer = hSpacing;
 
+	background(chosenPalettes[0]);
 	//displayStars();
 	window.mousePressed = () => {};
 	//paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer);
@@ -55,12 +56,15 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			xoff = random(0, 1);
 			yoff = random(0, 1);
 			woff = random(0, 1);
-			paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContainer);
+			paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContainer, chosenPalettes);
 		}
 	};
 }, settings);
 
-function paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContainer) {
+function paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContainer, chosenPalettes) {
+	let cx, cy;
+	let paletteIndex = floor(random(1, 5));
+	let seamColor = color(chosenPalettes[paletteIndex]);
 	for (let iy = margin; iy < height - margin; iy = iy + hSpacing) {
 		for (let ix = margin; ix < width - margin; ix = ix + wSpacing) {
 			//debugGrid(ix,iy,wSpacing,hSpacing);
@@ -79,7 +83,9 @@ function paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContai
 
 				noStroke();
 				//stroke(190, 53, 89,0);
-				fill(0, 75, 10, elAlpha);
+				seamColor.setAlpha(elAlpha);
+				fill(seamColor);
+				//fill(0, 75, 10, elAlpha);
 				ellipse(x, y, elW, elW);
 
 				xoff += random(0.00005, 0.0009);
