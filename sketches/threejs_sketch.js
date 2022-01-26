@@ -58,8 +58,8 @@ const sketch = ({context, width, height}) => {
 		hdrEquirect.mapping = THREE.EquirectangularReflectionMapping;
 	});
 
-	const bgTexture = new THREE.TextureLoader().load('/media/images/aurora.png');
-	const bgGeometry = new THREE.PlaneGeometry(5, 5);
+	const bgTexture = new THREE.TextureLoader().load('/media/images/white.png');
+	const bgGeometry = new THREE.PlaneGeometry(15, 15);
 	const bgMaterial = new THREE.MeshBasicMaterial({map: bgTexture});
 	const bgMesh = new THREE.Mesh(bgGeometry, bgMaterial);
 	bgMesh.position.set(0, 0, -1);
@@ -71,8 +71,8 @@ const sketch = ({context, width, height}) => {
 	normalMapTexture.wrapT = THREE.RepeatWrapping;
 	normalMapTexture.repeat.set(1, 1);
 
-	const geometry = new THREE.RoundedBoxGeometry(1, 1, 1, 16, 0.2);
-	const material = new THREE.MeshPhysicalMaterial({roughness: 0.1, transmission: 1, thickness: 1.5, envMap: hdrEquirect, envMapIntensity: 1.5, clearcoat: 1, clearcoatRoughness: 0.51, normalScale: new THREE.Vector2(0.5), normalMap: normalMapTexture, clearcoatNormalMap: normalMapTexture, clearcoatNormalScale: new THREE.Vector2(0.5)});
+	const geometry = new THREE.SphereGeometry(1, 32, 16);
+	const material = new THREE.MeshPhysicalMaterial({roughness: 0.1, transmission: 1, thickness: 0.5, envMap: hdrEquirect, envMapIntensity: 0.5, clearcoat: 1, clearcoatRoughness: 0.51, normalScale: new THREE.Vector2(0.5), normalMap: normalMapTexture, clearcoatNormalMap: normalMapTexture, clearcoatNormalScale: new THREE.Vector2(0.5)});
 
 	const MESH_COUNT = 500;
 	const mesh = new THREE.InstancedMesh(geometry, material, MESH_COUNT);
