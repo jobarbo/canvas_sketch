@@ -22,9 +22,9 @@ const settings = {
 		antialias: true,
 	},
 };
-
+let selfPortrait;
 window.preload = () => {
-	// You can use p5.loadImage() here, etc...
+	selfPortrait = loadImage('/media/images/cap.png');
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
@@ -32,6 +32,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
 	background(0, 0, 100);
+	image(selfPortrait, 0, 0, width, height);
 
 	/**
 	 * GUI Helper
