@@ -1,5 +1,4 @@
 // Import sketch objects
-import Entity from './entity.js';
 import * as dat from 'dat.gui';
 const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
@@ -22,21 +21,62 @@ const settings = {
 		antialias: true,
 	},
 };
-let selfPortrait;
+
+let img = '';
 window.preload = () => {
-	selfPortrait = loadImage('/media/images/cap.png');
+	// You can use p5.loadImage() here, etc...
+	img = loadImage('/media/images/cap.png');
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
-	background(0, 0, 100);
-	image(selfPortrait, 0, 0, width, height);
 
+	image(img, 0, 0, width, height);
+
+	let colorArr = random(palettes);
+	let numPoints = 50000;
+	let margin = 0;
+	let posX = width / 2;
+	let posY = height / 3.2;
+	let angleArr = [];
+	let scalarArr = [];
+	let arrX = [];
+	let arrY = [];
+	let colourArr = [];
+	strokeCap(SQUARE);
+	// HeadLight d'auto asphalte mouillé
+	for (let i = 0; i < numPoints; i++) {
+		angleArr[i] = random(0, TWO_PI);
+		scalarArr[i] = random(margin, width * 1);
+		arrX[i] = posX + sin(angleArr[i]) * scalarArr[i];
+		arrY[i] = posY + cos(angleArr[i]) * scalarArr[i];
+		colourArr[i] = get(arrX[i], arrY[i]);
+	}
+	console.log(colourArr);
+	background(50, 0, 0);
+	for (let i = 0; i < numPoints; i++) {
+		colorMode(HSB);
+		let angle = angleArr[i];
+		let scalar = scalarArr[i];
+		let x = arrX[i];
+		let y = arrY[i];
+		let dirX = x + 1 + sin(angle) * 3;
+		let dirY = y + 1 + cos(angle) * 3;
+		let alpha = 100;
+		let sw = random(1, 25);
+		let colour = colourArr[i];
+		strokeWeight(sw);
+		stroke(colour[0]);
+		line(x, y, dirX, dirY);
+		colorMode(HSB, 360, 100, 100, 100);
+	}
+	//createTexture(bgBright);
 	/**
 	 * GUI Helper
 	 */
+
 	// gui.add(module_name, 'x', 0, width, 0.00001);
 	// gui.add(module_name, 'y', 0, width, 0.00001);
 
