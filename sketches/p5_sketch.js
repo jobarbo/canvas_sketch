@@ -31,7 +31,18 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
-	background(0, 0, 100);
+	rectMode(CENTER);
+	angleMode(DEGREES);
+	background(10, 10, 100);
+	const stalagNum = 3;
+	let stalagList = [];
+	let xSteps = width / 4;
+	let xPos = xSteps;
+
+	for (let i = 0; i < stalagNum; i++) {
+		stalagList[i] = new Entity(xPos, height + 250, 500);
+		xPos += xSteps;
+	}
 
 	/**
 	 * GUI Helper
@@ -42,6 +53,10 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
 		exporting = true;
+		for (let i = 0; i < stalagNum; i++) {
+			stalagList[i].display();
+			stalagList[i].move();
+		}
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);
 			noFill();
