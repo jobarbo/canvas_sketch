@@ -1,5 +1,5 @@
 // Import sketch objects
-import Entity from './entity.js';
+import Stalagmite from './stalagmite.js';
 import * as dat from 'dat.gui';
 const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
@@ -34,13 +34,13 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	rectMode(CENTER);
 	angleMode(DEGREES);
 	background(10, 10, 100);
-	const stalagNum = 3;
+	const stalagNum = 1;
 	let stalagList = [];
 	let xSteps = width / 4;
 	let xPos = xSteps;
 
 	for (let i = 0; i < stalagNum; i++) {
-		stalagList[i] = new Entity(xPos, height + 250, 500);
+		stalagList[i] = new Stalagmite(xPos, height + 250, 500);
 		xPos += xSteps;
 	}
 

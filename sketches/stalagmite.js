@@ -1,5 +1,5 @@
 const palettes = require('nice-color-palettes/1000.json');
-export default class Entity {
+export default class Stalagmite {
 	constructor(x, y, w) {
 		this.palettes = random(palettes);
 		this.x = x;
