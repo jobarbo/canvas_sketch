@@ -38,7 +38,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	background(bgColor);
 
 	// Stalagmites
-	const stalagNum = 15;
+	const stalagNum = 10;
 	let stalagList = [];
 	let xSteps = width / (stalagNum + 1);
 	let xPos = xSteps;
@@ -47,6 +47,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let stalagHue = 10;
 	let stalagSat = 10;
 	let stalagBright = 0;
+	let stalagWidth = (width / stalagNum) * 1.2;
 
 	for (let i = 0; i < stalagNum; i++) {
 		if (i % 2 == 0) {
@@ -56,64 +57,35 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			yPos = height + 250;
 			yDir = -1;
 		}
-		stalagList[i] = new Stalagmite(xPos, yPos, 300, yDir, stalagHue, stalagSat, stalagBright);
+		stalagList[i] = new Stalagmite(xPos, yPos, stalagWidth, yDir, stalagHue, stalagSat, stalagBright);
 		xPos += xSteps;
 	}
 
 	//Cave
 	let caveBrightness = 1;
-	let cavePosX = width / 2;
-	let cavePosY = height / 2;
-	let caveSpeed = 100;
-	let vertexMovement = 150;
-
-	let pos1 = createVector(-width / 2, 0);
-	let pos2 = createVector(-width / 2, -height / 2);
-	let pos3 = createVector(0, -height / 2);
-	let pos4 = createVector(width / 2, -height / 2);
-	let pos5 = createVector(width / 2, 0);
-	let pos6 = createVector(width / 2, height / 2);
-	let pos7 = createVector(0, height / 2);
-	let pos8 = createVector(-width / 2, height / 2);
+	let cavePosX = 0;
+	let cavePosY = 0;
+	let caveSpeed = 300;
+	let caveWidth = width * 1.5;
+	let caveHeight = height * 1.5;
+	let caveCurve = 5000;
 	translate(width / 2, height / 2);
 
-	for (let caveWidth = 1; caveWidth > 0; caveWidth += -0.01) {
+	for (let caveScale = 1; caveScale > 0; caveScale += -0.001) {
+		caveCurve += random(-300, 250);
+		if (caveCurve <= 0) {
+			caveCurve = 0;
+		}
+
 		stroke(0, 0, caveBrightness);
 		fill(0, 0, caveBrightness);
-		//ellipse(cavePosX, cavePosY, caveWidth);
-		scale(caveWidth);
-
-		beginShape();
-		curveVertex(pos8.x, pos8.y);
-		curveVertex(pos1.x, pos1.y);
-		curveVertex(pos2.x, pos2.y);
-		curveVertex(pos3.x, pos3.y);
-		curveVertex(pos4.x, pos4.y);
-		curveVertex(pos5.x, pos5.y);
-		curveVertex(pos6.x, pos6.y);
-		curveVertex(pos7.x, pos7.y);
-		curveVertex(pos8.x, pos8.y);
-		curveVertex(pos1.x, pos1.y);
-		endShape();
-		pos1.x += random(-vertexMovement, vertexMovement);
-		pos1.y += random(-vertexMovement, vertexMovement);
-		pos2.x += random(-vertexMovement, vertexMovement);
-		pos2.y += random(-vertexMovement, vertexMovement);
-		pos3.x += random(-vertexMovement, vertexMovement);
-		pos3.y += random(-vertexMovement, vertexMovement);
-		pos4.x += random(-vertexMovement, vertexMovement);
-		pos4.y += random(-vertexMovement, vertexMovement);
-		pos5.x += random(-vertexMovement, vertexMovement);
-		pos5.y += random(-vertexMovement, vertexMovement);
-		pos6.x += random(-vertexMovement, vertexMovement);
-		pos6.y += random(-vertexMovement, vertexMovement);
-		pos7.x += random(-vertexMovement, vertexMovement);
-		pos7.y += random(-vertexMovement, vertexMovement);
-		pos8.x += random(-vertexMovement, vertexMovement);
-		pos8.y += random(-vertexMovement, vertexMovement);
-		caveBrightness = caveBrightness * 1.19;
+		rect(cavePosX, cavePosY, caveWidth, caveHeight, caveCurve);
+		scale(caveScale);
+		caveBrightness = caveBrightness * 1.05;
 		cavePosX += random(-caveSpeed, caveSpeed);
 		cavePosY += random(-caveSpeed, caveSpeed);
+		caveWidth += random(-100, 100);
+		caveHeight += random(-100, 100);
 		caveSpeed = caveSpeed * 0.985;
 	}
 

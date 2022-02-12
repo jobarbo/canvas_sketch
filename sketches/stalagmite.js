@@ -7,10 +7,11 @@ export default class Stalagmite {
 		this.yDir = yDir;
 		this.angle = 0.0;
 		this.rotationModList = [-4, -3, -2, -1, 0, 1, 2, 3, 4];
-		this.strokeColor = color(190, 0, 90, 15);
+		this.strokeColor = color(0, 10, 20, 85);
 		this.stalagHue = stalagHue;
 		this.stalagSat = stalagSat;
 		this.stalagBright = stalagBright;
+		this.stalagRadius = 0;
 		this.initialRotationSpeed = random(0, 1);
 		this.moddedRotationSpeed = random(this.rotationModList);
 		this.rotationSpeed = this.initialRotationSpeed;
@@ -29,9 +30,12 @@ export default class Stalagmite {
 		push();
 		this.angle = this.angle + this.rotationSpeed;
 		translate(this.x, this.y);
-		let c = cos(this.angle);
 		rotate(this.angle);
-		rect(0, 0, this.w);
+		if (this.stalagRadius <= 0) {
+			this.stalagRadius = 0;
+		}
+		this.stalagRadius += random(-1, 1.2);
+		rect(0, 0, this.w, this.w, this.stalagRadius);
 		pop();
 	}
 	move() {
