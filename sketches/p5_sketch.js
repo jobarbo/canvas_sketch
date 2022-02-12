@@ -36,11 +36,11 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	background(10, 10, 100);
 	const stalagNum = 1;
 	let stalagList = [];
-	let xSteps = width / 4;
+	let xSteps = width / (stalagNum + 1);
 	let xPos = xSteps;
-
+	let stalagWidth = width / stalagNum / 5;
 	for (let i = 0; i < stalagNum; i++) {
-		stalagList[i] = new Stalagmite(xPos, height + 250, 500);
+		stalagList[i] = new Stalagmite(xPos, height + 250, stalagWidth);
 		xPos += xSteps;
 	}
 
