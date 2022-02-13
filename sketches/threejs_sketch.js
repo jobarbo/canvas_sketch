@@ -58,7 +58,7 @@ const sketch = ({context, width, height}) => {
 		hdrEquirect.mapping = THREE.EquirectangularReflectionMapping;
 	});
 
-	const bgTexture = new THREE.TextureLoader().load('/media/images/white.png');
+	const bgTexture = new THREE.TextureLoader().load('/media/images/duality.png');
 	const bgGeometry = new THREE.PlaneGeometry(15, 15);
 	const bgMaterial = new THREE.MeshBasicMaterial({map: bgTexture});
 	const bgMesh = new THREE.Mesh(bgGeometry, bgMaterial);
@@ -71,23 +71,23 @@ const sketch = ({context, width, height}) => {
 	normalMapTexture.wrapT = THREE.RepeatWrapping;
 	normalMapTexture.repeat.set(1, 1);
 
-	const geometry = new THREE.SphereGeometry(1, 32, 16);
-	const material = new THREE.MeshPhysicalMaterial({roughness: 0.1, transmission: 1, thickness: 0.5, envMap: hdrEquirect, envMapIntensity: 0.5, clearcoat: 1, clearcoatRoughness: 0.51, normalScale: new THREE.Vector2(0.5), normalMap: normalMapTexture, clearcoatNormalMap: normalMapTexture, clearcoatNormalScale: new THREE.Vector2(0.5)});
+	const geometry = new THREE.SphereGeometry(1, 120, 120);
+	const material = new THREE.MeshPhysicalMaterial({roughness: 0.04, transmission: 1, thickness: 3, envMap: hdrEquirect, envMapIntensity: 0.2, clearcoat: 0.1, clearcoatRoughness: 0.1, normalScale: new THREE.Vector2(0.05), normalMap: normalMapTexture, clearcoatNormalMap: normalMapTexture, clearcoatNormalScale: new THREE.Vector2(0.05)});
 
-	const MESH_COUNT = 500;
+	const MESH_COUNT = 1;
 	const mesh = new THREE.InstancedMesh(geometry, material, MESH_COUNT);
 	scene.add(mesh);
 
 	const matrixDummy = new THREE.Object3D();
 
 	const instanceData = [...Array(MESH_COUNT)].map(() => {
-		const position = new THREE.Vector3(1.5 * (-1 + 2 * Math.random()), 1.5 * (-1 + 2 * Math.random()), 0.2 + (-1 + 2 * Math.random()));
+		const position = new THREE.Vector3(0, 0, 1);
 		const rotation = new THREE.Euler(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
 
 		const axis = new THREE.Vector3(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1);
 
-		const BASE_SCALE = 0.2;
-		const scale = BASE_SCALE * (0.25 + 0.75 * Math.random());
+		const BASE_SCALE = 1;
+		const scale = 1;
 
 		const rotateTime = 5 + 15 * Math.random();
 
