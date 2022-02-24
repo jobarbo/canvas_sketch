@@ -43,9 +43,9 @@ const sketch = ({context, width, height}) => {
 	// Setup your scene
 	const scene = new THREE.Scene();
 
-	const bloomRadius = 0.33;
-	const bloomStrength = 0.25;
-	const bloomThreshold = 0.25;
+	const bloomRadius = 1.13;
+	const bloomStrength = 0.55;
+	const bloomThreshold = 0.15;
 
 	const renderPass = new THREE.RenderPass(scene, camera);
 	const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(width, height), bloomStrength, bloomRadius, bloomThreshold);
@@ -72,7 +72,7 @@ const sketch = ({context, width, height}) => {
 	normalMapTexture.repeat.set(1, 1);
 
 	const geometry = new THREE.SphereGeometry(1, 120, 120);
-	const material = new THREE.MeshPhysicalMaterial({roughness: 0.04, transmission: 1, thickness: 3, envMap: hdrEquirect, envMapIntensity: 0.2, clearcoat: 0.1, clearcoatRoughness: 0.1, normalScale: new THREE.Vector2(0.05), normalMap: normalMapTexture, clearcoatNormalMap: normalMapTexture, clearcoatNormalScale: new THREE.Vector2(0.05)});
+	const material = new THREE.MeshPhysicalMaterial({roughness: 0.04, transmission: 1, thickness: 4, envMap: hdrEquirect, envMapIntensity: 0.2, clearcoat: 0.1, clearcoatRoughness: 0.1, normalScale: new THREE.Vector2(0.05), normalMap: normalMapTexture, clearcoatNormalMap: normalMapTexture, clearcoatNormalScale: new THREE.Vector2(0.05)});
 
 	const MESH_COUNT = 1;
 	const mesh = new THREE.InstancedMesh(geometry, material, MESH_COUNT);
