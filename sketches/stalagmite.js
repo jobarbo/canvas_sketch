@@ -6,22 +6,21 @@ export default class Stalagmite {
 		this.x = x;
 		this.y = y;
 		this.w = w;
-		this.angle = 0.0;
-		this.rotationModList = [-1.2, -1, -0.8, -0.5, -0.2];
+		this.angle = 45;
+		// this.rotationModList = [-0.25, -0.2, -0.15, -0.1, -0.05];
 		this.baseColor = color(0, 0, 10);
-		this.initialRotationSpeed = random(0, 1);
-		this.moddedRotationSpeed = random(this.rotationModList);
+		this.initialRotationSpeed = 0.15;
+		this.moddedRotationSpeed = -0.15;
 		this.rotationSpeed = this.initialRotationSpeed;
 	}
 	display() {
 		if (second() % 2 === 0) {
-			let ranColor = this.palettes[int(random(1, 5))];
-			stroke(0, 0, 0);
-			fill(ranColor);
+			stroke(24, 24, 87);
+			fill(21, 38, 80);
 			this.rotationSpeed = this.moddedRotationSpeed;
 		} else {
-			stroke(10, 10, 100);
-			fill(this.baseColor);
+			stroke(21, 38, 80);
+			fill(24, 24, 87);
 			this.rotationSpeed = this.initialRotationSpeed;
 		}
 		push();
@@ -37,8 +36,8 @@ export default class Stalagmite {
 			this.w = 10;
 			this.y = this.y;
 		} else {
-			this.y += random(-5, 1);
-			this.w += random(-10, 9);
+			this.y += random(-4, 5);
+			this.w += random(-10, 3);
 		}
 	}
 }

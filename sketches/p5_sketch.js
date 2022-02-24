@@ -33,12 +33,12 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	colorMode(HSB, 360, 100, 100, 100);
 	rectMode(CENTER);
 	angleMode(DEGREES);
-	background(10, 10, 100);
+	background(181, 93, 59);
 	const stalagNum = 1;
 	let stalagList = [];
 	let xSteps = width / (stalagNum + 1);
 	let xPos = xSteps;
-	let stalagWidth = width / stalagNum / 5;
+	let stalagWidth = width * 1.15;
 	for (let i = 0; i < stalagNum; i++) {
 		stalagList[i] = new Stalagmite(xPos, height + 250, stalagWidth);
 		xPos += xSteps;
