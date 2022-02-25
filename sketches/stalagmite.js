@@ -11,16 +11,24 @@ export default class Stalagmite {
 		this.baseColor = color(0, 0, 10);
 		this.initialRotationSpeed = 0.15;
 		this.moddedRotationSpeed = -0.15;
+		this.saturation1 = 38;
+		this.brightness1 = 80;
+		this.saturation2 = 24;
+		this.brightness2 = 87;
 		this.rotationSpeed = this.initialRotationSpeed;
 	}
 	display() {
+		this.brightness2 += -0.01;
+		this.brightness1 += -0.01;
+		this.saturation2 += +0.01;
+		this.saturation1 += +0.01;
 		if (second() % 2 === 0) {
-			stroke(24, 24, 87);
-			fill(21, 38, 80);
+			stroke(24, this.saturation2, this.brightness2);
+			fill(21, this.saturation1, this.brightness1);
 			this.rotationSpeed = this.moddedRotationSpeed;
-		} else {
-			stroke(21, 38, 80);
-			fill(24, 24, 87);
+		} else if (second() % 3 === 0) {
+			stroke(21, this.saturation1, this.brightness1);
+			fill(24, this.saturation2, this.brightness2);
 			this.rotationSpeed = this.initialRotationSpeed;
 		}
 		push();
@@ -28,7 +36,7 @@ export default class Stalagmite {
 		translate(this.x, this.y);
 		let c = cos(this.angle);
 		rotate(this.angle);
-		rect(0, 0, this.w);
+		rect(0, 0, this.w, this.w, 100, 100, 100, 100);
 		pop();
 	}
 	move() {
@@ -36,8 +44,8 @@ export default class Stalagmite {
 			this.w = 10;
 			this.y = this.y;
 		} else {
-			this.y += random(-4, 5);
-			this.w += random(-10, 3);
+			this.y += random(-4, 7);
+			this.w += random(-1, 1);
 		}
 	}
 }
