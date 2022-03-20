@@ -34,8 +34,8 @@ canvasSketch((context) => {
 		landSat = 15;
 		landBright = 51;
 		skyHue = 20;
-		skySat = 0;
-		skyBright = 60;
+		skySat = 20;
+		skyBright = 80;
 		waterHue = 211;
 		waterSat = 20;
 		waterBright = 60;
@@ -48,22 +48,20 @@ canvasSketch((context) => {
 
 	function createLandscape() {
 		let xoff = 0;
-
-		for (let i = 0; i < 2; i++) {
+		for (let i = 0; i < 3; i++) {
 			beginShape();
 			fill(landHue, landSat, landBright);
-			landMinY = height / random(2, 3);
-			landMaxY = height / random(1.5, 2);
+			landMinY = height / random(3, 4);
+			landMaxY = height / random(1.5, 3);
 			for (let x = 0; x <= width + landscapeStep; x += landscapeStep) {
 				let y = map(noise(xoff, yoff), 0, 1, landMaxY, landMinY);
-
 				curveVertex(x, y);
-				landMinY += 80;
+				landMinY += 90;
 				xoff += 0.08;
 			}
 			//landMinY += height / 7;
 			landMaxY += height / 15;
-			landHue += 5;
+			landHue -= 5;
 			landSat += 5;
 			landBright -= 5;
 			vertex(width, height / 1.3);
@@ -78,8 +76,8 @@ canvasSketch((context) => {
 	function makeSky() {
 		background(30, 20, 40);
 		let xoff = 0;
-		let skyAlpha = 60;
-		for (let i = 0; i < 4; i++) {
+		let skyAlpha = 100;
+		for (let i = 0; i < 10; i++) {
 			beginShape();
 			fill(skyHue, skySat, skyBright, skyAlpha);
 			for (let x = 0; x <= width + skyStep; x += skyStep) {
@@ -89,8 +87,8 @@ canvasSketch((context) => {
 			}
 			skyMinY += height / 10;
 			skyMaxY += height / 8;
-			skyHue -= 2;
-			skySat += 5;
+			skyHue += 2;
+			skySat += 6;
 			skyBright += 5;
 			skyAlpha += 5;
 			vertex(width, height);
@@ -125,8 +123,10 @@ canvasSketch((context) => {
 	}
 
 	function createSun() {
-		fill(20, 60, 100);
-		ellipse(random(0, width), height / 2, width / 6, width / 6);
+		//blendMode(SOFT_LIGHT);
+		fill(30, 30, 100);
+		ellipse(random(0, width), height / 1.6, width / 6, width / 6);
+		blendMode(BLEND);
 	}
 
 	init();
@@ -136,7 +136,7 @@ canvasSketch((context) => {
 	makeWater();
 
 	// Return a renderer, which is like p5.js 'draw' function
-	return ({ p5, time, width, height }) => {
+	return ({p5, time, width, height}) => {
 		// Draw with p5.js things
 	};
 }, settings);
