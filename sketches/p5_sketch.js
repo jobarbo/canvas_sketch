@@ -39,7 +39,7 @@ canvasSketch((context) => {
 		waterHue = 211;
 		waterSat = 20;
 		waterBright = 60;
-		landscapeStep = 100;
+		landscapeStep = 10;
 		skyStep = 2;
 		waterStep = 20;
 		noiseSeed();
@@ -48,22 +48,22 @@ canvasSketch((context) => {
 
 	function createLandscape() {
 		let xoff = 0;
-		for (let i = 0; i < 3; i++) {
+		for (let i = 0; i < 5; i++) {
 			beginShape();
 			fill(landHue, landSat, landBright);
-			landMinY = height / random(3, 4);
+			landMinY = height / random(2, 4);
 			landMaxY = height / random(1.5, 3);
 			for (let x = 0; x <= width + landscapeStep; x += landscapeStep) {
 				let y = map(noise(xoff, yoff), 0, 1, landMaxY, landMinY);
 				curveVertex(x, y);
-				landMinY += 90;
-				xoff += 0.08;
+				landMinY += 8;
+				xoff += 0.008;
 			}
 			//landMinY += height / 7;
-			landMaxY += height / 15;
+			landMaxY -= height / 5;
 			landHue -= 5;
 			landSat += 5;
-			landBright -= 5;
+			landBright -= 3;
 			vertex(width, height / 1.3);
 			vertex(width, height / 1.3);
 			vertex(0, height / 1.3);
@@ -125,7 +125,7 @@ canvasSketch((context) => {
 	function createSun() {
 		//blendMode(SOFT_LIGHT);
 		fill(30, 30, 100);
-		ellipse(random(0, width), height / 1.6, width / 6, width / 6);
+		ellipse(random(width / 2, width), height / 1.6, width / 6, width / 6);
 		blendMode(BLEND);
 	}
 
