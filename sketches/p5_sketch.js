@@ -29,36 +29,46 @@ window.preload = () => {
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
+	let currentPalettes = random(palettes);
+	console.log(currentPalettes);
+
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
-	background(201, 100, 29);
+	background(currentPalettes[0]);
 
 	let elX = width / 2;
 	let elY = height / 2;
 	let elW = 40;
-	/**
-	 * GUI Helper
-	 */
-	// gui.add(module_name, 'x', 0, width, 0.00001);
-	// gui.add(module_name, 'y', 0, width, 0.00001);
 
-	// Return a renderer, which is like p5.js 'draw' function
-	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
+	for (let i = 0; i < 3500; i++) {
 		let rnd = floor(random(1, 3));
 
-		stroke(201, 100, 29);
+		stroke(currentPalettes[0]);
+
 		if (rnd % 2 == 0) {
-			fill(40, 71, 99);
+			let randomColorIndex = int(random(1, 3));
+
+			fill(currentPalettes[randomColorIndex]);
 		} else {
-			fill(0, 81, 84);
+			let randomColorIndex = int(random(3, 5));
+			fill(currentPalettes[randomColorIndex]);
 		}
-		strokeWeight(20);
+		strokeWeight(10);
 		ellipse(elX, elY, elW);
 
 		elX = randomGaussian(width / 2, width / 2);
 		elY = randomGaussian(height / 2, 250);
 		elW = randomGaussian(50, 50);
+	}
+	/**
+	 * GUI Helper
+	 */
 
+	// gui.add(module_name, 'x', 0, width, 0.00001);
+	// gui.add(module_name, 'y', 0, width, 0.00001);
+
+	// Return a renderer, which is like p5.js 'draw' function
+	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
 		exporting = true;
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);
