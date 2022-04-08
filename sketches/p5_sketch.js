@@ -22,16 +22,17 @@ const settings = {
 		antialias: true,
 	},
 };
-
+let img;
 window.preload = () => {
 	// You can use p5.loadImage() here, etc...
+	img = loadImage('media/images/precover.png');
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
-
+	image(img, 0, 0);
 	/**
 	 * GUI Helper
 	 */
@@ -82,14 +83,14 @@ export default class Smudge {
 
 	display() {
 		this.xoff += 0.003;
-		this.yoff += 0.00008;
+		this.yoff += 0.0008;
 		this.woff1 += 0.55;
 
 		const w1 = map(noise(this.woff1 + this.rdnW1), 0, 1, 1, 3);
 		const x = map(noise(this.xoff + this.rdnX), 0, 1, this.mapXLow, this.mapXHigh);
 		const y = map(noise(this.yoff + this.rdnY), 0, 1, this.mapYLow, this.mapYHigh);
 
-		fill(0, 0, 0, this.alpha);
+		fill(207, 94, 19, this.alpha);
 		noStroke();
 		ellipse(x, y, w1, w1);
 	}
