@@ -108,7 +108,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 				// Option #1: 2D Noise
 				let y = map(noise(landXoff, landYoff), 0, 1, landMinY, landMaxY);
-				let h = map(noise(landXoff, landYoff), 0, 1, 25, 65);
+				let h = map(noise(landXoff, landYoff), 0, 1, 25, 75);
 
 				// Option #2: 1D Noise
 				// let y = map(noise(landXoff), 0, 1, 200,300);
@@ -120,8 +120,8 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 					landXoff += 0.05;
 					landMinY += 0.025;
 					landMaxY += 0.025;
-					landSaturation += 0.001;
-					landBrightness -= 0.0003;
+					landSaturation += 0.0015;
+					landBrightness -= 0.00025;
 					landStrokeAlpha += 0.0001;
 				}
 
