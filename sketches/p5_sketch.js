@@ -28,15 +28,15 @@ canvasSketch((context) => {
 		yoff = 0.0; // 2nd dimension of perlin noise
 		skyMinY = 0;
 		skyMaxY = 0;
-		landMinY = height / 4;
+		landMinY = height / 6;
 		landMaxY = height / 2;
-		landHue = 169;
+		landHue = 155;
 		landSat = 65;
-		landBright = 20;
+		landBright = 25;
 		skyHue = 210;
 		skySat = 45;
 		skyBright = 10;
-		landscapeStep = 200;
+		landscapeStep = 100;
 		skyStep = 2;
 		noiseSeed();
 		noStroke();
@@ -45,7 +45,7 @@ canvasSketch((context) => {
 	function createLandscape() {
 		let xoff = 0;
 
-		for (let i = 0; i < 3; i++) {
+		for (let i = 0; i < 6; i++) {
 			beginShape();
 			noStroke();
 			fill(landHue, landSat, landBright);
@@ -53,13 +53,14 @@ canvasSketch((context) => {
 				let y = map(noise(xoff, yoff), 0, 1, landMaxY, landMinY);
 
 				curveVertex(x, y);
-				xoff += 0.08;
+				xoff -= 0.06;
 			}
-			landMinY += height / 7;
-			landMaxY += height / 6;
+			landMinY += height / 11;
+			landMaxY += height / 10;
 			landHue += 5;
 			landSat -= 5;
-			landBright -= 5;
+			landBright -= 3;
+			landscapeStep += 50;
 			vertex(width, height);
 			vertex(0, height);
 			endShape(CLOSE);
@@ -71,18 +72,18 @@ canvasSketch((context) => {
 		//background(30, 20, 40);
 		let xoff = 0;
 		let skyAlpha = 100;
-		for (let i = 0; i < 20; i++) {
+		for (let i = 0; i < 25; i++) {
 			beginShape();
 			fill(skyHue, skySat, skyBright, skyAlpha);
 			for (let x = 0; x <= width + skyStep; x += skyStep) {
 				let y = map(noise(xoff, yoff), 0, 1, skyMaxY, skyMinY);
 				curveVertex(x, y);
-				xoff += 0.0005;
+				xoff += 0.0004;
 			}
-			skyMinY += height / 20;
-			skyMaxY += height / 10;
-			skyHue -= 20;
-			skySat += 15;
+			skyMinY += height / 23;
+			skyMaxY += height / 11;
+			skyHue -= 16;
+			skySat += 10;
 			skyBright += 10;
 			skyAlpha += 5;
 			vertex(width, height);
@@ -99,12 +100,12 @@ canvasSketch((context) => {
 	}
 
 	function createStars() {
-		for (let i = 0; i <= 500; i++) {
+		for (let i = 0; i <= 1500; i++) {
 			let elW = random(5, 15);
 			let elA = random(20, 80);
 			let elX = random(0, width);
 			let elY = random(0, height);
-			stroke(0, 0, 100, 100);
+			stroke(0, 0, 100, elA);
 			strokeWeight(elW);
 			point(elX, elY);
 		}
@@ -116,7 +117,7 @@ canvasSketch((context) => {
 	createLandscape();
 
 	// Return a renderer, which is like p5.js 'draw' function
-	return ({ p5, time, width, height }) => {
+	return ({p5, time, width, height}) => {
 		// Draw with p5.js things
 	};
 }, settings);
