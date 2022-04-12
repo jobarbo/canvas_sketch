@@ -34,8 +34,8 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let landMinY = height / 4;
 	let landMaxY = height / 2;
 	let landYoff = 0.0;
-	let landSaturation = 5;
-	let landBrightness = 65;
+	let landSaturation = 2;
+	let landBrightness = 90;
 	let landStrokeAlpha = 1;
 
 	let skyMinY = height / 3;
@@ -57,8 +57,8 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		beginShape();
 		noFill();
 
-		let skyXoff = 0; // Option #1: 2D Noise
-		// let skyXoff = landYoff; // Option #2: 1D Noise
+		//let skyXoff = 0; // Option #1: 2D Noise
+		let skyXoff = skyYoff; // Option #2: 1D Noise
 
 		// Iterate over horizontal pixels
 		for (let x = -100; x <= width + 100; x += 100) {
@@ -66,16 +66,17 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 			// Option #1: 2D Noise
 			let y = map(noise(skyXoff, skyYoff), 0, 1, skyMinY, skyMaxY);
-			let h = map(noise(skyXoff, skyYoff), 0, 1, 190, 190);
-			let s = map(noise(skyXoff, skyYoff), 0, 1, 0, 20);
-			let b = map(noise(skyXoff, skyYoff), 0, 1, 30, 100);
+			let h = map(noise(skyXoff, skyYoff), 0, 1, 200, 205);
+			let s = map(noise(skyXoff, skyYoff), 0, 1, 0, 60);
+			let b = map(noise(skyXoff, skyYoff), 0, 1, 95, 100);
 
 			// Option #2: 1D Noise
 			// let y = map(noise(skyXoff), 0, 1, 200,300);
-			stroke(h, s, b - 5, 10);
+			stroke(h, s, b, 5);
+			strokeWeight(20);
 			fill(h, s, b);
+
 			// Set the vertex
-			console.log(skyMinY);
 			if (skyMaxY > 100) {
 				curveVertex(x, y);
 				skyXoff += 0.05;
@@ -100,15 +101,17 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		noFill();
 
 		let landXoff = 0; // Option #1: 2D Noise
-		// let landXoff = landYoff; // Option #2: 1D Noise
+		//let landXoff = landYoff; // Option #2: 1D Noise
 		if (skyDone) {
 			// Iterate over horizontal pixels
-			for (let x = -100; x <= width + 100; x += 100) {
+			for (let x = -200; x <= width + 200; x += 200) {
 				// Calculate a y value according to noise, map to
 
 				// Option #1: 2D Noise
 				let y = map(noise(landXoff, landYoff), 0, 1, landMinY, landMaxY);
-				let h = map(noise(landXoff, landYoff), 0, 1, 25, 75);
+				let h = map(noise(landXoff, landYoff), 0, 1, 25, 55);
+				let s = map(noise(landXoff, landYoff), 0, 1, 85, 100);
+				let b = map(noise(landXoff, landYoff), 0, 1, 85, 100);
 
 				// Option #2: 1D Noise
 				// let y = map(noise(landXoff), 0, 1, 200,300);
@@ -117,11 +120,16 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 				// Set the vertex
 				if (landMinY < height) {
 					curveVertex(x, y);
-					landXoff += 0.05;
+					landXoff += 0.03;
 					landMinY += 0.025;
 					landMaxY += 0.025;
-					landSaturation += 0.0015;
-					landBrightness -= 0.00025;
+					if (landSaturation < 90) {
+						landSaturation += 0.0025;
+					}
+					if (landBrightness > 70) {
+						landBrightness -= 0.00023;
+					}
+
 					landStrokeAlpha += 0.0001;
 				}
 
