@@ -42,6 +42,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let skyMaxY = height / 2;
 	let skyYoff = 0.0;
 	let skyDone = false;
+
 	/**
 	 * GUI Helper
 	 */
@@ -95,7 +96,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		endShape(CLOSE);
 
 		// LAND
-		strokeWeight(10);
+
 		// We are going to draw a polygon out of the wave points
 		beginShape();
 		noFill();
@@ -104,7 +105,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		//let landXoff = landYoff; // Option #2: 1D Noise
 		if (skyDone) {
 			// Iterate over horizontal pixels
-			for (let x = -200; x <= width + 200; x += 200) {
+			for (let x = -100; x <= width + 100; x += 100) {
 				// Calculate a y value according to noise, map to
 
 				// Option #1: 2D Noise
@@ -115,10 +116,15 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 				// Option #2: 1D Noise
 				// let y = map(noise(landXoff), 0, 1, 200,300);
-				stroke(h, landSaturation, landBrightness - 20, landStrokeAlpha);
-				fill(h, landSaturation, landBrightness);
+
 				// Set the vertex
 				if (landMinY < height) {
+					strokeWeight(3);
+					stroke(h, landSaturation, landBrightness - 20, 100);
+					line(x, y, x + random(-60, 60), y - random(15, 150));
+					strokeWeight(10);
+					stroke(h, landSaturation, landBrightness - 20, landStrokeAlpha);
+					fill(h, landSaturation, landBrightness);
 					curveVertex(x, y);
 					landXoff += 0.03;
 					landMinY += 0.025;
