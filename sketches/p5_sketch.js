@@ -34,9 +34,17 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let landMinY = height / 4;
 	let landMaxY = height / 2;
 	let landYoff = 0.0;
-	let landSaturation = 2;
+	let landSaturation = 5;
 	let landBrightness = 90;
 	let landStrokeAlpha = 1;
+
+	let waterMinY = height / 4.5;
+	let waterMaxY = height / 2.5;
+	let waterYoff = 0.0;
+	let waterSaturation = 30;
+	let waterBrightness = 97;
+	let waterStrokeAlpha = 1;
+	let waterFillAlpha = 10;
 
 	let skyMinY = height / 3;
 	let skyMaxY = height / 2;
@@ -96,7 +104,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		endShape(CLOSE);
 
 		// LAND
-
+		strokeWeight(3);
 		// We are going to draw a polygon out of the wave points
 		beginShape();
 		noFill();
@@ -105,35 +113,30 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		//let landXoff = landYoff; // Option #2: 1D Noise
 		if (skyDone) {
 			// Iterate over horizontal pixels
-			for (let x = -100; x <= width + 100; x += 100) {
+			for (let x = -300; x <= width + 300; x += 100) {
 				// Calculate a y value according to noise, map to
 
 				// Option #1: 2D Noise
 				let y = map(noise(landXoff, landYoff), 0, 1, landMinY, landMaxY);
-				let h = map(noise(landXoff, landYoff), 0, 1, 25, 55);
+				let h = map(noise(landXoff, landYoff), 0, 1, 25, 105);
 				let s = map(noise(landXoff, landYoff), 0, 1, 85, 100);
 				let b = map(noise(landXoff, landYoff), 0, 1, 85, 100);
 
 				// Option #2: 1D Noise
 				// let y = map(noise(landXoff), 0, 1, 200,300);
-
+				stroke(h, landSaturation, landBrightness - 20, landStrokeAlpha);
+				fill(h, landSaturation, landBrightness);
 				// Set the vertex
 				if (landMinY < height) {
-					strokeWeight(3);
-					stroke(h, landSaturation, landBrightness - 20, 100);
-					line(x, y, x + random(-60, 60), y - random(15, 150));
-					strokeWeight(10);
-					stroke(h, landSaturation, landBrightness - 20, landStrokeAlpha);
-					fill(h, landSaturation, landBrightness);
 					curveVertex(x, y);
-					landXoff += 0.03;
-					landMinY += 0.025;
-					landMaxY += 0.025;
-					if (landSaturation < 90) {
-						landSaturation += 0.0025;
+					landXoff += 0.08;
+					landMinY += 0.02;
+					landMaxY += 0.02;
+					if (landSaturation < 70) {
+						landSaturation *= 1.0003;
 					}
-					if (landBrightness > 70) {
-						landBrightness -= 0.00023;
+					if (landBrightness > 60) {
+						landBrightness -= 0.001;
 					}
 
 					landStrokeAlpha += 0.0001;
@@ -143,6 +146,58 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			}
 			// increment y dimension for noise
 			landYoff += 0.01;
+			vertex(width + 100, height + 100);
+			vertex(-100, height + 100);
+			endShape(CLOSE);
+		}
+
+		// Water
+		strokeWeight(3);
+		// We are going to draw a polygon out of the wave points
+		beginShape();
+		noFill();
+
+		let waterXoff = 0; // Option #1: 2D Noise
+		//let landXoff = landYoff; // Option #2: 1D Noise
+		if (skyDone) {
+			// Iterate over horizontal pixels
+			for (let x = -300; x <= width + 300; x += 100) {
+				// Calculate a y value according to noise, map to
+
+				// Option #1: 2D Noise
+				let y = map(noise(waterXoff, waterYoff), 0, 1, waterMinY, waterMaxY);
+				let h = map(noise(waterXoff, waterYoff), 0, 1, 195, 200);
+				let s = map(noise(waterXoff, waterYoff), 0, 1, 15, 60);
+				let b = map(noise(waterXoff, waterYoff), 0, 1, 85, 100);
+
+				// Option #2: 1D Noise
+				// let y = map(noise(landXoff), 0, 1, 200,300);
+				stroke(h, waterSaturation, waterBrightness + 20, waterStrokeAlpha);
+				fill(h, waterSaturation, waterBrightness, waterFillAlpha);
+				// Set the vertex
+				if (waterMinY < height) {
+					curveVertex(x, y);
+					waterXoff += 0.003;
+					waterMinY += 0.025;
+					waterMaxY += 0.025;
+					if (waterSaturation < 70) {
+						waterSaturation += 0.005;
+					}
+					if (waterFillAlpha < 30) {
+						waterFillAlpha *= 1.005;
+					}
+
+					if (waterBrightness > 60) {
+						waterBrightness -= 0.002;
+					}
+
+					waterStrokeAlpha += 0.0001;
+				}
+
+				// Increment x dimension for noise
+			}
+			// increment y dimension for noise
+			waterYoff += 0.0005;
 			vertex(width + 100, height + 100);
 			vertex(-100, height + 100);
 			endShape(CLOSE);
