@@ -1,5 +1,5 @@
 // Import sketch objects
-import Entity from './entity.js';
+import Mover from './entity.js';
 import * as dat from 'dat.gui';
 const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
@@ -16,12 +16,16 @@ const settings = {
 	dimensions: [horizontal, vertical],
 	units: 'px',
 	//duration: 30,
-	//fps: 60,
+	fps: 60,
 	animate: true,
 	attributes: {
 		antialias: true,
 	},
 };
+let movers = [];
+let scl1;
+let scl2;
+let seed;
 
 const preload = () => {
 	// You can use p5.loadImage() here, etc...
@@ -30,6 +34,9 @@ const preload = () => {
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	colorMode(HSB, 360, 100, 100, 100);
+	seed = random(100000);
+	randomSeed(seed);
+	INIT(seed);
 
 	/**
 	 * GUI Helper
@@ -40,6 +47,13 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
+		for (let m of movers) {
+			for (let i = 0; i < 10; i++) {
+				m.show();
+				m.move();
+			}
+		}
+
 		exporting = true;
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);
@@ -49,3 +63,20 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		}
 	};
 }, settings);
+
+function windowResized() {
+	resizeCanvas(windowWidth, windowHeight);
+	INIT(seed);
+}
+
+function INIT(seed) {
+	movers = [];
+	scl1 = random(0.005, 0.001);
+	scl2 = random(0.005, 0.001);
+	for (let i = 0; i < 1000; i++) {
+		let x = random(-0.5, 1.5) * width;
+		let y = random(-0.5, 1.5) * height;
+		movers.push(new Mover(x, y, scl1, scl2, seed));
+	}
+	background(200, 97, 28);
+}
