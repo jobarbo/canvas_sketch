@@ -13,7 +13,7 @@ export default class Mover {
 	show() {
 		//
 		//blendMode(MULTIPLY);
-		fill(43, 99, 100, 1);
+		fill(43, 99, 100, 10);
 		//stroke(34, 40, 90,80);
 		noStroke();
 		circle(this.x, this.y, this.s);
@@ -24,8 +24,8 @@ export default class Mover {
 		this.x += p.x / 5;
 		this.y += p.y / 5;
 		this.s = map(p.x, -4, 4, -10, 10);
-		if (this.s > -5 && this.s < 5) {
-			this.s = 5;
+		if (this.s > -2 && this.s < 2) {
+			this.s = 2;
 		}
 	}
 }

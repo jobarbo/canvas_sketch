@@ -48,7 +48,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
 		for (let m of movers) {
-			for (let i = 0; i < 10; i++) {
+			for (let i = 0; i < 40; i++) {
 				m.show();
 				m.move();
 			}
