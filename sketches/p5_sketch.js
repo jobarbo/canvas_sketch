@@ -96,10 +96,10 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 					landXoff += 0.08;
 					landMinY += 0.02;
 					landMaxY += 0.02;
-					if (landSaturation < 70) {
+					if (landSaturation < 80) {
 						landSaturation *= 1.0003;
 					}
-					if (landBrightness > 60) {
+					if (landBrightness > 70) {
 						landBrightness -= 0.001;
 					}
 
@@ -204,7 +204,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 					}
 
 					if (waterStrokeAlpha > 0) {
-						waterStrokeAlpha -= 0.001;
+						waterStrokeAlpha -= 0.0001;
 					}
 					waterStrokeSaturation -= 0.001;
 				}
