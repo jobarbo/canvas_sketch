@@ -30,20 +30,23 @@ const preload = () => {
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	colorMode(HSB, 360, 100, 100, 100);
-	background(210, 23, 92);
+	let bgHue = random(365);
+	background(bgHue, 23, 0);
 	let landMinY = height / 4;
 	let landMaxY = height / 2;
 	let landYoff = 0.0;
 	let landSaturation = 5;
 	let landBrightness = 90;
-	let landStrokeAlpha = 1;
+	let landStrokeAlpha = 0.1;
+	let landDone = false;
 
-	let waterMinY = height / 4.5;
-	let waterMaxY = height / 2.5;
+	let waterMinY = height / 3.5;
+	let waterMaxY = height / 3.5;
 	let waterYoff = 0.0;
 	let waterSaturation = 30;
 	let waterBrightness = 97;
-	let waterStrokeAlpha = 1;
+	let waterStrokeSaturation = 60;
+	let waterStrokeAlpha = 60;
 	let waterFillAlpha = 10;
 
 	let skyMinY = height / 3;
@@ -51,58 +54,19 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let skyYoff = 0.0;
 	let skyDone = false;
 
-	/**
-	 * GUI Helper
-	 */
+	while (skyDone != true) {
+		createSky();
+	}
 
-	// gui.add(module_name, 'x', 0, width, 0.00001);
-	// gui.add(module_name, 'y', 0, width, 0.00001);
-
-	// Return a renderer, which is like p5.js 'draw' function
-	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
-		// SKY
-		strokeWeight(20);
-		// We are going to draw a polygon out of the wave points
-		beginShape();
-		noFill();
-
-		//let skyXoff = 0; // Option #1: 2D Noise
-		let skyXoff = skyYoff; // Option #2: 1D Noise
-
-		// Iterate over horizontal pixels
-		for (let x = -100; x <= width + 100; x += 100) {
-			// Calculate a y value according to noise, map to
-
-			// Option #1: 2D Noise
-			let y = map(noise(skyXoff, skyYoff), 0, 1, skyMinY, skyMaxY);
-			let h = map(noise(skyXoff, skyYoff), 0, 1, 200, 205);
-			let s = map(noise(skyXoff, skyYoff), 0, 1, 0, 60);
-			let b = map(noise(skyXoff, skyYoff), 0, 1, 95, 100);
-
-			// Option #2: 1D Noise
-			// let y = map(noise(skyXoff), 0, 1, 200,300);
-			stroke(h, s, b, 5);
-			strokeWeight(20);
-			fill(h, s, b);
-
-			// Set the vertex
-			if (skyMaxY > 100) {
-				curveVertex(x, y);
-				skyXoff += 0.05;
-				skyMinY -= 0.075;
-				skyMaxY -= 0.075;
-			} else {
-				skyDone = true;
-			}
-
-			// Increment x dimension for noise
+	if (skyDone) {
+		console.log('Sky Done');
+		while (landDone != true) {
+			createLand();
+			createOcean();
 		}
-		// increment y dimension for noise
-		skyYoff += 0.01;
-		vertex(width + 100, -100);
-		vertex(-100, -100);
-		endShape(CLOSE);
+	}
 
+	function createLand() {
 		// LAND
 		strokeWeight(3);
 		// We are going to draw a polygon out of the wave points
@@ -124,7 +88,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 				// Option #2: 1D Noise
 				// let y = map(noise(landXoff), 0, 1, 200,300);
-				stroke(h, landSaturation, landBrightness - 20, landStrokeAlpha);
+				stroke(bgHue, landSaturation - 10, landBrightness - 10, landStrokeAlpha);
 				fill(h, landSaturation, landBrightness);
 				// Set the vertex
 				if (landMinY < height) {
@@ -140,6 +104,8 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 					}
 
 					landStrokeAlpha += 0.0001;
+				} else {
+					landDone = true;
 				}
 
 				// Increment x dimension for noise
@@ -150,7 +116,53 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			vertex(-100, height + 100);
 			endShape(CLOSE);
 		}
+	}
 
+	function createSky() {
+		// SKY
+		strokeWeight(20);
+		// We are going to draw a polygon out of the wave points
+		beginShape();
+		noFill();
+
+		//let skyXoff = 0; // Option #1: 2D Noise
+		let skyXoff = skyYoff; // Option #2: 1D Noise
+
+		// Iterate over horizontal pixels
+		for (let x = -100; x <= width + 100; x += 100) {
+			// Calculate a y value according to noise, map to
+
+			// Option #1: 2D Noise
+			let y = map(noise(skyXoff, skyYoff), 0, 1, skyMinY, skyMaxY);
+			let h = map(noise(skyXoff, skyYoff), 0, 1, bgHue - 10, bgHue + 10);
+			let s = map(noise(skyXoff, skyYoff), 0, 1, 0, 60);
+			let b = map(noise(skyXoff, skyYoff), 0, 1, 95, 100);
+
+			// Option #2: 1D Noise
+			// let y = map(noise(skyXoff), 0, 1, 200,300);
+			stroke(h, s, b, 5);
+			strokeWeight(20);
+			fill(h, s, b);
+
+			// Set the vertex
+			if (skyMaxY > 100) {
+				curveVertex(x, y);
+				skyXoff += 0.025;
+				skyMinY -= 0.075;
+				skyMaxY -= 0.075;
+			} else {
+				skyDone = true;
+			}
+
+			// Increment x dimension for noise
+		}
+		// increment y dimension for noise
+		skyYoff += 0.01;
+		vertex(width + 100, -100);
+		vertex(-100, -100);
+		endShape(CLOSE);
+	}
+	function createOcean() {
 		// Water
 		strokeWeight(3);
 		// We are going to draw a polygon out of the wave points
@@ -166,13 +178,13 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 				// Option #1: 2D Noise
 				let y = map(noise(waterXoff, waterYoff), 0, 1, waterMinY, waterMaxY);
-				let h = map(noise(waterXoff, waterYoff), 0, 1, 195, 200);
+				let h = map(noise(waterXoff, waterYoff), 0, 1, 175, 200);
 				let s = map(noise(waterXoff, waterYoff), 0, 1, 15, 60);
 				let b = map(noise(waterXoff, waterYoff), 0, 1, 85, 100);
 
 				// Option #2: 1D Noise
 				// let y = map(noise(landXoff), 0, 1, 200,300);
-				stroke(h, waterSaturation, waterBrightness + 20, waterStrokeAlpha);
+				stroke(bgHue, waterStrokeSaturation, waterBrightness, waterStrokeAlpha);
 				fill(h, waterSaturation, waterBrightness, waterFillAlpha);
 				// Set the vertex
 				if (waterMinY < height) {
@@ -191,9 +203,11 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 						waterBrightness -= 0.002;
 					}
 
-					waterStrokeAlpha += 0.0001;
+					if (waterStrokeAlpha > 0) {
+						waterStrokeAlpha -= 0.001;
+					}
+					waterStrokeSaturation -= 0.001;
 				}
-
 				// Increment x dimension for noise
 			}
 			// increment y dimension for noise
@@ -202,6 +216,16 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			vertex(-100, height + 100);
 			endShape(CLOSE);
 		}
+	}
+	/**
+	 * GUI Helper
+	 */
+
+	// gui.add(module_name, 'x', 0, width, 0.00001);
+	// gui.add(module_name, 'y', 0, width, 0.00001);
+
+	// Return a renderer, which is like p5.js 'draw' function
+	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
 		exporting = true;
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);
