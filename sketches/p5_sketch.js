@@ -31,36 +31,32 @@ canvasSketch((context) => {
 	let xoff = 0.6;
 	let yoff = 0.1;
 	let woff = 0.3;
-	let wContainer = wSpacing / 1.5;
-	let hContainer = hSpacing / 1.5;
+	let wContainer = wSpacing * 2.5;
+	let hContainer = hSpacing * 2.5;
 
 	//displayStars();
-	window.mousePressed = () => {};
 	//paint(margin,wSpacing,hSpacing,xoff,yoff,woff,wContainer,hContainer);
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height}) => {
 		// Draw with p5.js things
-		if (mouseIsPressed) {
-			xoff = random(0, 1);
-			yoff = random(0, 1);
-			woff = random(0, 1);
-			paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContainer);
-		}
+
+		xoff = random(0, 1);
+		yoff = random(0, 1);
+		woff = random(0, 1);
+		paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContainer);
 	};
 }, settings);
 
 function paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContainer) {
 	for (let iy = margin; iy < height - margin; iy = iy + hSpacing) {
 		for (let ix = margin; ix < width - margin; ix = ix + wSpacing) {
-			//debugGrid(ix,iy,wSpacing,hSpacing);
-			cx = ix + wContainer / 2;
-			cy = iy + hContainer / 2;
+			//debugGrid(ix, iy, wSpacing, hSpacing);
 
 			for (let s = 0; s < wSpacing; s++) {
-				let x = map(noise(xoff), 0, 1, mouseX - wContainer, mouseX + wContainer);
-				let y = map(noise(yoff), 0, 1, mouseY - hContainer, mouseY + hContainer);
-				let elW = map(noise(woff), 0, 1, 0, 10);
+				let x = map(noise(xoff), 0, 1, -wContainer / 1, wContainer / 1);
+				let y = map(noise(yoff), 0, 1, -hContainer / 1, hContainer / 1);
+				let elW = map(noise(woff), 0, 1, 2, 10);
 
 				let elHue = map(elW, 2, 8, 45, 0, true);
 				let elSat = map(elW, 2, 8, 5, 75, true);
@@ -72,20 +68,11 @@ function paint(margin, wSpacing, hSpacing, xoff, yoff, woff, wContainer, hContai
 				fill(0, 75, 10, elAlpha);
 				ellipse(x, y, elW, elW);
 
-				xoff += 0.4;
-				yoff += 0.0001;
+				xoff += 0.0005;
+				yoff += 0.02;
 				woff += 0.1;
 			}
 		}
-	}
-}
-
-function displayStars() {
-	for (let i = 0; i < 2000; i++) {
-		let starAlpha = random(1, 30);
-		stroke(48, 56, 83, starAlpha);
-		strokeWeight(random(5, 10));
-		point(random(width), random(height));
 	}
 }
 
