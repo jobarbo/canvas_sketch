@@ -35,9 +35,12 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let landMinY = height / 4;
 	let landMaxY = height / 2;
 	let landYoff = 0.0;
-	let landSaturation = 5;
-	let landBrightness = 90;
-	let landStrokeAlpha = 0.1;
+	let landSaturation = 2;
+	let landBrightness = 95;
+	let landStrokeSaturation = 30;
+	let landStrokeBrightness = 100;
+	let landStrokeAlpha = 40;
+	let landStrokeWeight = 65;
 	let landDone = false;
 
 	let waterMinY = height / 3.5;
@@ -53,22 +56,22 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let skyMaxY = height / 2;
 	let skyYoff = 0.0;
 	let skyDone = false;
-
+	/*
 	while (skyDone != true) {
 		createSky();
 	}
 
-	if (skyDone) {
-		console.log('Sky Done');
+ 	if (skyDone) {
+		console.log("Sky Done");
 		while (landDone != true) {
 			createLand();
 			createOcean();
 		}
-	}
+	} */
 
 	function createLand() {
 		// LAND
-		strokeWeight(3);
+
 		// We are going to draw a polygon out of the wave points
 		beginShape();
 		noFill();
@@ -88,7 +91,8 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 				// Option #2: 1D Noise
 				// let y = map(noise(landXoff), 0, 1, 200,300);
-				stroke(bgHue, landSaturation - 10, landBrightness - 10, landStrokeAlpha);
+				strokeWeight(landStrokeWeight);
+				stroke(bgHue, landStrokeSaturation, landStrokeBrightness, landStrokeAlpha);
 				fill(h, landSaturation, landBrightness);
 				// Set the vertex
 				if (landMinY < height) {
@@ -102,8 +106,18 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 					if (landBrightness > 70) {
 						landBrightness -= 0.001;
 					}
-
-					landStrokeAlpha += 0.0001;
+					if (landStrokeAlpha > 10) {
+						landStrokeAlpha -= 0.0005;
+					}
+					if (landStrokeWeight > 3) {
+						landStrokeWeight -= 0.0005;
+					}
+					if (landStrokeSaturation > 0) {
+						landStrokeSaturation -= 0.00015;
+					}
+					if (landStrokeBrightness > 95) {
+						landStrokeBrightness -= 0.0001;
+					}
 				} else {
 					landDone = true;
 				}
@@ -226,6 +240,14 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
+		createSky();
+
+		if (skyDone) {
+			console.log('Sky Done');
+
+			createLand();
+			createOcean();
+		}
 		exporting = true;
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);
