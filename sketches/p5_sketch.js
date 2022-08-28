@@ -1,9 +1,9 @@
 // Import sketch objects
-import Entity from "./entity.js";
-import * as dat from "dat.gui";
-const palettes = require("nice-color-palettes/1000.json");
-const canvasSketch = require("canvas-sketch");
-const p5 = require("p5");
+import Entity from './entity.js';
+import * as dat from 'dat.gui';
+const palettes = require('nice-color-palettes/1000.json');
+const canvasSketch = require('canvas-sketch');
+const p5 = require('p5');
 new p5();
 const horizontal = 12 * 300;
 const vertical = 12 * 300;
@@ -14,7 +14,7 @@ const settings = {
 	// Pass the p5 instance, and preload function if necessary
 	p5: true,
 	dimensions: [horizontal, vertical],
-	units: "px",
+	units: 'px',
 	//duration: 30,
 	//fps: 60,
 	animate: true,
@@ -54,6 +54,11 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let waterStrokeAlpha = 40;
 	let waterFillAlpha = 10;
 	let waterStrokeWeight = 10;
+	let waveStrokeWeight = 65;
+	let waveStrokeAlpha = 5;
+	let waveStrokeBrightness = 100;
+	let waveStrokeSaturation = 30;
+	let waveIsReverted = false;
 
 	let skyMinY = height / 3;
 	let skyMaxY = height / 2;
@@ -164,9 +169,32 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 				let h = map(noise(waterXoff, waterYoff), 0, 1, 175, 200);
 				let s = map(noise(waterXoff, waterYoff), 0, 1, 15, 60);
 				let b = map(noise(waterXoff, waterYoff), 0, 1, 85, 100);
+				// once every three times, change the water color
+				if (x % 6 == 0) {
+					if (waveStrokeAlpha > 2 && waveIsReverted == false) {
+						waveStrokeAlpha -= 0.000001;
+					}
+					if (waveStrokeWeight > 6) {
+						waveStrokeWeight -= 0.004;
+					} else {
+						waveIsReverted = true;
+					}
 
-				// Option #2: 1D Noise
-				// let y = map(noise(landXoff), 0, 1, 200,300);
+					if (waveIsReverted) {
+						waveStrokeWeight += 0.003;
+						waveStrokeAlpha += 0.00001;
+					}
+					if (waveStrokeSaturation > 0) {
+						waveStrokeSaturation -= 0.00015;
+					}
+					if (waveStrokeBrightness > 95) {
+						waveStrokeBrightness -= 0.00001;
+					}
+					strokeWeight(waveStrokeWeight);
+					stroke(bgHue, random(0, waveStrokeSaturation), waveStrokeBrightness, waveStrokeAlpha);
+					let lineStart = random(width);
+					line(lineStart - random(0, 300), y, lineStart + random(0, 300), y);
+				}
 				strokeWeight(waterStrokeWeight);
 				stroke(bgHue, waterStrokeSaturation, waterBrightness, waterStrokeAlpha);
 				fill(h, waterSaturation, waterBrightness, waterFillAlpha);
@@ -259,7 +287,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		createSky();
 
 		if (skyDone) {
-			console.log("Sky Done");
+			console.log('Sky Done');
 
 			createLand();
 			createOcean();
