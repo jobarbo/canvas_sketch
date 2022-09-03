@@ -6,7 +6,7 @@ export default class Stars {
 		this.maxW = w * random(2, 4);
 		this.minW = w * random(0.5, 0.8);
 		this.w = this.minW;
-		this.a = random(0.01, 5);
+		this.a = 100;
 		this.minA = this.a * random(0.5, 1);
 		this.h = starsColor[0];
 		this.s = starsColor[1];
@@ -33,8 +33,6 @@ export default class Stars {
 		this.moveOffset = constrain(this.moveOffset, 0, 10);
 		this.y += random(-this.moveOffset, this.moveOffset);
 		this.x += random(-this.moveOffset / 20, this.moveOffset / 20);
-		this.a += random(-this.moveOffset, this.moveOffset);
-		this.a = constrain(this.a, 0, 100);
 
 		if (this.x >= width) {
 			this.x = 0;
