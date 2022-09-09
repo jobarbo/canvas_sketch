@@ -1,5 +1,5 @@
 // Import sketch objects
-import Mover from './entity.js';
+import Mover from './mover.js';
 import * as dat from 'dat.gui';
 const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
@@ -7,7 +7,6 @@ const p5 = require('p5');
 new p5();
 const horizontal = 12 * 300;
 const vertical = 12 * 300;
-
 const gui = new dat.GUI({closed: true});
 
 const settings = {
@@ -22,6 +21,7 @@ const settings = {
 		antialias: true,
 	},
 };
+
 let movers = [];
 let scl1;
 let scl2;
@@ -47,10 +47,11 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
-		for (let m of movers) {
-			for (let i = 0; i < 40; i++) {
-				m.show();
-				m.move();
+		// Draw with p5.js things
+		for (let i = 0; i < movers.length; i++) {
+			for (let t = 0; t < 40; t++) {
+				movers[i].show();
+				movers[i].move();
 			}
 		}
 
