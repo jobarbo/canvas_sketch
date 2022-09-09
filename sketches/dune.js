@@ -1,5 +1,5 @@
 const palettes = require('nice-color-palettes/1000.json');
-export default class Stalagmite {
+export default class Dune {
 	constructor(x, y, w) {
 		this.palettes = ['#d8d8d8', '#e2d9d8', '#ecdad8', '#f5dbd8', '#ffdcd8'];
 		console.log(this.palettes);
@@ -15,6 +15,7 @@ export default class Stalagmite {
 		this.brightness1 = 80;
 		this.saturation2 = 24;
 		this.brightness2 = 87;
+		this.rotated = false;
 		this.rotationSpeed = this.initialRotationSpeed;
 	}
 	display() {
@@ -22,14 +23,26 @@ export default class Stalagmite {
 		this.brightness1 += -0.01;
 		this.saturation2 += +0.01;
 		this.saturation1 += +0.01;
-		if (second() % 2 === 0) {
+
+		//count each seconds since the start of the sketch
+		let seconds = int(millis() / 1000 + 1);
+		console.log(seconds);
+		if (seconds % 2 === 0) {
 			stroke(24, this.saturation2, this.brightness2);
 			fill(21, this.saturation1, this.brightness1);
 			this.rotationSpeed = this.moddedRotationSpeed;
-		} else if (second() % 3 === 0) {
+			this.rotated = true;
+		} else if (seconds % 3 === 0) {
 			stroke(21, this.saturation1, this.brightness1);
 			fill(24, this.saturation2, this.brightness2);
 			this.rotationSpeed = this.initialRotationSpeed;
+			this.rotated = true;
+		} else {
+			if (!this.rotated) {
+				stroke(24, this.saturation2, this.brightness2);
+				fill(21, this.saturation1, this.brightness1);
+				this.rotationSpeed = this.moddedRotationSpeed;
+			}
 		}
 		push();
 		this.angle = this.angle + this.rotationSpeed;
@@ -44,7 +57,7 @@ export default class Stalagmite {
 			this.w = 10;
 			this.y = this.y;
 		} else {
-			this.y += random(-4, 7);
+			this.y += random(-1, 17);
 			this.w += random(-1, 1);
 		}
 	}

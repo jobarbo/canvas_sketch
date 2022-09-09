@@ -1,12 +1,13 @@
 // Import sketch objects
-import Stalagmite from './stalagmite.js';
+import Dune from './dune.js';
+import Sun from './sun.js';
 import * as dat from 'dat.gui';
 const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 12 * 300;
-const vertical = 12 * 300;
+const horizontal = 20 * 300;
+const vertical = 25 * 300;
 
 const gui = new dat.GUI({closed: true});
 
@@ -34,13 +35,16 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	rectMode(CENTER);
 	angleMode(DEGREES);
 	background(181, 93, 59);
-	const stalagNum = 1;
-	let stalagList = [];
-	let xSteps = width / (stalagNum + 1);
+	const duneNum = 1;
+	let duneList = [];
+	let xSteps = width / (duneNum + 1);
 	let xPos = xSteps;
-	let stalagWidth = width * 1.15;
-	for (let i = 0; i < stalagNum; i++) {
-		stalagList[i] = new Stalagmite(xPos, height + 250, stalagWidth);
+	let duneWidth = height;
+
+	let sun = new Sun();
+	sun.display();
+	for (let i = 0; i < duneNum; i++) {
+		duneList[i] = new Dune(xPos, height + 1000, duneWidth);
 		xPos += xSteps;
 	}
 
@@ -53,9 +57,9 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
 		exporting = true;
-		for (let i = 0; i < stalagNum; i++) {
-			stalagList[i].display();
-			stalagList[i].move();
+		for (let i = 0; i < duneNum; i++) {
+			duneList[i].display();
+			duneList[i].move();
 		}
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);
