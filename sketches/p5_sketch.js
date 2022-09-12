@@ -55,12 +55,18 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	const convertedColor = new HexToHsb(colors);
 	const palette = convertedColor.hsb;
 
-	for (let i = 0; i < 1000; i++) {
+	for (let i = 0; i < 10; i++) {
 		let chosenColor = palette[Math.floor(Math.random() * palette.length)];
 		let chosenStrokeColor = palette[Math.floor(Math.random() * palette.length)];
 		strokeWeight(15);
-		fill(chosenColor[0], chosenColor[1], chosenColor[2]);
-		stroke(chosenStrokeColor[0], chosenStrokeColor[1], chosenStrokeColor[2]);
+
+		if (i % 3 === 0) {
+			noFill();
+			stroke(chosenStrokeColor[0], chosenStrokeColor[1], chosenStrokeColor[2]);
+		} else {
+			fill(chosenColor[0], chosenColor[1], chosenColor[2]);
+			noStroke();
+		}
 		rect(random(100, width - 100), random((100, height - 100)), random(100, 1000), random(100, 500));
 	}
 
