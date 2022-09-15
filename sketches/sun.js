@@ -5,9 +5,9 @@ export default class Sun {
 		this.y = height / 2.5;
 	}
 	display() {
-		stroke(24, 4, 91);
+		stroke(27, 55, 75);
 		strokeWeight(40);
-		fill(21, 8, 5);
+		fill(257, 30, 20);
 		ellipse(this.x, this.y, this.w, this.w);
 	}
 }

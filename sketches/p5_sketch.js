@@ -33,7 +33,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
 	rectMode(CENTER);
-	background(21, 8, 5);
+	background(257, 30, 20);
 	const duneNum = 1;
 	let duneList = [];
 	let xSteps = width / (duneNum + 1);
