@@ -12,37 +12,33 @@ export default class Dune {
 		this.initialRotationSpeed = 0.15;
 		this.moddedRotationSpeed = -0.15;
 		this.saturation1 = 8;
-		this.brightness1 = 0;
+		this.brightness1 = 5;
 		this.saturation2 = 4;
-		this.brightness2 = 100;
+		this.brightness2 = 91;
 		this.rotated = false;
 		this.rotationSpeed = this.initialRotationSpeed;
 	}
 	display() {
-		this.brightness2 += -0.01;
-		this.brightness1 += -0.01;
-		this.saturation2 += +0.01;
-		this.saturation1 += +0.01;
+		//this.brightness2 += -0.01;
+		//this.brightness1 += -0.01;
+		//this.saturation2 += +0.01;
+		//this.saturation1 += +0.01;
 
 		//count each seconds since the start of the sketch
 		let seconds = int(millis() / 1000 + 1);
-		console.log(seconds);
 		if (seconds % 2 === 0) {
 			stroke(24, this.saturation2, this.brightness2);
-			//fill(21, this.saturation1, this.brightness1);
 			noFill();
 			this.rotationSpeed = this.moddedRotationSpeed;
 			this.rotated = true;
 		} else if (seconds % 3 === 0) {
 			stroke(21, this.saturation1, this.brightness1);
-			//fill(24, this.saturation2, this.brightness2);
 			noFill();
 			this.rotationSpeed = this.initialRotationSpeed;
 			this.rotated = true;
 		} else {
 			if (!this.rotated) {
 				stroke(24, this.saturation2, this.brightness2);
-				//fill(21, this.saturation1, this.brightness1);
 				noFill();
 				this.rotationSpeed = this.moddedRotationSpeed;
 			}

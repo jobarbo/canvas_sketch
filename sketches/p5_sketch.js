@@ -33,16 +33,16 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	noSmooth();
 	colorMode(HSB, 360, 100, 100, 100);
 	rectMode(CENTER);
-	angleMode(DEGREES);
-	background(181, 93, 0);
+	background(21, 8, 5);
 	const duneNum = 1;
 	let duneList = [];
 	let xSteps = width / (duneNum + 1);
 	let xPos = xSteps;
 	let duneWidth = height;
-
+	angleMode(RADIANS);
 	let sun = new Sun();
 	sun.display();
+	angleMode(DEGREES);
 	for (let i = 0; i < duneNum; i++) {
 		duneList[i] = new Dune(xPos, height + 1000, duneWidth);
 		xPos += xSteps;
