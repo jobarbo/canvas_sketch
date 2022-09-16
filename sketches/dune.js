@@ -18,28 +18,28 @@ export default class Dune {
 		this.rotated = false;
 		this.rotationSpeed = this.initialRotationSpeed;
 	}
-	display() {
+	display(j) {
 		//this.brightness2 += -0.01;
 		//this.brightness1 += -0.01;
 		//this.saturation2 += +0.01;
 		//this.saturation1 += +0.01;
-
+		strokeWeight(1);
 		//count each seconds since the start of the sketch
-		let seconds = int(millis() / 1000 + 1);
-		if (seconds % 2 === 0) {
+		let seconds = int(j / 1000 + 1);
+		if (seconds % 3 === 0) {
 			stroke(24, this.saturation2, this.brightness2);
-			noFill();
+			fill(24, this.saturation2, this.brightness2);
 			this.rotationSpeed = this.moddedRotationSpeed;
 			this.rotated = true;
-		} else if (seconds % 3 === 0) {
+		} else if (seconds % 2 === 0) {
 			stroke(21, this.saturation1, this.brightness1);
-			noFill();
+			fill(21, this.saturation1, this.brightness1);
 			this.rotationSpeed = this.initialRotationSpeed;
 			this.rotated = true;
 		} else {
 			if (!this.rotated) {
 				stroke(24, this.saturation2, this.brightness2);
-				noFill();
+				fill(24, this.saturation2, this.brightness2);
 				this.rotationSpeed = this.moddedRotationSpeed;
 			}
 		}
@@ -48,7 +48,8 @@ export default class Dune {
 		translate(this.x, this.y);
 		let c = cos(this.angle);
 		rotate(this.angle);
-		rect(0, 0, this.w, this.w, 100, 100, 100, 100);
+
+		rect(0, 0, this.w, this.w, 50, 50, 50, 50);
 		pop();
 	}
 	move() {
@@ -56,7 +57,8 @@ export default class Dune {
 			this.w = 10;
 			this.y = this.y;
 		} else {
-			this.y += random(-1, 17);
+			// /this.x += random(-20, 20);
+			this.y += random(-3, 17);
 			this.w += random(-1, 1);
 		}
 	}

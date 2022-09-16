@@ -2,7 +2,7 @@ export default class Sun {
 	constructor() {
 		this.w = random(width / 4, width / 1.5);
 		this.x = width / 2;
-		this.y = height / 2.5;
+		this.y = height / 2.2;
 	}
 	display() {
 		stroke(24, 4, 91);
