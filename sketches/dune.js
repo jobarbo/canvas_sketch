@@ -9,8 +9,8 @@ export default class Dune {
 		this.angle = 45;
 		// this.rotationModList = [-0.25, -0.2, -0.15, -0.1, -0.05];
 		this.baseColor = color(0, 0, 10);
-		this.initialRotationSpeed = 0.15;
-		this.moddedRotationSpeed = -0.15;
+		this.initialRotationSpeed = 0.2;
+		this.moddedRotationSpeed = -0.2;
 		this.saturation1 = 30;
 		this.brightness1 = 20;
 		this.saturation2 = 55;
@@ -48,7 +48,7 @@ export default class Dune {
 		translate(this.x, this.y);
 		let c = cos(this.angle);
 		rotate(this.angle);
-		rect(0, 0, this.w, this.w, 50, 50, 50, 50);
+		rect(0, 0, this.w, this.w, 35, 35, 35, 35);
 		pop();
 	}
 	move() {
@@ -56,7 +56,7 @@ export default class Dune {
 			this.w = 15;
 			this.y = this.y;
 		} else {
-			this.y += random(-1, 10);
+			this.y += random(-5, 20);
 			this.w += random(-1, 1);
 		}
 	}
