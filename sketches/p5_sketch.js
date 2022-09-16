@@ -6,8 +6,8 @@ const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 12 * 200;
-const vertical = 18 * 200;
+const horizontal = 12 * 300;
+const vertical = 12 * 300;
 
 const gui = new dat.GUI({closed: true});
 
@@ -49,7 +49,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// create dunes
 	angleMode(DEGREES);
 	for (let i = 0; i < duneNum; i++) {
-		duneList[i] = new Dune(xPos, height + 1000, duneWidth);
+		duneList[i] = new Dune(xPos, height + 500, duneWidth);
 		xPos += xSteps;
 	}
 

@@ -48,7 +48,7 @@ export default class Dune {
 		translate(this.x, this.y);
 		let c = cos(this.angle);
 		rotate(this.angle);
-		rect(0, 0, this.w, this.w, 100, 100, 100, 100);
+		rect(0, 0, this.w, this.w, 50, 50, 50, 50);
 		pop();
 	}
 	move() {
@@ -57,7 +57,7 @@ export default class Dune {
 			this.y = this.y;
 		} else {
 			this.y += random(-1, 10);
-			this.w += random(-1, 2);
+			this.w += random(-1, 1);
 		}
 	}
 }
