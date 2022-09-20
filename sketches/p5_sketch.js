@@ -6,8 +6,8 @@ const ColorScheme = require('color-scheme');
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 12 * 300;
-const vertical = 12 * 300;
+const horizontal = 12 * 100;
+const vertical = 12 * 100;
 const gui = new dat.GUI({closed: true});
 
 const settings = {
@@ -15,8 +15,8 @@ const settings = {
 	p5: true,
 	dimensions: [horizontal, vertical],
 	units: 'px',
-	bleed: 100,
-	//duration: 30,
+	bleed: 20,
+	duration: 3,
 	fps: 60,
 	animate: true,
 	attributes: {
@@ -71,7 +71,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			rectMode(CORNER);
 			stroke(0, 100, 100);
 			noFill();
-			strokeWeight(10);
+			strokeWeight(2);
 			rect(bleed, bleed, trimWidth, trimHeight);
 		}
 	};

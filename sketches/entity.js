@@ -1,5 +1,5 @@
 export default class Entity {
-	constructor() {
+	constructor(x, y, w, h, palette) {
 		// Module ready to be built
 	}
 }
