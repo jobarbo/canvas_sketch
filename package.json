@@ -13,7 +13,6 @@
 		"color-scheme": "1.0.0",
 		"canvas-sketch": "^0.7.6",
 		"dat.gui": "^0.7.9",
-		"nice-color-palettes": "^3.0.0",
 		"p5": "^1.4.2",
 		"three": "^0.144.0",
 		"ml5": "^0.12.2"
