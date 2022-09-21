@@ -2,7 +2,6 @@
 import Dune from './dune.js';
 import Sun from './sun.js';
 import * as dat from 'dat.gui';
-const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();

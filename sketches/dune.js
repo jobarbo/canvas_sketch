@@ -1,4 +1,4 @@
-const palettes = require('nice-color-palettes/1000.json');
+
 export default class Dune {
 	constructor(x, y, w) {
 		this.palettes = ['#d8d8d8', '#e2d9d8', '#ecdad8', '#f5dbd8', '#ffdcd8'];
