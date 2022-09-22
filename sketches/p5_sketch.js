@@ -38,12 +38,12 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let chosenPalette = palettes[Math.floor(Math.random() * palettes.length)];
 	let backgroundColor = color(chosenPalette[Math.floor(Math.random() * chosenPalette.length)]);
 
-	let mic = new p5.AudioIn();
+	/* 	let mic = new p5.AudioIn();
 
 	let micLevel = '';
 	window.mouseClicked = () => {
 		mic.start();
-	};
+	}; */
 
 	// choose the color of the balls from the same palette as backgroundColor but not the same color as backgroundColor
 	let ballColor = color(chosenPalette[Math.floor(Math.random() * chosenPalette.length)]);
@@ -52,6 +52,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	}
 
 	background(backgroundColor);
+
 	/**
 	 * GUI Helper
 	 */
@@ -65,16 +66,19 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		balls[i] = new Ball(width / 2, height / 2, random(10, 75), backgroundColor, ballColor);
 	}
 
-	// Return a renderer, which is like p5.js 'draw' function
-	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
-		exporting = true;
-		micLevel = mic.getLevel();
-		console.log(micLevel);
-		// p5.js 'draw' function
-		for (let i = 0; i < balls.length; i++) {
+	for (let i = 0; i < balls.length; i++) {
+		for (let j = 0; j < 5000; j++) {
 			balls[i].update();
 			balls[i].display();
 		}
+	}
+
+	// Return a renderer, which is like p5.js 'draw' function
+	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
+		exporting = true;
+		/* 		micLevel = mic.getLevel();
+		console.log(micLevel); */
+		// p5.js 'draw' function
 
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);
