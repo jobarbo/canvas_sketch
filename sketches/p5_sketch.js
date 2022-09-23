@@ -4,8 +4,6 @@ import * as dat from 'dat.gui';
 const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
-window.p5 = p5;
-require('p5/lib/addons/p5.sound');
 new p5();
 
 // Setup the canvas
@@ -38,16 +36,11 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	let chosenPalette = palettes[Math.floor(Math.random() * palettes.length)];
 	let backgroundColor = color(chosenPalette[Math.floor(Math.random() * chosenPalette.length)]);
 
-	/* 	let mic = new p5.AudioIn();
-
-	let micLevel = '';
-	window.mouseClicked = () => {
-		mic.start();
-	}; */
-
 	// choose the color of the balls from the same palette as backgroundColor but not the same color as backgroundColor
 	let ballColor = color(chosenPalette[Math.floor(Math.random() * chosenPalette.length)]);
-	while (ballColor === backgroundColor) {
+	console.log(ballColor.toString());
+	console.log(backgroundColor.toString());
+	while (ballColor.toString() === backgroundColor.toString()) {
 		ballColor = color(chosenPalette[Math.floor(Math.random() * chosenPalette.length)]);
 	}
 
@@ -62,12 +55,13 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	// create a new object with the properties you want to control
 	let balls = [];
-	for (let i = 0; i < 60; i++) {
-		balls[i] = new Ball(width / 2, height / 2, random(10, 75), backgroundColor, ballColor);
+	for (let i = 0; i < 2; i++) {
+		balls[i] = new Ball(width / 2, height / 2, int(random(50)), backgroundColor, ballColor);
 	}
 
 	for (let i = 0; i < balls.length; i++) {
-		for (let j = 0; j < 5000; j++) {
+		// run a loop while the balls are still on the canvas
+		while (balls[i].x > -width / 10 && balls[i].x < width + width / 10 && balls[i].y > -width / 10 && balls[i].y < height + width / 10) {
 			balls[i].update();
 			balls[i].display();
 		}
@@ -76,9 +70,6 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
 		exporting = true;
-		/* 		micLevel = mic.getLevel();
-		console.log(micLevel); */
-		// p5.js 'draw' function
 
 		if (!exporting && bleed > 0) {
 			stroke(0, 100, 100);

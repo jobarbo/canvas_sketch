@@ -1,9 +1,13 @@
 // Ball Object
 export default class Ball {
-	constructor(x, y, radius, strokeColor, ballColor) {
+	constructor(x, y, radiusIndex, strokeColor, ballColor) {
 		this.x = x;
 		this.y = y;
-		this.radius = radius;
+		if (radiusIndex === 0) {
+			this.radius = width / 10;
+		} else {
+			this.radius = random(10, 120);
+		}
 		this.speed = random(-2, 2);
 		this.direction = random(-TWO_PI, TWO_PI);
 		this.angle = 0.0;
@@ -26,7 +30,6 @@ export default class Ball {
 	display() {
 		strokeWeight(3);
 		stroke(this.strokeColor);
-		fill(this.ballColor);
 		ellipse(this.x, this.y, this.radius * 2, this.radius * 2);
 	}
 }
