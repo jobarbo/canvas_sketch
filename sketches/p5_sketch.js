@@ -16,7 +16,7 @@ const settings = {
 	dimensions: [horizontal, vertical],
 	units: 'px',
 	bleed: 20,
-	duration: 3,
+	duration: 10,
 	fps: 60,
 	animate: true,
 	attributes: {
@@ -63,8 +63,15 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	const palette = convertedColor.hsb;
 
 	// Return a renderer, which is like p5.js 'draw' function
-	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
+	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight, playhead, frame}) => {
 		// p5.js draw loop
+		background(0, 0, 0, 100);
+		console.log(`playhead: ${playhead}`);
+		console.log(`time: ${time}`);
+		console.log(`frame: ${frame}`);
+		let loopy = cos(2 * PI * playhead);
+
+		ellipse(width / 2, height / 2, 100 * loopy, 100 * loopy);
 
 		exporting = false;
 		if (!exporting && bleed > 0) {
