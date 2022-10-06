@@ -2,7 +2,6 @@
 import Entity from './entity.js';
 import * as dat from 'dat.gui';
 import HexToHsb from './utils/hexToHsb.js';
-const ColorScheme = require('color-scheme');
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
@@ -31,21 +30,6 @@ const preload = () => {
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 
-	/* color Scheme help
-	Schemes
-		mono
-		contrast
-		triade
-		tetrade
-		analogic
-	Variations
-		pastel
-		soft
-		light
-		hard
-		pale
-	 */
-
 	/**
 	 * GUI Helper
 	 */
@@ -55,12 +39,6 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	colorMode(HSB, 360, 100, 100, 100);
 	rectMode(CENTER);
-	const s = new ColorScheme();
-	s.from_hue(random(0, 360)).scheme('triade').variation('hard');
-	const colors = s.colors();
-
-	const convertedColor = new HexToHsb(colors);
-	const palette = convertedColor.hsb;
 
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
