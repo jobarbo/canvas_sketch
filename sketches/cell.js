@@ -1,5 +1,5 @@
 export default class Cell {
-	constructor(x, y, w, h, margin, xoff, yoff, iterationX, iterationY) {
+	constructor(x, y, w, h, margin, xoff, yoff, inc) {
 		// Module ready to be built
 		this.x = x + w / 2;
 		this.y = y + h / 2;
@@ -7,20 +7,27 @@ export default class Cell {
 		this.h = int(h - margin);
 		this.xoff = xoff;
 		this.yoff = yoff;
-		this.bArr = [0, 25, 50, 75, 100];
-		this.bi = 0;
-
-		console.log(this.w);
+		this.hueArr = [220, 210, 200, 45, 10, 75, 95, 100, 15, 15, 10];
+		this.satArr = [100, 75, 40, 35, 45, 35, 80, 75, 10, 15, 0];
+		this.brightArr = [70, 85, 100, 100, 70, 80, 60, 40, 25, 50, 100];
+		//this.hueIndex = int(map(this.n, 0, 100, 0, this.hueArr.length));
+		//this.brightIndex = int(map(this.n, 0, 100, 0, this.brightArr.length));
+		//this.satIndex = int(map(this.n, 0, 100, 0, this.satArr.length));
+		this.index = int(map(this.n, 20, 80, 0, this.hueArr.length));
+		this.n = noise(this.xoff, this.yoff) * 100;
+		console.log(this.hueArr.length);
+		console.log(this.brightArr.length);
+		console.log(this.satArr.length);
 	}
-	display(iterationX, iterationY) {
+	display(inc) {
 		// Module ready to be built
-		let n = noise(this.xoff, this.yoff) * 100;
-		this.bi = int(map(n, 30, 70, 0, this.bArr.length - 1));
-		fill(200, 100, this.bArr[this.bi]);
+		this.n = noise(this.xoff, this.yoff) * 100;
+		this.index = int(map(this.n, 20, 80, 0, this.hueArr.length));
+		fill(this.hueArr[this.index], this.satArr[this.index], this.brightArr[this.index]);
 		noStroke();
 		rect(this.x, this.y, this.w, this.h);
 
-		this.xoff += iterationX;
-		this.yoff += iterationY;
+		this.xoff += inc;
+		//this.yoff += inc;
 	}
 }
