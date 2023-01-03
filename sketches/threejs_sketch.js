@@ -48,17 +48,26 @@ const sketch = ({context, width, height}) => {
 	const bloomThreshold = 0.25;
 
 	const renderPass = new THREE.RenderPass(scene, camera);
-	const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(width, height), bloomStrength, bloomRadius, bloomThreshold);
+	const bloomPass = new THREE.UnrealBloomPass(
+		new THREE.Vector2(width, height),
+		bloomStrength,
+		bloomRadius,
+		bloomThreshold
+	);
 
 	const composer = new THREE.EffectComposer(renderer);
 	composer.addPass(renderPass);
 	composer.addPass(bloomPass);
+	console.log(composer);
 
-	const hdrEquirect = new THREE.RGBELoader().load('/media/images/empty_warehouse_01_4k.hdr', () => {
-		hdrEquirect.mapping = THREE.EquirectangularReflectionMapping;
-	});
+	const hdrEquirect = new THREE.RGBELoader().load(
+		'/media/images/empty_warehouse_01_4k.hdr',
+		() => {
+			hdrEquirect.mapping = THREE.EquirectangularReflectionMapping;
+		}
+	);
 
-	const bgTexture = new THREE.TextureLoader().load('/media/images/white.png');
+	const bgTexture = new THREE.TextureLoader().load('/media/images/ref5.png');
 	const bgGeometry = new THREE.PlaneGeometry(15, 15);
 	const bgMaterial = new THREE.MeshBasicMaterial({map: bgTexture});
 	const bgMesh = new THREE.Mesh(bgGeometry, bgMaterial);
@@ -72,7 +81,19 @@ const sketch = ({context, width, height}) => {
 	normalMapTexture.repeat.set(1, 1);
 
 	const geometry = new THREE.SphereGeometry(1, 32, 16);
-	const material = new THREE.MeshPhysicalMaterial({roughness: 0.1, transmission: 1, thickness: 0.5, envMap: hdrEquirect, envMapIntensity: 0.5, clearcoat: 1, clearcoatRoughness: 0.51, normalScale: new THREE.Vector2(0.5), normalMap: normalMapTexture, clearcoatNormalMap: normalMapTexture, clearcoatNormalScale: new THREE.Vector2(0.5)});
+	const material = new THREE.MeshPhysicalMaterial({
+		roughness: 0.1,
+		transmission: 1,
+		thickness: 0.5,
+		envMap: hdrEquirect,
+		envMapIntensity: 0.5,
+		clearcoat: 1,
+		clearcoatRoughness: 0.51,
+		normalScale: new THREE.Vector2(0.5),
+		normalMap: normalMapTexture,
+		clearcoatNormalMap: normalMapTexture,
+		clearcoatNormalScale: new THREE.Vector2(0.5),
+	});
 
 	const MESH_COUNT = 500;
 	const mesh = new THREE.InstancedMesh(geometry, material, MESH_COUNT);
@@ -81,10 +102,22 @@ const sketch = ({context, width, height}) => {
 	const matrixDummy = new THREE.Object3D();
 
 	const instanceData = [...Array(MESH_COUNT)].map(() => {
-		const position = new THREE.Vector3(1.5 * (-1 + 2 * Math.random()), 1.5 * (-1 + 2 * Math.random()), 0.2 + (-1 + 2 * Math.random()));
-		const rotation = new THREE.Euler(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
+		const position = new THREE.Vector3(
+			2.5 * (-1 + 2 * Math.random()),
+			2.5 * (-1 + 2 * Math.random()),
+			0.2 + (-1 + 2 * Math.random())
+		);
+		const rotation = new THREE.Euler(
+			Math.random() * Math.PI * 2,
+			Math.random() * Math.PI * 2,
+			Math.random() * Math.PI * 2
+		);
 
-		const axis = new THREE.Vector3(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1);
+		const axis = new THREE.Vector3(
+			Math.random() * 2 - 1,
+			Math.random() * 2 - 1,
+			Math.random() * 2 - 1
+		);
 
 		const BASE_SCALE = 0.2;
 		const scale = BASE_SCALE * (0.25 + 0.75 * Math.random());
