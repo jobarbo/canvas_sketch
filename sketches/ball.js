@@ -8,14 +8,15 @@ export default class Ball {
 		} else {
 			this.radius = random(10, 120);
 		}
-		this.speed = random(-4, 4);
+		this.speed = random(-6, 6);
 		this.direction = random(-TWO_PI, TWO_PI);
 		this.angle = 0.0;
 		this.scalar = 0;
 		this.strokeColor = ballColor;
-		this.strokeColor.setAlpha(100);
+		this.strokeColor.setAlpha(25);
 		this.ballColor = strokeColor;
-		this.ballColor.setAlpha(100);
+		this.ballColor.setAlpha(255);
+		console.log(this.strokeColor);
 	}
 
 	update() {
@@ -35,7 +36,7 @@ export default class Ball {
 	}
 
 	display() {
-		strokeWeight(1);
+		strokeWeight(3);
 		stroke(this.strokeColor);
 		fill(this.ballColor);
 		ellipse(this.x, this.y, this.radius * 2, this.radius * 2);
