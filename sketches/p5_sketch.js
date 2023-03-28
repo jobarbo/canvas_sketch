@@ -20,9 +20,11 @@ const settings = {
 };
 
 let backgroundImg;
+let reflectionImg;
 window.preload = () => {
 	// Preload sounds/images/etc...
-	backgroundImg = loadImage('media/images/dawn3.png');
+	//backgroundImg = loadImage('media/images/sunset2.png');
+	//reflectionImg = loadImage('media/images/reflection4.png');
 };
 
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
@@ -49,7 +51,17 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 	background(199, 47, 89);
 
-	image(backgroundImg, 0, 0);
+	/* 	image(backgroundImg, 0, 0, width, height / 2, 0, 0, 1024, 1024 / 2);
+	image(reflectionImg, 0, height / 2, width, height / 2, 0, 0, 1376, 864); */
+
+	// Define gradient colors
+	let c1 = color(200, 60, 100); // Light blue
+	let c2 = color(180, 80, 80); // White
+	let c3 = color(220, 60, 70);
+	let c4 = color(180, 60, 100);
+	// Create gradient
+	setGradient(0, 0, width, height / 2, c1, c2, 'Y');
+	setGradient(0, height / 2, width, height / 2, c3, c4, 'Y');
 
 	let sunW = random(width / 10, width / 6);
 	let sunX = random(sunW, width - sunW);
@@ -75,7 +87,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// createTexture();
 
 	// Return a renderer, which is like p5.js 'draw' function
-	return ({ p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight }) => {
+	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
 		exporting = true;
 
 		if (!exporting && bleed > 0) {
@@ -87,6 +99,18 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	};
 }, settings);
 
+function setGradient(x, y, w, h, c1, c2, axis) {
+	noFill();
+	if (axis === 'Y') {
+		// Top to bottom gradient
+		for (let i = y; i <= y + h; i++) {
+			let inter = map(i, y, y + h, 0, 1);
+			let c = lerpColor(c1, c2, inter);
+			stroke(c);
+			line(x, i, x + w, i);
+		}
+	}
+}
 function createTexture() {
 	let texture = [];
 
@@ -110,9 +134,9 @@ function displaySun(sunW, sunX, sunY) {
 }
 
 function displaySunReflection(sunW, sunX, sunY) {
-	blendMode(HARD_LIGHT);
+	blendMode(OVERLAY);
 	let restriction = 5;
-	let alpha = 5;
+	let alpha = 35;
 	let refX = sunX;
 	let refY = height / 2;
 	let refW = sunW;
@@ -123,7 +147,7 @@ function displaySunReflection(sunW, sunX, sunY) {
 	for (let index = 0; index < 8000; index++) {
 		x = map(noise(xoff + refX), 0, 1, refX - sunW / restriction, refX + sunW / restriction);
 		noStroke();
-		fill(340, 20, 100, alpha);
+		fill(340, 50, 100, alpha);
 		ellipse(x, refY, refW, refH);
 		alpha += random(-0.05, 0.049);
 		restriction -= 0.3;
@@ -161,10 +185,16 @@ class Waves {
 		this.width = this.height;
 		this.speed = 5;
 		this.yIncrement = 0.1;
-		this.strokeHue = 360;
-		this.fillSat = 40;
-		this.fillHue = 160;
-		this.fillAlpha = 0;
+		this.strokeHue = 30;
+		this.strokeSat = 60;
+		this.strokeBright = 100;
+		this.strokeAlpha = 0;
+		this.strokeWeight = 100;
+
+		this.fillHue = 210;
+		this.fillSat = 100;
+		this.fillBright = 90;
+		this.fillAlpha = 1;
 	}
 
 	move() {
@@ -175,25 +205,41 @@ class Waves {
 		this.yIncrement *= 1.01;
 		this.height *= 1.001;
 		this.width *= 1.005;
-		this.strokeHue += 0.025;
-		this.fillHue += 0.75;
-		this.fillSat += 0.5;
-		this.fillAlpha += 0.01;
+
+		this.fillBright -= 0.01;
+		this.fillHue -= 0.02;
+		this.fillSat += 0.01;
+		this.fillAlpha += 0.21;
+
+		this.strokeWeight -= 0.15;
+		this.strokeHue += 0.0025;
+		this.strokeAlpha += 0.015;
+		this.strokeSat -= 0.012;
+		this.strokeBright -= 0.001;
+
+		let threshold = random(10, 30);
+
 		if (this.fillSat >= random(60, 70)) {
 			this.fillSat = 40;
 		}
 		if (this.fillHue >= random(210, 220)) {
 			this.fillHue = 160;
 		}
-		if (this.fillAlpha >= 6) {
-			this.fillAlpha = 6;
+		if (this.fillAlpha >= threshold) {
+			this.fillAlpha = random(1, 5);
+		}
+		if (this.strokeWeight <= 0.5) {
+			this.strokeWeight = 0.5;
+		}
+		if (this.strokeAlpha >= threshold) {
+			this.strokeAlpha = random();
 		}
 	}
 
 	display() {
-		strokeWeight(1);
-		stroke(this.strokeHue, 30, 95, 0);
-		fill(this.fillHue, this.fillSat, 70, this.fillAlpha);
+		strokeWeight(this.strokeWeight);
+		stroke(this.strokeHue, this.strokeSat, this.strokeBright, this.strokeAlpha);
+		fill(this.fillHue, this.fillSat, this.fillBright, this.fillAlpha);
 		ellipse(this.x, this.rdny, this.width, this.height);
 	}
 }
