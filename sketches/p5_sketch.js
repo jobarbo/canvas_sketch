@@ -49,7 +49,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 		clouds.push(new Clouds(xoff, yoff, rdnX));
 	}
 
-	background(199, 47, 89);
+	background(199, 48, 89);
 
 	/* 	image(backgroundImg, 0, 0, width, height / 2, 0, 0, 1024, 1024 / 2);
 	image(reflectionImg, 0, height / 2, width, height / 2, 0, 0, 1376, 864); */
