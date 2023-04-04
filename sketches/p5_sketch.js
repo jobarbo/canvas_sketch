@@ -6,7 +6,7 @@ const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
 const horizontal = 12 * 300;
-const vertical = 12 * 300;
+const vertical = 18 * 300;
 const gui = new dat.GUI({closed: true});
 
 const settings = {
@@ -72,12 +72,13 @@ function windowResized() {
 
 function INIT(seed) {
 	movers = [];
-	scl1 = random(0.005, 0.001);
-	scl2 = random(0.005, 0.001);
+	scl1 = random(0.0001, 0.005);
+	scl2 = random(0.0001, 0.005);
 	for (let i = 0; i < 1000; i++) {
-		let x = random(-0.5, 1.5) * width;
-		let y = random(-0.5, 1.5) * height;
+		let x = random(-0.1, 1.1) * width;
+		let y = random(-0.1, 1.1) * height;
 		movers.push(new Mover(x, y, scl1, scl2, seed));
 	}
-	background(200, 97, 28);
+
+	background(35, 10, 100);
 }
