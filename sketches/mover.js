@@ -21,8 +21,8 @@ export default class Mover {
 
 	move() {
 		let p = superCurve(this.x, this.y, this.scl1, this.scl2, this.seed);
-		this.x += p.x / random(0.001, 2.9) + random(-0.1, 0.1);
-		this.y += p.y / random(0.001, 2.9) + random(-0.1, 0.1);
+		this.x += p.x / random(0.0001, 1) + random(-0.1, 0.1);
+		this.y += p.y / random(0.0001, 1) + random(-0.1, 0.1);
 		this.s += map(p.x, -4, 4, -0.1, 0.1);
 		if (this.s < 1) {
 			this.s = 1;

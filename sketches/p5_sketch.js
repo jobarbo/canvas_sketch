@@ -6,7 +6,7 @@ const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
 const horizontal = 12 * 300;
-const vertical = 18 * 300;
+const vertical = 12 * 300;
 const gui = new dat.GUI({closed: true});
 
 const settings = {
@@ -49,7 +49,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	return ({p5, time, width, height, context, exporting, bleed, trimWidth, trimHeight}) => {
 		// Draw with p5.js things
 		for (let i = 0; i < movers.length; i++) {
-			for (let t = 0; t < 40; t++) {
+			for (let t = 0; t < 1; t++) {
 				movers[i].show();
 				movers[i].move();
 			}
@@ -74,7 +74,7 @@ function INIT(seed) {
 	movers = [];
 	scl1 = random(0.0001, 0.005);
 	scl2 = random(0.0001, 0.005);
-	for (let i = 0; i < 1000; i++) {
+	for (let i = 0; i < 100000; i++) {
 		let x = random(-0.1, 1.1) * width;
 		let y = random(-0.1, 1.1) * height;
 		movers.push(new Mover(x, y, scl1, scl2, seed));
