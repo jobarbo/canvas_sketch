@@ -74,11 +74,12 @@ function INIT(seed) {
 	movers = [];
 	scl1 = random(0.0001, 0.005);
 	scl2 = random(0.0001, 0.005);
+	let hue = random(360);
 	for (let i = 0; i < 100000; i++) {
 		let x = random(-0.1, 1.1) * width;
 		let y = random(-0.1, 1.1) * height;
-		movers.push(new Mover(x, y, scl1, scl2, seed));
+		movers.push(new Mover(x, y, hue, scl1, scl2, seed));
 	}
 
-	background(35, 10, 100);
+	background(35, 20, 10);
 }
