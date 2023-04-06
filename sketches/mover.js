@@ -4,9 +4,9 @@ export default class Mover {
 		this.y = y;
 		this.hue = hue;
 		this.sat = 50;
-		this.bri = 10;
+		this.bri = 70;
 		//this.s = random(random(random(random(min(width, height) * 0.01)))) + 1;
-		this.s = 4;
+		this.s = 3;
 		this.scl1 = scl1;
 		this.scl2 = scl2;
 		this.seed = seed;
@@ -14,37 +14,38 @@ export default class Mover {
 
 	show() {
 		//
-		//blendMode(SCREEN);
+		//blendMode(MULTIPLY);
 		fill(this.hue, this.sat, this.bri, 10);
+		//stroke(34, 40, 90,80);
 		noStroke();
-		rect(this.x, this.y, this.s);
+		ellipse(this.x, this.y, this.s);
 	}
 
 	move() {
 		let p = superCurve(this.x, this.y, this.scl1, this.scl2, this.seed);
-
-		//this.hue = map(p.x, -4, 4, this.hue - 3, this.hue + 3, true);
-		//this.sat = map(p.x, -4, 4, this.sat + 2, this.sat - 2, true);
-		//this.bri = map(p.x, -4, 4, this.bri - 2, this.bri + 2, true);
-
+		this.hue = map(p.x, -4, 4, this.hue - 3, this.hue + 3, true);
+		this.sat = map(p.x, -4, 4, this.sat + 3, this.sat - 3, true);
+		this.bri = map(p.x, -4, 4, this.bri - 3, this.bri + 3, true);
 		this.x += p.x / random(0.0001, 2.01) + random(-3.1, 0.1);
 		this.y += p.y / random(0.0001, 2.01) + random(-0.1, 3.1);
 		this.s += map(p.x, -4, 4, -0.1, 0.1);
 
 		if (this.hue < 0) {
 			this.hue = 360;
-		} else if (this.hue > 360) {
+		}
+		if (this.hue > 360) {
 			this.hue = 0;
 		}
-		if (this.sat < 0) {
-			60;
-		} else if (this.sat > 60) {
-			this.sat = 0;
+
+		if (this.sat < 20) {
+			this.sat = 100;
+		} else if (this.sat > 100) {
+			this.sat = 20;
 		}
-		if (this.bri > 30) {
-			this.bri = 30;
-		} else if (this.bri < 0) {
-			this.bri = 0;
+		if (this.bri < 20) {
+			this.bri = 100;
+		} else if (this.bri > 100) {
+			this.bri = 20;
 		}
 		if (this.s < 1) {
 			this.s = 1;
