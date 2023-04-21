@@ -14,6 +14,7 @@
 		"dat.gui": "^0.7.7",
 		"nice-color-palettes": "^3.0.0",
 		"p5": "^1.2.0",
+		"spectral.js": "^2.0.2",
 		"three": "^0.125.0"
 	}
 }
