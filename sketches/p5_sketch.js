@@ -7,8 +7,8 @@ const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 22 * 300;
-const vertical = 16 * 300;
+const horizontal = 22 * 100;
+const vertical = 16 * 100;
 
 const gui = new dat.GUI({closed: true});
 
