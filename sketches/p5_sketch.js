@@ -273,15 +273,15 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 			// Option #1: 2D Noise
 			let y = map(noise(skyXoff, skyYoff), 0, 1, skyMinY, skyMaxY);
-			let h = map(noise(skyXoff, skyYoff), 0, 1, bgHue - 30, bgHue + 30, true);
-			let s = map(noise(skyXoff, skyYoff), 0.4, 1, 20, 85);
+			let h = map(noise(skyXoff, skyYoff), 0, 1, bgHue - 40, bgHue + 40, true);
+			let s = map(noise(skyXoff, skyYoff), 0, 1, 0, 85);
 			let b = map(noise(skyXoff, skyYoff), 0, 1, 90, 100);
 
 			// Option #2: 1D Noise
 			// let y = map(noise(skyXoff), 0, 1, 200,300);
 			stroke(h, s, b, 5);
 			strokeWeight(20);
-			fill(h, s, b, 50);
+			fill(h, s, b, 5);
 
 			// Set the vertex
 			if (skyMaxY > 100) {
@@ -296,7 +296,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 			// Increment x dimension for noise
 		}
 		// increment y dimension for noise
-		skyYoff += 0.01;
+		skyYoff += 0.02;
 		vertex(width + 100, -100);
 		vertex(-100, -100);
 		endShape(CLOSE);
