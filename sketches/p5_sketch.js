@@ -7,8 +7,8 @@ const palettes = require('nice-color-palettes/1000.json');
 const canvasSketch = require('canvas-sketch');
 const p5 = require('p5');
 new p5();
-const horizontal = 22 * 100;
-const vertical = 16 * 100;
+const horizontal = 22 * 200;
+const vertical = 16 * 200;
 
 const gui = new dat.GUI({closed: true});
 
@@ -32,10 +32,11 @@ const preload = () => {
 canvasSketch((context, bleed, trimWidth, trimHeight) => {
 	// Sketch setup => Like p5.js 'setup' function
 	colorMode(HSB, 360, 100, 100, 100);
-	let bgHue = random([30]);
+
+	let bgHue = random([10, 30, 50, 180, 200]);
 	background(bgHue, 23, 0);
-	let landMinY = height / 4;
-	let landMaxY = height / 2;
+	let landMinY = height / 3.9;
+	let landMaxY = height / 1.9;
 	let landYoff = 0.0;
 	let landAlpha = 10;
 	let landSaturation = 10;
@@ -111,8 +112,8 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 				if (landMinY < height) {
 					curveVertex(x, y);
 					landXoff += landXoffIter;
-					landMinY += 0.022;
-					landMaxY += 0.022;
+					landMinY += 0.0205;
+					landMaxY += 0.0205;
 					landXoffIter = map(y, height / 2, height, 0.02, 0.006, true);
 					if (landSaturation < 80) {
 						landSaturation *= 1.0003;
@@ -120,12 +121,11 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 					if (landBrightness > 60) {
 						landBrightness -= 0.001;
 					}
-					if (landAlpha < 100) {
-						landAlpha += 0.003;
-					}
-					if (landStrokeAlpha > 2 && isReverted == false) {
+					landAlpha = map(y, height / 3, height / 1.3, 0, 10, true);
+					landStrokeAlpha = map(y, height / 3, height / 1.3, 0, 10, true);
+					/* 		if (landStrokeAlpha > 2 && isReverted == false) {
 						landStrokeAlpha -= 0.000001;
-					}
+					} */
 					if (landStrokeWeight > 6) {
 						landStrokeWeight -= 0.00045;
 					} else {
@@ -134,7 +134,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 					if (isReverted) {
 						landStrokeWeight += 0.004;
-						landStrokeAlpha += 0.00001;
+						//landStrokeAlpha += 0.00001;
 					}
 					if (landStrokeSaturation > 0) {
 						landStrokeSaturation -= 0.00015;
@@ -185,7 +185,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 				// once every three times, change the water color
 				if (int(random(100)) % 21 == 0) {
 					if (waveStrokeAlpha > 2 && waveIsReverted == false) {
-						waveStrokeAlpha -= 0.000001;
+						//waveStrokeAlpha -= 0.000001;
 					}
 					if (waveStrokeWeight > 3) {
 						waveStrokeWeight -= 0.004;
@@ -195,7 +195,7 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 					if (waveIsReverted) {
 						waveStrokeWeight += 0.003;
-						waveStrokeAlpha += 0.00001;
+						//waveStrokeAlpha += 0.00001;
 					}
 					if (waveStrokeSaturation > 0) {
 						waveStrokeSaturation -= 0.00015;
@@ -234,7 +234,8 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 						waterFillAlpha *= 1.002;
 					} */
 
-					waterFillAlpha = map(y, height / 3, height / 2.5, 80, 5, true);
+					waterFillAlpha = map(y, height / 3, height / 2.8, 0, 5, true);
+					waveStrokeAlpha = map(y, height / 3, height / 2.8, 0, 10, true);
 
 					if (waterBrightness > 100) {
 						waterBrightness -= 0.002;
@@ -272,15 +273,15 @@ canvasSketch((context, bleed, trimWidth, trimHeight) => {
 
 			// Option #1: 2D Noise
 			let y = map(noise(skyXoff, skyYoff), 0, 1, skyMinY, skyMaxY);
-			let h = map(noise(skyXoff, skyYoff), 0.3, 1, bgHue - 30, bgHue + 30, true);
-			let s = map(noise(skyXoff, skyYoff), 0.3, 1, 30, 85);
+			let h = map(noise(skyXoff, skyYoff), 0, 1, bgHue - 30, bgHue + 30, true);
+			let s = map(noise(skyXoff, skyYoff), 0.4, 1, 20, 85);
 			let b = map(noise(skyXoff, skyYoff), 0, 1, 90, 100);
 
 			// Option #2: 1D Noise
 			// let y = map(noise(skyXoff), 0, 1, 200,300);
 			stroke(h, s, b, 5);
 			strokeWeight(20);
-			fill(h, s, b);
+			fill(h, s, b, 50);
 
 			// Set the vertex
 			if (skyMaxY > 100) {
