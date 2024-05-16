@@ -34,6 +34,8 @@ canvasSketch((context) => {
 	let xi = random(1000000000000);
 	let yi = random(1000000000000);
 
+	window.mousePressed = () => {};
+
 	// Return a renderer, which is like p5.js 'draw' function
 	return ({p5, time, width, height}) => {
 		// Draw with p5.js things
@@ -96,7 +98,7 @@ function paint(xoff, yoff, woff, particle_num, xi, yi) {
 
 		noStroke();
 		stroke(190, 53, 89, 0);
-		fill(0, 75, 10, 100);
+		fill(0, 0, 10, 100);
 		ellipse(x, y, elW, elW);
 
 		xi += 0.00000000000000001;
