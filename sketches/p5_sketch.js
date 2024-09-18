@@ -1,9 +1,9 @@
 // Import sketch objects
-import Mover from './mover.js';
-import * as dat from 'dat.gui';
-const palettes = require('nice-color-palettes/1000.json');
-const canvasSketch = require('canvas-sketch');
-const p5 = require('p5');
+import Mover from "./mover.js";
+import * as dat from "dat.gui";
+const palettes = require("nice-color-palettes/1000.json");
+const canvasSketch = require("canvas-sketch");
+const p5 = require("p5");
 new p5();
 const horizontal = 12 * 300;
 const vertical = 12 * 300;
@@ -13,7 +13,7 @@ const settings = {
 	// Pass the p5 instance, and preload function if necessary
 	p5: true,
 	dimensions: [horizontal, vertical],
-	units: 'px',
+	units: "px",
 	//duration: 30,
 	fps: 60,
 	animate: true,
@@ -72,9 +72,9 @@ function windowResized() {
 
 function INIT(seed) {
 	movers = [];
-	scl1 = random(0.0001, 0.005);
-	scl2 = random(0.0001, 0.005);
-	let hue = random(360);
+	scl1 = random(0.001, 0.005);
+	scl2 = random(0.001, 0.005);
+	let hue = 200;
 	for (let i = 0; i < 100000; i++) {
 		let x = random(-0.1, 1.1) * width;
 		let y = random(-0.1, 1.1) * height;
